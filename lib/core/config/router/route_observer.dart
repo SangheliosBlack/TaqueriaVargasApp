@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/router/current_route.dart';
-import 'package:flutter_template/core/utils/router/extract_unknown_url.dart';
+import 'package:taqueria_vargas/core/config/router/current_route.dart';
+import 'package:taqueria_vargas/core/utils/router/extract_unknown_url.dart';
 
 class GoRouterObserver extends NavigatorObserver {
 

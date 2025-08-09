@@ -1,8 +1,8 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/widgets.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 import 'package:gap/gap.dart';
 
 import '../widgets/widgets.dart';
@@ -35,7 +35,7 @@ class LoginMobileView extends ConsumerWidget {
                 GoogleSignInButton(),
                 OrLabel(),
                 InputText(
-                  labelText: 'Correo electronico', 
+                  labelText: 'Numero de teléfono', 
                   icon: BootstrapIcons.envelope_at
                 ),
                 Gap(20),

@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/header_search_bar/header_search_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/header_search_bar/header_search_bar.dart';
 
 class HeaderSearchBar extends StatelessWidget {
 
@@ -8,15 +8,23 @@ class HeaderSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 20
+        horizontal: 15,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         spacing: 15,
         children: [
-          SearchBar(),
-          ProfileCard()
+          Row(
+            spacing: 16,
+            children: [
+              SearchBarCustom(),
+              ProfileCard(),
+            ],
+          ),
+          //CurrentTurnWidget(),
         ],
       ),
     );

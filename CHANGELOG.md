@@ -1,5 +1,8 @@
 ## Changelog
 
+### [00010] - [17/ABR/2025] - JULIO VILLAGRANA
+- Point of sale complete
+
 ### [00009] - [17/ABR/2025] - JULIO VILLAGRANA
 - Add clients feature
 

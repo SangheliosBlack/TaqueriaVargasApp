@@ -1,7 +1,8 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/enter_amount/enter_amount_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:esc_pos_printer/esc_pos_printer.dart';
@@ -11,11 +12,13 @@ import 'package:image/image.dart';
 
 class EscPosPrinterLayout1{
 
-  static Future<void> createTicket({required NetworkPrinter printer,required Ref ref}) async{
+  static Future<void> createTicket({required NetworkPrinter printer,required Ref ref,required String orderId}) async{
 
     final orderCartState = ref.read(orderCartProvider);
+    final amount = ref.read(enterAmountProvider);
+    final clientState = ref.read(orderCartProvider);
 
-    final ByteData data = await rootBundle.load('assets/images/test_printer_2.png');
+    final ByteData data = await rootBundle.load('assets/images/printer_logo.png');
     final Uint8List bytes = data.buffer.asUint8List();
     final Image? image = decodeImage(bytes);
     printer.image(image!,align: PosAlign.center);
@@ -48,10 +51,22 @@ class EscPosPrinterLayout1{
         PosColumn(
             text: (product.pricePf * product.quantity).toStringAsFixed(2), width: 2, styles: PosStyles(align: PosAlign.right)),
       ]);
+
+      if(product.parciality > 0){
+
+        printer.row([
+          PosColumn(text: product.quantity.toString(), width: 3),
+          PosColumn(text: "Unidad", width: 5),
+          PosColumn(text: ((product.pricePf / 5)  *  product.parciality).toStringAsFixed(2), width: 2, styles: PosStyles(align: PosAlign.right)),
+          PosColumn(text: (product.pricePf * product.quantity).toStringAsFixed(2), width: 2, styles: PosStyles(align: PosAlign.right)),
+        ]);
+        
+      }
+
       
     }
 
-    if(orderCartState.deliveyAdded){
+    if(orderCartState.deliveryAdded){
 
       printer.row([
         PosColumn(text: "1", width: 1),
@@ -85,13 +100,15 @@ class EscPosPrinterLayout1{
 
     printer.hr(ch: '=', linesAfter: 1);
 
-     printer.row([
+    if(amount != 0){
+
+      printer.row([
       PosColumn(
           text: 'Efectivo',
           width: 8,
           styles: PosStyles(align: PosAlign.right, width: PosTextSize.size2)),
       PosColumn(
-          text: '\$15.00',
+          text: '\$ $amount',
           width: 4,
           styles: PosStyles(align: PosAlign.right, width: PosTextSize.size2)),
     ]);
@@ -101,28 +118,75 @@ class EscPosPrinterLayout1{
           width: 8,
           styles: PosStyles(align: PosAlign.right, width: PosTextSize.size2)),
       PosColumn(
-          text: '\$4.03',
+          text: '\$ ${amount - ref.read(orderCartProvider).calculateTotalAmount()}',
           width: 4,
           styles: PosStyles(align: PosAlign.right, width: PosTextSize.size2)),
     ]);
 
+    }
+
     printer.hr(ch: ' ', linesAfter: 1);
 
     printer.row([
-        PosColumn(text: "E3881                    ", width: 4,styles: PosStyles(align: PosAlign.left,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
-        PosColumn(text: "Julio                 ", width: 8, styles: PosStyles(align: PosAlign.right,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
+        PosColumn(text: "$orderId                    ", width: 5,styles: PosStyles(align: PosAlign.left,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
+        PosColumn(text: clientState.clientSelected != null ? "${clientState.clientSelected!.fullName.split(" ")[0]}                                 " :"                                      ", width: 7, styles: PosStyles(align: PosAlign.right,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
     ]);
+    
 
-    printer.text('Fierro 212, San Pedro, 66215 San Pedro Garza García, N.L.',styles: PosStyles(align: PosAlign.center, bold: true));
 
-    printer.hr(ch: ' ', linesAfter: 1);
+    if (clientState.clientSelected != null) {
+
+      printer.hr(ch: ' ', linesAfter: 0);
+
+      printer.row([
+        PosColumn(
+          text: 'Domicilio:',
+          width: 3,
+          styles: PosStyles(align: PosAlign.left),
+        ),
+        PosColumn(
+          text: clientState.clientSelected!.address,
+          width: 9,
+          styles: PosStyles(align: PosAlign.left),
+        ),
+      ]);
+
+      printer.row([
+        PosColumn(
+          text: 'Referencia:',
+          width: 3,
+          styles: PosStyles(align: PosAlign.left),
+        ),
+        PosColumn(
+          text: clientState.clientSelected!.references,
+          width: 9,
+          styles: PosStyles(align: PosAlign.left),
+        ),
+      ]);
+
+      printer.row([
+        PosColumn(
+          text: 'Teléfono:',
+          width: 3,
+          styles: PosStyles(align: PosAlign.left),
+        ),
+        PosColumn(
+          text: clientState.clientSelected!.phone,
+          width: 9,
+          styles: PosStyles(align: PosAlign.left),
+        ),
+      ]);
+
+    }
+
+    printer.hr(ch: ' ', linesAfter: 0);
 
     printer.qrcode(
-      'example.com',
+      orderId,
       size: QRSize.Size8
     );
 
-    printer.text('¡Gracias por su compra!',styles: PosStyles(align: PosAlign.center, bold: true));
+    printer.text('¡Gracias por su compra!',styles: PosStyles(align: PosAlign.center));
 
     final now = DateTime.now();
     final formatter = DateFormat('MM/dd/yyyy H:m');

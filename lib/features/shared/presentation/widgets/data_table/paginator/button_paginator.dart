@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ButtonPaginator extends ConsumerWidget {

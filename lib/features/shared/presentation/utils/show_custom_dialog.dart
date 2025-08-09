@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomDialogService {
 
-  static Future<void> showAlertDialog({
+  static Future<bool?> showAlertDialog({
     required BuildContext context,
     required Widget content,
   }) {
@@ -11,7 +11,7 @@ class CustomDialogService {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withAlpha(50),
+      barrierColor: Colors.black.withValues(alpha: .8),
       builder: (context) => AlertDialog(
         content: content,
         contentPadding: EdgeInsets.zero,

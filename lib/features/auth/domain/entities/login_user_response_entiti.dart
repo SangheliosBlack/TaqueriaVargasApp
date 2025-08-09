@@ -1,5 +1,5 @@
 
-import 'package:flutter_template/features/auth/domain/entities/user_entity.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/user_entity.dart';
 
 class LoginUserEntity {
 

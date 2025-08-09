@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/point_of_sale/domain/domain.dart';
-import 'package:gap/gap.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taqueria_vargas/core/core.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/entities.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
 
-class DeliveryMethodButton extends StatelessWidget {
+class DeliveryMethodButton extends ConsumerWidget {
 
-  final DeliveryTypeEntity data;
+  final SaleTypeEntity data;
   final bool active;
 
   const DeliveryMethodButton({
@@ -16,42 +17,57 @@ class DeliveryMethodButton extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
 
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+
+        ref.read(orderCartProvider.notifier).setSaleType(saleTypeId:data.id);
+
+      },
       behavior: HitTestBehavior.translucent,
       child: AnimatedContainer(
-        width: ((290 - 70) / 3),
         duration: Duration(
           milliseconds: 300
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: active ?  AppTheme.secondary : Colors.white,
-          border: Border.all(
-            width: 2,
-            color: active ?  AppTheme.primary : Colors.transparent
-          )
+        padding: EdgeInsets.symmetric(
+          horizontal: 10,
+
         ),
-        child: Column(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: active ?  AppTheme.secondary : Colors.white,
+        
+        ),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 10,
           children: [
             Icon(
-              data.icon,
-              size: 16,
+              data.getIcon,
+              size: 14,
               color: active ?  AppTheme.primary : Colors.grey
             ),
-            Gap(5),
             Text(
-              data.label,
+              data.value,
               style: GoogleFonts.poppins(
                 color: active ?  AppTheme.primary : Colors.grey,
                 fontSize: 10,
                 fontWeight: FontWeight.w300
               )
             )
+            /*
+            Gap(5),
+            Text(
+              data.value,
+              style: GoogleFonts.poppins(
+                color: active ?  AppTheme.primary : Colors.grey,
+                fontSize: 10,
+                fontWeight: FontWeight.w300
+              )
+            )
+            */
           ],
         ),
       ),

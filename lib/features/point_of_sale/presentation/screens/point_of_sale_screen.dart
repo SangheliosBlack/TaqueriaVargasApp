@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/shared/presentation/presentation.dart';
+import 'package:taqueria_vargas/features/shared/presentation/presentation.dart';
 
 import '../views/views.dart';
 

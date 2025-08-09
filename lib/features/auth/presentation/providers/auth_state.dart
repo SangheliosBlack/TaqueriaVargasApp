@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/services/auth_service/authentication_service_state.dart';
-import 'package:flutter_template/features/auth/domain/entities/user_entity.dart';
+import 'package:nullable_absent/nullable_absent.dart';
+import 'package:taqueria_vargas/core/services/auth_service/authentication_service_state.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/current_turn_entity.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/user_entity.dart';
 
 class AuthState {
 
@@ -14,6 +16,10 @@ class AuthState {
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
 
+  final String deviceId;
+
+  final CurrentTurnEntity? currentTurn;
+
 
   AuthState({
     this.isLoading = false,
@@ -23,7 +29,9 @@ class AuthState {
     this.errorMessage = "",
     this.emailController,
     this.passwordController,
-    this.authenticationStatus = AuthenticationStatus.checking
+    this.authenticationStatus = AuthenticationStatus.checking,
+    this.deviceId = "",
+    this.currentTurn,
   });
 
   AuthState copyWith({
@@ -34,7 +42,9 @@ class AuthState {
     String? errorMessage,
     TextEditingController? emailController,
     TextEditingController? passwordController,
-    AuthenticationStatus? authenticationStatus
+    AuthenticationStatus? authenticationStatus,
+    String? deviceId,
+    NullableAbsent<CurrentTurnEntity> currentTurn = const NullableAbsent.absent(),
   }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
@@ -44,7 +54,9 @@ class AuthState {
       errorMessage : errorMessage ?? this.errorMessage,
       emailController: emailController ?? this.emailController,
       passwordController: passwordController ?? this.passwordController,
-      authenticationStatus: authenticationStatus ?? this.authenticationStatus
+      authenticationStatus: authenticationStatus ?? this.authenticationStatus,
+      deviceId: deviceId ?? this.deviceId,
+      currentTurn: NullableAbsent(this.currentTurn).apply(currentTurn),
     );
   }
 

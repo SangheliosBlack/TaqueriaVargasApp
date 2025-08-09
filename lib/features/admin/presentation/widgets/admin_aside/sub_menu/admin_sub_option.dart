@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/admin/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/features/admin/presentation/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hovering/hovering.dart';
 

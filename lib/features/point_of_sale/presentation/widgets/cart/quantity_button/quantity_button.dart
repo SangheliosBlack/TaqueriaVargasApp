@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/product_entity.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/cart/quantity_button/decrease_button.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/cart/quantity_button/increase_button.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/cart/quantity_button/quantity_label.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/cart/quantity_button/decrease_button.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/cart/quantity_button/increase_button.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/cart/quantity_button/quantity_label.dart';
+import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
 
 class QuantityButton extends StatelessWidget {
 

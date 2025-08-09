@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/services/pos_printer/implementation/ip_pos_printer_service.dart';
+import 'package:taqueria_vargas/core/services/pos_printer/implementation/ip_pos_printer_service.dart';
 
 class PrinterConnectionStateNotifier extends StateNotifier<bool> {
 

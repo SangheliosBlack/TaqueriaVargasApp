@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/constants/ui_constants.dart';
+import 'package:taqueria_vargas/core/constants/ui_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EmptyCartCard extends StatelessWidget {
@@ -16,6 +16,7 @@ class EmptyCartCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 10,
         children: [
           Image(
             image: AssetImage("assets/images/empty_cart.png"),
@@ -27,7 +28,7 @@ class EmptyCartCard extends StatelessWidget {
             maxLines: 4,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w300,
               color: Colors.black
             ),

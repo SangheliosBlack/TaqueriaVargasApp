@@ -1,16 +1,14 @@
-import 'package:flutter_template/core/resources/data_state.dart';
-import 'package:flutter_template/core/usecase/usecase.dart';
-import 'package:flutter_template/features/auth/domain/entities/user_entity.dart';
-import 'package:flutter_template/features/auth/domain/params/login_params.dart';
+import 'package:taqueria_vargas/core/resources/data_state.dart';
+import 'package:taqueria_vargas/core/usecase/usecase.dart';
 import '../domain.dart';
 
-class LoginUseCase implements Usecase<DataState<UserEntity>, LoginParams> {
+class LoginUseCase implements UseCase<DataState<UserEntity>, LoginParams> {
   
   final AuthRepository _authRepository;
 
   LoginUseCase(this._authRepository);
-
-  @override
+  
+   @override
   Future<DataState<UserEntity>> execute({required LoginParams params}) {
 
     return _authRepository.login(
@@ -18,4 +16,5 @@ class LoginUseCase implements Usecase<DataState<UserEntity>, LoginParams> {
     );
     
   }
+ 
 }

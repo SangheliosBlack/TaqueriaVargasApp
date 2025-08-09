@@ -1,6 +1,6 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
 
 class SlideBackgroundCard extends StatelessWidget {
   const SlideBackgroundCard({super.key});
@@ -13,10 +13,10 @@ class SlideBackgroundCard extends StatelessWidget {
        
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(right: 20),
             child: Icon(
               BootstrapIcons.trash,
               color: Colors.white,

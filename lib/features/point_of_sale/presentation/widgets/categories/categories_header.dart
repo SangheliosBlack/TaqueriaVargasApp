@@ -11,15 +11,14 @@ class CategoriesHeader extends StatelessWidget {
 
     return  Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 20
-      ),
+        horizontal: 15      ),
       child: Row(
         children: [
           Text("Categorias",
             style: GoogleFonts.poppins(
               color: Colors.black.withValues(alpha: .8),
               fontSize: 15,
-              fontWeight: FontWeight.w600
+              fontWeight: FontWeight.w500
             ),
           ),
           Spacer(),

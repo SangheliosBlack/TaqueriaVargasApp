@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/auth/presentation/widgets/widgets.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:taqueria_vargas/features/auth/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 
 import 'views.dart';
 

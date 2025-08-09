@@ -21,7 +21,7 @@ class Shade extends StatelessWidget {
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
           colors: [
-            Colors.black.withValues(alpha: .6),
+            Colors.black.withValues(alpha: .8),
             Colors.black.withValues(alpha: 0),
           ]
         )

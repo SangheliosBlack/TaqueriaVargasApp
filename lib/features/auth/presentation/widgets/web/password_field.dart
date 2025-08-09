@@ -1,5 +1,8 @@
+// ignore_for_file: dead_code
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
 
 import '../../../../../core/constants/constants.dart';
 
@@ -40,7 +43,7 @@ class _PassFieldWidget extends State<PassFieldWidget> {
       autofillHints: const [AutofillHints.password],
       style: GoogleFonts.poppins(
         color: Colors.black, 
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.w300
       ),
       controller: widget.controller,
@@ -60,9 +63,17 @@ class _PassFieldWidget extends State<PassFieldWidget> {
       },
       validator: _validator,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 17),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: UiConstants.passwordPlaceholder,
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        label: Text(
+          "Contraseña",
+          style: GoogleFonts.poppins(
+            color: Colors.black.withValues(alpha: .5),
+            fontSize: 14,
+            fontWeight: FontWeight.w300
+          )
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 13, horizontal: 17),
         suffixIcon: widget.obscureText
           ? Container(
               padding: EdgeInsets.only(right: 20),
@@ -72,7 +83,10 @@ class _PassFieldWidget extends State<PassFieldWidget> {
                       _obscureText = !_obscureText;
                     });
                   },
-                  icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: _obscureText ? AppTheme.primary : Colors.black,
+                  ),
                 ),
           )
           : Container()),
@@ -80,6 +94,8 @@ class _PassFieldWidget extends State<PassFieldWidget> {
   }
 
   String? _validator(String? value) {
+
+    return null;
 
     if (value == null) return null;
 

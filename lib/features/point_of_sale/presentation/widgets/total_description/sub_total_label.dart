@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../shared/presentation/widgets/labels/currency_text.dart';
@@ -21,14 +21,14 @@ class SubTotalLabel extends ConsumerWidget {
           "Subtotal",
           style: GoogleFonts.poppins(
             color: Colors.grey,
-            fontSize: 13
+            fontSize: 12
           ),
         ),
         CurrencyText(
           price: total,
           textStyle: GoogleFonts.poppins(
             color: Colors.grey,
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: FontWeight.w600
           ),
         ),

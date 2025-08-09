@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/clients/application/application.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/domain/domain.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/sales/sales_provider.dart';
+import 'package:taqueria_vargas/features/customers/application/application.dart';
+import 'package:taqueria_vargas/features/customers/domain/domain.dart';
 
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/entities.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
 
 
 import '../../../shared/presentation/widgets/data_table/cool_data_table.dart';
@@ -21,75 +19,65 @@ class ClientsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
 
-    final clientsList = ref.watch(clientsProvider).clientList;
+    final customerState = ref.watch(customersProvider);
 
     return Container(
       color: AppTheme.backgroundColor,
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 45
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 25
-              ),
-              child: CoolDataTable<ClientEntity>(
-                title: "Clientes",
-                data: clientsList.values.toList(), 
-                cellsPerPage: [
-                  20,30,50,100
-                ],
-                totalDocuments: 126,
-                headers: [
-                  RowHeader(
-                    title: 'Id',
-                    alignment: Alignment.center,
-                    width: 60
-                  ),
-                  RowHeader(
-                    title: 'No. celular',
-                    alignment: Alignment.centerLeft,
-                    width: 120,
-                  ),
-                  RowHeader(title: 'Nombre', alignment: Alignment.centerLeft),
-                  RowHeader(
-                    title: 'Direccion',
-                    alignment: Alignment.centerLeft,
-                  ),
-                  RowHeader(
-                    title: 'Referencias',
-                    alignment: Alignment.centerLeft,
-                  ),
-                ], 
-                buildRow: (ClientEntity client) {     
-                  return [
-                    RowCell(
-                      width: 60,
-                      text: client.id.toString(),
-                      alignment: Alignment.center,
-                    ),
-                    RowCell(
-                      width: 120,
-                      text: client.formattedPhone
-                    ),
-                    RowCell(
-                      text: client.name,
-                    ),
-                    RowCell(
-                      text:client.address
-                    ),
-                    RowCell(
-                      text:client.reference
-                    )
-                  ];
-                },
-              ),
+      child: CoolDataTable<CustomerEntity>(
+        title: "Clientes",
+        isLoading: customerState.isLoading,
+        data: customerState.customerList.values.toList(), 
+        cellsPerPage: [
+          20,30,50,100
+        ],
+        totalDocuments: 126,
+        onRowTap: (CustomerEntity item) {  
+            
+          
+            
+        },
+        headers: [
+          RowHeader(
+            title: 'No. celular',
+            alignment: Alignment.centerLeft,
+            width: 120,
+          ),
+          RowHeader(title: 'Nombre', alignment: Alignment.centerLeft),
+          RowHeader(
+            title: 'Direccion',
+            alignment: Alignment.centerLeft,
+          ),
+          RowHeader(
+            title: 'Referencias',
+            alignment: Alignment.centerLeft,
+          ),
+           RowHeader(
+            width: 100,
+            title: 'Creado',
+            alignment: Alignment.centerLeft,
+          ),
+        ], 
+        buildRow: (CustomerEntity client) {     
+          return [
+            RowCell(
+              width: 120,
+              text: client.formattedPhone
+            ),
+            RowCell(
+              text: client.fullName,
+            ),
+            RowCell(
+              text:client.address
+            ),
+            RowCell(
+              text:client.references
+            ),
+             RowCell(
+              width: 100,
+              text:client.createdAt.toString().substring(0,10),
             )
-          ],
-        ),
+          ];
+        }, 
       ),
     );
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/point_of_sale/domain/domain.dart';
+import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuantityLabel extends StatelessWidget {

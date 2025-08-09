@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/clients/application/providers/providers.dart';
-import 'package:flutter_template/features/point_of_sale/application/providers/forms/client_form.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/buttons/sb_button.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/features/customers/application/providers/providers.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/forms/client_form.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/buttons/sb_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ClientsDialogButtons extends ConsumerWidget {
 
-  final bool addInmediately;
-
-  const ClientsDialogButtons({
-    super.key,
-    required this.addInmediately
-  });
+  const ClientsDialogButtons({super.key,});
 
   @override
   Widget build(BuildContext context,ref) {
@@ -29,13 +24,11 @@ class ClientsDialogButtons extends ConsumerWidget {
         vertical: 15,horizontal: 20
       ),
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.grey.withAlpha(50),
-            width: 1,
-          )
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20)
         ),
-        color: Color.fromRGBO(250,250,250	, 1)
+        
+        color: Colors.white
       ),
       child: Row(
         spacing: 15,
@@ -43,7 +36,7 @@ class ClientsDialogButtons extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SbButton(
-            color: Colors.white,
+            color: Colors.transparent,
             title: 'Cancelar',
             onTap: () {
 
@@ -54,26 +47,22 @@ class ClientsDialogButtons extends ConsumerWidget {
             },
             textStyle: GoogleFonts.quicksand(
               color: Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 15.0,
+              fontWeight: FontWeight.w400,
+              fontSize: 13.0,
             ),
           ),
           SbButton(
-            color: formStatusIsValid ?  AppTheme.primary: Colors.grey,
-            borderRadius: BorderRadius.circular(5),
+            color: formStatusIsValid || clientSelected != null ?  AppTheme.primary: Colors.grey,
+            borderRadius: BorderRadius.circular(50),
             textStyle: GoogleFonts.quicksand(
               color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 15.0,
+              fontWeight: FontWeight.w400,
+              fontSize: 13.0,
             ),
             title: clientSelected != null ? "Agregar a la orden" : 'Guardar',
-            onTap: formStatusIsValid ? () { 
+            onTap: formStatusIsValid || clientSelected != null ? () { 
 
-              if(clientSelected == null){
-
-                ref.read(clientsProvider.notifier).addClient(addInmediately: addInmediately);
-
-              }
+              ref.read(customersProvider.notifier).addClient(addInmediately: true);
 
               context.pop();
 

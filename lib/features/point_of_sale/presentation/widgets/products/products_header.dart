@@ -12,11 +12,17 @@ class ProductsHeader extends StatelessWidget {
     return  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Todos",
-          style: GoogleFonts.poppins(
-            color: Colors.black.withValues(alpha: .8),
-            fontSize: 15,
-            fontWeight: FontWeight.w600
+        RichText(
+          text: TextSpan(
+            text: "Productos ",
+            style: GoogleFonts.poppins(
+              color: Colors.black..withAlpha(204),
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+            children: [
+        
+            ],
           ),
         ),
         Row(

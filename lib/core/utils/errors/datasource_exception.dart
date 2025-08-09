@@ -30,8 +30,13 @@ class ServerException implements NetworkException {
     this.originalError,
   });
 
+  /*
   @override
   String toString() => 'ServerException: $message (Status code: $statusCode)';
+  */
+
+  @override
+  String toString() => message;
 }
 
 class UnknownException implements NetworkException {

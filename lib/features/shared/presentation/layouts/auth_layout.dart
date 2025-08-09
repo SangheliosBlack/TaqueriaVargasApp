@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/auth/presentation/widgets/widgets.dart';
 
 class AuthLayout extends StatelessWidget {
 
@@ -20,7 +19,7 @@ class AuthLayout extends StatelessWidget {
           body: Column(
             children: [
               Expanded(child: child),
-              Footer()
+              //Footer()
             ],
           ),
         ),

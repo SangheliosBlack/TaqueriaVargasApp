@@ -1,8 +1,6 @@
 class UiConstants {
   static String appName = "Flutter" ;
   static String loginButtonText = "Iniciar sesion";
-  static String examplePlaceholder = "tucorreo@ejemplo.com";
-  static String passwordPlaceholder = "Tu contraseña";
   static String emailRequired = "Debes ingresar un correo o numero telefonico valido";
   static String passwordRequired = "Debes ingresar tu contraseña";
   static String invalidEmail = "Correo invalido";

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/presentation.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -58,9 +58,7 @@ class AddNewClientDialog extends ConsumerWidget {
                 ),
               ),
             ),
-            ClientsDialogButtons(
-              addInmediately: addInmediately,
-            )
+            ClientsDialogButtons()
           ],
         ),
       ),

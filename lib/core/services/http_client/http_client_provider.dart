@@ -1,5 +1,5 @@
-import 'package:flutter_template/core/services/http_client/http_client_service_impl.dart';
-import 'package:flutter_template/core/services/local_storage/local_storage.dart';
+import 'package:taqueria_vargas/core/services/http_client/http_client_service_impl.dart';
+import 'package:taqueria_vargas/core/services/local_storage/local_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final httpClientServiceProvider = Provider<HttpClientServiceImpl>((ref) {

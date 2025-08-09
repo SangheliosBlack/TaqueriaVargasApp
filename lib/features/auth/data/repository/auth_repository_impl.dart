@@ -1,8 +1,7 @@
-import 'package:flutter_template/core/resources/data_state.dart';
-import 'package:flutter_template/features/auth/data/datasources/data_sources.dart';
-import 'package:flutter_template/features/auth/domain/domain.dart';
-import 'package:flutter_template/features/auth/domain/entities/user_entity.dart';
-import 'package:flutter_template/features/auth/domain/params/login_params.dart';
+import 'package:taqueria_vargas/core/core.dart';
+import 'package:taqueria_vargas/features/auth/data/data_sources/data_sources.dart';
+import 'package:taqueria_vargas/features/auth/data/mappers/mappers.dart';
+import 'package:taqueria_vargas/features/auth/domain/domain.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
 
@@ -21,14 +20,66 @@ class AuthRepositoryImpl implements AuthRepository {
 
     if(remoteResponse is DataSuccess){
 
-      await localDataSource.saveToken(token: remoteResponse.data!.accessToken);
+      final responseToEntity = LoginUserResponseMapper.toLoginUserEntity(remoteResponse.data!);
 
-      return DataSuccess(remoteResponse.data!.user);
+      await localDataSource.saveToken(token: responseToEntity.accessToken);
+
+      await localDataSource.saveUser(responseToEntity.user);
+
+      return DataSuccess(responseToEntity.user);
 
     }
     
     return DataFailed(remoteResponse.error!);
     
+  }
+  
+  @override
+  Future<DataState<UserEntity>> loadUser() async {
+
+    final remoteResponse = await remoteDataSource.userMe();
+
+      final userEntity = UserMapper.toEntity(remoteResponse.data!);
+
+      await localDataSource.saveUser(userEntity);
+
+      return DataSuccess(userEntity);
+
+    final localResponse = await localDataSource.getCachedUser();
+
+    if(localResponse is DataSuccess){
+
+      return DataSuccess(localResponse!.data!);
+
+    }else{
+
+      final remoteResponse = await remoteDataSource.userMe();
+
+      final userEntity = UserMapper.toEntity(remoteResponse.data!);
+
+      await localDataSource.saveUser(userEntity);
+
+      return DataSuccess(userEntity);
+
+    }
+    
+  }
+  
+  @override
+  Future<DataState<CurrentTurnEntity?>> getCurrentTurn() async {
+    
+    final remoteResponse = await remoteDataSource.getCurrentTurn();
+
+    if(remoteResponse is DataSuccess){
+
+      final responseToEntity = CurrentTurnMapper.toEntity(remoteResponse.data!);
+
+      return DataSuccess(responseToEntity);
+
+    }
+    
+    return DataFailed(remoteResponse.error!);
+
   }
 
 }

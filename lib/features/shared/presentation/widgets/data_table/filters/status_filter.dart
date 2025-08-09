@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/buttons/status_button_filter.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/buttons/status_button_filter.dart';
 import 'package:gap/gap.dart';
 
 class StatusFilter extends StatelessWidget {

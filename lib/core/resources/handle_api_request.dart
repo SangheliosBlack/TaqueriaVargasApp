@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_template/core/constants/app_constants.dart';
-import 'package:flutter_template/core/utils/errors/datasource_exception.dart';
+import 'package:taqueria_vargas/core/constants/app_constants.dart';
+import 'package:taqueria_vargas/core/utils/errors/datasource_exception.dart';
 
 Future<T> handleApiRequest<T>(Future<T> Function() request) async {
 
@@ -33,7 +33,7 @@ Future<T> handleApiRequest<T>(Future<T> Function() request) async {
       final statusCode = dioError.response?.statusCode;
 
       throw ServerException(
-        message: '${AppConstants.dioExceptionHTTPError} $statusCode. ${dioError.response?.data}',
+        message: dioError.response?.data['message'],
         statusCode: statusCode ?? 0,
         originalError: dioError,
       );

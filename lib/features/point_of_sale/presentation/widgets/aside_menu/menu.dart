@@ -1,12 +1,17 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/router/current_route.dart';
-import 'package:flutter_template/features/auth/presentation/providers/auth_provider.dart';
-import 'package:flutter_template/features/features_screens.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/core/config/router/current_route.dart';
+import 'package:taqueria_vargas/features/employees/presentation/screens/employees_screen.dart';
+import 'package:taqueria_vargas/features/features_screens.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/account_menu/header_menu/current_turn_start_date.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/account_menu/header_menu/printer_widget.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/aside_menu/avatar_company.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taqueria_vargas/features/reports/presentation/screens/reports_screen.dart';
 
 class AsideMenu extends ConsumerWidget {
 
@@ -17,70 +22,138 @@ class AsideMenu extends ConsumerWidget {
 
     final route = ref.watch(currentRouteProvider);
 
-    return Container(
-      margin: EdgeInsets.only(
-        left: 25,
-        top: 45,
-        bottom: 20
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(40)
-      ),
-      padding: EdgeInsets.only(
-        top: 25,
-        bottom: 10,
-        left: 10,
-        right: 10
-      ),
-      child: Column(
-        children: [
-          Gap(20),
-          FlutterLogo(
-            size: 40, 
-            style: FlutterLogoStyle.markOnly, 
-            textColor: Colors.blue,
+    final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+
+    return Stack(
+      children: [
+        AnimatedContainer(
+          duration: Duration(milliseconds: 150),
+          width: isMenuOpen ? 240 : 70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
           ),
-          Gap(40),
-          AsideButton(
-            active: route == PoHomeScreen.path,
-            icon: BootstrapIcons.house,
-            onTap: (){
-
-              context.push(PoHomeScreen.path);
-
-            },
+          padding: EdgeInsets.only(
+            top: 10,
           ),
-          Gap(15),
-          AsideButton(
-            active: route == SalesScreen.path,
-            icon: BootstrapIcons.graph_up,
-            onTap: (){
-
-              context.push(SalesScreen.path);
-
-            },
+          margin: EdgeInsets.only(
+            right: 15,
           ),
-          Gap(15),
-          AsideButton(
-            active: route == ClientsScreen.path,
-            icon: BootstrapIcons.people_fill,
-            onTap: (){
-
-              context.push(ClientsScreen.path);
-
-            },
+          child: Column(
+            children: [
+              AvatarCompany(),
+              Divider(
+                color: Colors.blueGrey.withValues(alpha: .15),
+                height: 30
+              ),
+              AsideButton(
+                active: route == PoHomeScreen.path,
+                icon: BootstrapIcons.house,
+                hasAccess: true,
+                onTap: (){
+        
+                  context.push(PoHomeScreen.path);
+        
+                }, 
+                label: 'Home', 
+              ),
+              Gap(8),
+              AsideButton(
+                active: route == OrdersScreen.path,
+                icon: BootstrapIcons.graph_up,
+                //hasAccess: user!.isCashier,
+                hasAccess: true,
+                onTap: (){
+        
+                  context.push(OrdersScreen.path);
+        
+                },
+                label: 'Ordenes', 
+              ),
+              Gap(8),
+              AsideButton(
+                active: route == ClientsScreen.path,
+                icon: BootstrapIcons.people,
+                hasAccess: true,
+                onTap: (){
+        
+                  context.push(ClientsScreen.path);
+        
+                },
+                label: 'Clientes', 
+              ),
+              Gap(8),
+              AsideButton(
+                active: route == EmployeesScreen.path,
+                icon: BootstrapIcons.person_vcard,
+                hasAccess: true,
+                onTap: (){
+        
+                  context.push(EmployeesScreen.path);
+        
+                },
+                label: 'Empleados', 
+              ),
+              Gap(8),
+              AsideButton(
+                active: route == ReportsScreen.path,
+                icon: BootstrapIcons.calendar2_date,
+                hasAccess: true,
+                onTap: (){
+        
+                  context.push(ReportsScreen.path);
+        
+                },
+                label: 'Registros', 
+              ),
+              Spacer(),
+              Divider(
+                color: Colors.blueGrey.withValues(alpha: .15),
+                height: 30
+              ),
+              Column(
+                spacing: 8,
+                children: [
+                  PrinterWidget(),
+                  CurrentTurnStartDate(),
+                ],
+              ),
+              ProfileCard(),
+            ],
           ),
-          Spacer(),
-          AsideButton(
-            active: false,
-            icon: BootstrapIcons.box_arrow_right,
-            onTap: (){
-              ref.read(authProvider.notifier).logout();
-            },
+        ),
+        Positioned(
+          bottom: 190,
+          right: 0,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => ref.read(pointOfSaleProvider.notifier).toggleMenu(),
+            child: Column(
+              children: [
+                Container(
+                  height: 40,
+                  width:  40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: .2),
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.arrow_circle_right_rounded,
+                    size: 40,
+                  )
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
 
   }

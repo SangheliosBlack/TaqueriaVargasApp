@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/services/local_storage/local_storage_provider.dart';
-import 'package:flutter_template/main.dart';
+import 'package:taqueria_vargas/core/services/local_storage/local_storage_provider.dart';
+import 'package:taqueria_vargas/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 

@@ -32,16 +32,16 @@ def appName="FlutterTemplate"
 
 android {
     namespace "com.example.flutter.template"
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -49,7 +49,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.flutter.template"
+        applicationId "com.sanghelios.studio.taqueria.vargas"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -73,6 +73,13 @@ android {
                 signingConfig signingConfigs.release
             }
         }
+         release {
+            minifyEnabled true
+            debuggable false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),'proguard-rules.pro'
+        }
+
     }
 
     flavorDimensions "default"

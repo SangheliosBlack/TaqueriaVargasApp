@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/admin/domain/domain.dart';
-import 'package:flutter_template/features/admin/presentation/widgets/admin_aside/admin_aside.dart';
+import 'package:taqueria_vargas/features/admin/domain/domain.dart';
+import 'package:taqueria_vargas/features/admin/presentation/widgets/admin_aside/admin_aside.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hovering/hovering.dart';

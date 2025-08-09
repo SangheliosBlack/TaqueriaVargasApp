@@ -1,8 +1,8 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/core/constants/ui_constants_values.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/data_table/paginator/button_paginator.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/core/constants/ui_constants_values.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/data_table/paginator/button_paginator.dart';
 
 class IndicatorDots extends StatelessWidget {
 

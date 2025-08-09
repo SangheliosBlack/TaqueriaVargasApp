@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/constants/constants_data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/products/product_card_shimmer.dart';
+import 'package:taqueria_vargas/features/products/application/application.dart';
+import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
 
-import 'product_card.dart';
 
-class ProductsGrid extends StatelessWidget {
+class ProductsGrid extends ConsumerWidget {
 
   const ProductsGrid({super.key});
 
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
 
-    final productsMocks = ContantsData.productList;
+    final productState = ref.watch(productsProvider);
 
     return GridView.builder(
-      padding: EdgeInsets.only(top:10),
+      padding: EdgeInsets.only(top:5),
       scrollDirection: Axis.vertical, 
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -22,16 +23,16 @@ class ProductsGrid extends StatelessWidget {
         crossAxisCount: 3,
         crossAxisSpacing: 15,
         mainAxisSpacing: 15,
-        childAspectRatio: 1,
+        childAspectRatio: 1.2,
       ),
       itemBuilder: (_, i) {
     
-        final product = productsMocks[i];
+        final ProductEntity? product = productState.isLoading ?  null : productState.getAllProducts()[i];
     
-        return ProductCard(product: product,);
+        return ProductCardShimmer(product: product);
     
       },
-      itemCount: productsMocks.length,
+      itemCount: productState.isLoading ? 10 : productState.getAllProducts().length,
     );
 
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
 
 class SplashMobileView extends StatelessWidget {
 

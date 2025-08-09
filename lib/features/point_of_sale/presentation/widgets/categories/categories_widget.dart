@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/categories/categories.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/categories/categories.dart';
 
 class CategoriesWidget extends StatelessWidget {
 
@@ -9,9 +9,9 @@ class CategoriesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Column(
-      spacing: 5,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
       children: [
-        CategoriesHeader(),
         CategoryList()
       ],
     );

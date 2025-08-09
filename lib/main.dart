@@ -3,21 +3,20 @@ import 'dart:io';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart'; 
-import 'package:flutter/services.dart'; 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart'; 
 
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/core/services/background_fetch/background_fetch_service.dart';
-import 'package:flutter_web_plugins/url_strategy.dart'; 
-import 'core/config/router/app_router.dart';
+import 'package:taqueria_vargas/core/core.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
-  
 
   WidgetsFlutterBinding.ensureInitialized();
+   
+  GoRouter.optionURLReflectsImperativeAPIs = true;
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown, DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+  await CacheServiceImpl().initService();
 
   usePathUrlStrategy();
 

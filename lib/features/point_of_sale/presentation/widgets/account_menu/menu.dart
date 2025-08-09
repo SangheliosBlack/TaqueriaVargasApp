@@ -1,14 +1,17 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/services/pos_printer/providers/pos_printer_provider.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/entities.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/sales/sales_provider.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/total_description/total_description_widget.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/widgets.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/core/services/messages/message_service_impl.dart';
+import 'package:taqueria_vargas/core/services/pos_printer/providers/pos_printer_provider.dart';
+import 'package:taqueria_vargas/features/orders/application/providers/orders_provider.dart';
+import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/enter_amount/enter_amount_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/account_menu/header_menu/header_label_cart.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/account_menu/select_client_extra_data/select_client_selector.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/total_description/total_description_widget.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/presentation.dart';
+import 'package:taqueria_vargas/features/shared/shared.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -21,24 +24,62 @@ class AccountMenu extends ConsumerWidget {
 
     final orderCartState = ref.watch(orderCartProvider);
 
+    final isLoading = ref.watch(ordersProvider.select((state) => state.isLoading));
+
     return Container(
-      color: Colors.white,
-      width: 250,
-      margin: EdgeInsets.only(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
       ),
+      width: 250,
       padding: EdgeInsets.only(
-        top: 40,
         bottom: 15,
       ),
       child: Column(
+        spacing: 10,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          HeaderAccountMenu(),
-          CartProductList(),
-          SelectClientWidget(),
-          SelectClientCard(),
-          TotalDescription(),
+          Expanded(
+            child: Column(
+              children: [
+                HeaderLabelCart(),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(child: Stack(
+                        children: [
+                          CartProductList(),
+                          SelectClientAvatar(),
+                          Positioned.fill(
+                            child: AnimatedSwitcher(
+                              duration: Duration(milliseconds: 300),
+                              reverseDuration: Duration(milliseconds: 300),
+                              child: isLoading 
+                              ? Offstage(
+                                key: ValueKey(isLoading),
+                                offstage: !isLoading,
+                                child: Container(
+                                  color: Colors.white.withValues(alpha: .7),
+                                  child: Center(
+                                    child: CircularProgressIndicator()
+                                  )
+                                )
+                              ) : Container(
+                                key: ValueKey(isLoading),
+                                
+                              ) 
+                            ),
+                          )
+                        ],
+                      )),
+                      TotalDescription(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           PaymentMethodCard(),
           Container(
             padding: EdgeInsets.symmetric(
@@ -49,30 +90,60 @@ class AccountMenu extends ConsumerWidget {
 
                 if(orderCartState.productList.isEmpty) return;
 
-                final random = Random();
-                
-                final id = 10000 + random.nextInt(90000);
+                final OrderEntity? orderId = await ref.read(ordersProvider.notifier).createOrder();
 
-                final Sale newSale = Sale(
-                  id: id, 
-                  cliente: "Nombre del CLi", 
-                  total: orderCartState.calculateTotalAmount(), 
-                  fecha: DateTime.now()
+                final isConnected = ref.watch(printerConnectionProvider);
+
+                if(isConnected) {
+
+                  await ref.read(printerServiceProvider).printReceipt(orderId: orderId!.id.toString());
+
+                }
+
+                if(orderId != null) {
+
+                  ref.read(orderCartProvider.notifier).cleanOrder();
+
+                  ref.read(enterAmountProvider.notifier).updateAmount(amount: 0);
+
+                  ref.read(orderCartProvider.notifier).removeClient();
+
+                }
+
+                final errorMessage = ref.read(ordersProvider.select((state) => state.errorMessage));
+
+                // ignore: use_build_context_synchronously
+                MessageServiceImpl().showBottom(
+                  context: context, 
+                  title: orderId != null ? "Orden creada con exito!": 
+                  errorMessage, message: orderId != null ? "Registro de ventas actulizado" :  "Verifica el estado de tu punto de venta" , 
+                  backgroundColor: orderId != null ? AppTheme.primary : AppTheme.error
                 );
 
-                await ref.read(printerServiceProvider).printReceipt(receipt: "Test");
+                /*
+                
+                final result = await CustomDialogService.showAlertDialog(
+                  // ignore: use_build_context_synchronously
+                  context: context, 
+                  content:  CheckoutOrderDialog(
+                  )
+                );
 
-                ref.read(salesProvider.notifier).addSale(sale: newSale);
+                if(result == null || !result) return;
 
-                ref.read(orderCartProvider.notifier).cleanOrder();
+                MessageServiceImpl().showTop(context: context, message: "Orden creada con exito!");
+
+                */
 
               },
+              isLoading: isLoading,
               borderRadius: 100,
               locked: orderCartState.productList.isEmpty,
               child: Text(
-                "Confirmar",
+                "Ordenar",
                 style: GoogleFonts.poppins(
                   color: Colors.white,
+                  fontSize: 12
                 ),
               ),
             ),

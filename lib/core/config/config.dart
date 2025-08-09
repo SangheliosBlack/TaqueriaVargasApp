@@ -1,2 +1,2 @@
-export 'router/router.dart';
+export 'router/routes.dart';
 export 'themes/main_theme.dart';

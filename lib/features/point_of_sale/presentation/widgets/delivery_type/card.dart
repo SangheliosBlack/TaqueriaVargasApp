@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/widgets.dart';
-import 'package:gap/gap.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/widgets.dart';
 
 class PaymentMethodCard extends StatelessWidget {
 
@@ -10,16 +9,10 @@ class PaymentMethodCard extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return Container(
-      height: 75,
+      height: 32,
         padding: EdgeInsets.symmetric(
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DeliveryMethodList(),
-          Gap(10),
-        ],
-      ),
+      child: DeliveryMethodList(),
     );
 
   }

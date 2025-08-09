@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/data_table/row/row.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/data_table/row/row.dart';
 import 'package:gap/gap.dart';
 
 class RowCoolDataTable extends StatelessWidget {

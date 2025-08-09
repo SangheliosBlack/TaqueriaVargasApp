@@ -1,8 +1,9 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ClientsHeader extends ConsumerWidget {
@@ -13,9 +14,11 @@ class ClientsHeader extends ConsumerWidget {
   Widget build(BuildContext context,ref) {
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 15,
+      padding: EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 20,
+        bottom: 0
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,14 +27,14 @@ class ClientsHeader extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              Text(
-                'Todos mis',
+                'Agregar nuevo',
                 style: GoogleFonts.poppins(
                 color: AppTheme.primary,
                 fontSize: 13,
                 fontWeight: FontWeight.w300),
               ),
               Text(
-                'Clientes',
+                'Cliente',
                 style: GoogleFonts.poppins(
                   color: Colors.black.withValues(alpha: .7),
                   fontSize: 24,
@@ -46,7 +49,8 @@ class ClientsHeader extends ConsumerWidget {
 
               ref.read(orderCartProvider.notifier).removeClient();
 
-              Navigator.pop(context);
+              context.pop();
+              
             },
             child: Container(
               decoration: BoxDecoration(

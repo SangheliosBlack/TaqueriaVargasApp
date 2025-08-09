@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/constants/constants.dart';
-import 'package:flutter_template/features/auth/presentation/providers/auth_provider.dart';
-import 'package:flutter_template/features/auth/presentation/widgets/widgets.dart';
-import 'package:flutter_template/features/features_screens.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taqueria_vargas/core/constants/constants.dart';
+import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
+import 'package:taqueria_vargas/features/auth/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/features/features_screens.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 
@@ -27,59 +28,124 @@ class LoginScreen extends ConsumerWidget {
       key: ValueKey("authLogin"),
       color: Colors.red,
       title: "Iniciar sesión",
-      child: Container(
-        color: Colors.white,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ResponsiveBuilder(builder: (BuildContext context, SizingInformation sizingInformation) {
-                return Container(
-                  width: sizingInformation.isDesktop || sizingInformation.isTablet ? context.width * .5 >= 500 ? 500 : context.width * .5 : context.width,
-                  padding: EdgeInsets.symmetric(
-                  horizontal: sizingInformation.isMobile ? 30 : 0),
-                  height: context.height,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        UiConstants.appName,
-                        style: GoogleFonts.quicksand(
-                          height: 1,
-                          color: Colors.black,
-                          fontSize: sizingInformation.isDesktop ? 60 : 50
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              color: Colors.white,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ResponsiveBuilder(builder: (BuildContext context, SizingInformation sizingInformation) {
+                      return Container(
+                        width: sizingInformation.isDesktop || sizingInformation.isTablet ? context.width * .4 >= 500 ? 500 : context.width * .4 : context.width,
+                        padding: EdgeInsets.symmetric(
+                        horizontal: sizingInformation.isMobile ? 30 : 0),
+                        height: context.height - 27,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 140,
+                              child: Image(
+                                image: AssetImage(
+                                  "assets/images/logo_taqueria copia.png",
+                                ),
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            Gap(20),
+                            LoginForm(
+                              formKey: _formKey
+                            ),
+                            Column(
+                              children: [
+                                AdaptativeButton(
+                                  key:  ValueKey("${UiConstants.loginButtonText}1"),
+                                  labelText: UiConstants.loginButtonText, 
+                                  isLoading: authData.isLoading,
+                                  onTap: () async {
+                                
+                                    FocusScope.of(context).unfocus();
+                                
+                                    if (!_formKey.currentState!.validate()) return;
+                                
+                                    ref.read(authProvider.notifier).login();
+                                
+                                  }, 
+                                ),
+                                ErrorAuthWidget(),
+                              ],
+                            ),
+                            
+                            //NewAccount()
+                          ],
                         ),
-                      ),
-                      LoginForm(
-                        formKey: _formKey
-                      ),
-                      Column(
-                        children: [
-                          AdaptativeButton(
-                            key:  ValueKey("${UiConstants.loginButtonText}1"),
-                            labelText: UiConstants.loginButtonText, 
-                            isLoading: authData.isLoading,
-                            onTap: () async {
-                          
-                              FocusScope.of(context).unfocus();
-                          
-                              if (!_formKey.currentState!.validate()) return;
-                          
-                              ref.read(authProvider.notifier).login();
-                          
-                            }, 
-                          ),
-                          ErrorAuthWidget(),
-                        ],
-                      ),
-                      NewAccount()
-                    ],
-                  ),
-                );
-              }),
-            ],
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: RichText(
+              text: TextSpan(
+                style: GoogleFonts.quicksand(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              children: [
+                TextSpan(
+                  text: "Versión ",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: "1",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: ".",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: "2",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: ".",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: "1",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

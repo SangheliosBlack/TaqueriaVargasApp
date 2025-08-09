@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/utils/errors/datasource_exception.dart';
-import 'package:flutter_template/core/constants/environments.dart';
-import 'package:flutter_template/core/resources/handle_api_request.dart';
+import 'package:taqueria_vargas/core/utils/errors/datasource_exception.dart';
+import 'package:taqueria_vargas/core/constants/environments.dart';
+import 'package:taqueria_vargas/core/resources/handle_api_request.dart';
 
 import '../local_storage/local_storage_service.dart';
 import 'http_client.dart';
@@ -18,7 +18,12 @@ class HttpClientServiceImpl extends HttpClientService {
   HttpClientServiceImpl({required this.localStorageService, required this.ref}) {
     
     _dio = Dio(
-      BaseOptions(baseUrl: '${Environments.PATH_URL}/api/${Environments.API_VERSION}/${Environments.ENVIROMENT}'),
+      BaseOptions(
+        baseUrl: '${Environments.PATH_URL}/api/${Environments.API_VERSION}/${Environments.ENVIROMENT}',
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+        sendTimeout: const Duration(seconds: 5),
+      ),
     );
 
     _dio.interceptors.clear();
@@ -36,9 +41,10 @@ class HttpClientServiceImpl extends HttpClientService {
   @override
   Future post({required String path, Map<String, dynamic>? data}) async {
 
-  return handleApiRequest(() async {
+    return handleApiRequest(() async {
       return await _dio.post(path, data: data);
     });
+    
   }
 
   @override
@@ -81,6 +87,23 @@ class HttpClientServiceImpl extends HttpClientService {
     try {
 
       final Response<dynamic>  response = await _dio.put(path, data: data);
+
+      return response;
+
+    } on DioException catch (e) {
+
+      throw NetworkException(message: e.response?.statusMessage ?? "", statusCode: e.response!.statusCode?? 0);
+
+    }
+    
+  }
+
+   @override
+  Future patch({required String path, required Map<String, dynamic> data}) async {
+
+    try {
+
+      final Response<dynamic>  response = await _dio.patch(path, data: data);
 
       return response;
 

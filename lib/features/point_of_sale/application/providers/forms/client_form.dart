@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/client_form_state.dart';
+import 'package:taqueria_vargas/features/point_of_sale/domain/entities/client_form_state.dart';
 
 class FormStateNotifier extends StateNotifier<ClientFormState> {
 

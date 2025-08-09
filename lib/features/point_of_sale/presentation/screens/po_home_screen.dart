@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/widgets.dart';
 
 class PoHomeScreen extends StatelessWidget {
 
@@ -13,31 +12,33 @@ class PoHomeScreen extends StatelessWidget {
 
     return Container(
       key: ValueKey("poScreen"),
-      color: AppTheme.backgroundColor,
-      padding: EdgeInsets.only(top: 20),
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 25
-        ),
-        child: Column(
-          spacing: 10,
-          children: [
-            HeaderSearchBar(),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: 25
-                ),
-                child: Column(
-                  children: [
-                    CategoriesWidget(),
-                    ProductsWidget()
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+      child: Row(
+        spacing: 15,
+        children: [
+          Expanded(
+            child: Column(
+              spacing: 10,
+              children: [
+                CategoryList(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      bottom: 25
+                    ),
+                    child: Column(
+                      children: [
+                        
+                        ProductsWidget()
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          AccountMenu()
+        ],
       ),
     );
   }

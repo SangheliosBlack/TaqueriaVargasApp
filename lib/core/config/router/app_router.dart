@@ -2,9 +2,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:taqueria_vargas/core/config/router/routes/out_routes.dart';
 
-import 'package:flutter_template/features/features_screens.dart';
-import 'package:flutter_template/core/core.dart';
+import 'package:taqueria_vargas/features/features_screens.dart';
+import 'package:taqueria_vargas/core/core.dart';
 
 part 'app_router.g.dart';
 
@@ -31,19 +32,6 @@ GoRouter appRouter(Ref ref) {
 
     }),
     routes: [
-      GoRoute(
-        path: TestScreen.path,
-        name: TestScreen.path,
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (_,__) => TestScreen(),
-        pageBuilder: (context, state) {
-          return PageTransitions.buildPageWithFadeAndSlideTransition(
-            state: state,
-            context: context,
-            child: const TestScreen()
-          );
-        },
-      ),
       GoRoute(
         path: SplashScreen.path,
         name: SplashScreen.path,
@@ -72,7 +60,8 @@ GoRouter appRouter(Ref ref) {
       ),
       PointOfSaleNavigator.routes(ref),
       AuthNavigator.routes(ref),
-      AdminNavigator.routes(ref)
+      AdminNavigator.routes(ref),
+      OutNavigator.routes(ref),
     ],
     redirect: (context,state){
 
@@ -82,13 +71,13 @@ GoRouter appRouter(Ref ref) {
 
       if(authStatus == AuthenticationStatus.notAuthenticated  && location == "/"){
 
-        return PresentationScreen.path;
+        return LoginScreen.path;
 
       }
 
       if (authStatus == AuthenticationStatus.notAuthenticated && location != LoginScreen.path) {
 
-        return PresentationScreen.path;
+        return LoginScreen.path;
 
       }
 

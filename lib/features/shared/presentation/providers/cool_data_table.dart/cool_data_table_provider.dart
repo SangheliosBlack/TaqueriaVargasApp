@@ -1,5 +1,5 @@
 
-import 'package:flutter_template/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_state.dart';
+import 'package:taqueria_vargas/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cool_data_table_provider.g.dart';

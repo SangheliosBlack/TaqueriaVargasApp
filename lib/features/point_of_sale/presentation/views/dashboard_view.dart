@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/widgets.dart';
 
 class DashboardMobileView extends StatefulWidget {
 

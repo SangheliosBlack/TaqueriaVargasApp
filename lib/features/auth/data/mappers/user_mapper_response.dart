@@ -1,6 +1,9 @@
-import 'package:flutter_template/features/auth/domain/entities/user_entity.dart';
+import 'package:taqueria_vargas/features/auth/data/dtos/user_dto.dart';
+import 'package:taqueria_vargas/features/auth/data/mappers/company_mapper.dart';
+import 'package:taqueria_vargas/features/auth/data/mappers/pos_info_mapper.dart';
+import 'package:taqueria_vargas/features/auth/data/mappers/roles_mapper.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/user_entity.dart';
 
-import '../data_transfer_objects/user_dto.dart';
 
 class UserMapper {
   
@@ -8,28 +11,16 @@ class UserMapper {
 
     return UserEntity(
       id: dto.id,
-      name: dto.name,
+      fullName: dto.fullName,
       email: dto.email, 
-      role: roleFromString(dto.role), 
-      lastUpdate: dto.lastUpdate,
+      phone: dto.phone, 
+      roles: RolesMapper.fromDtoList(dto.roles), 
+      company: CompanyMapper.fromDto(dto.company),
+      posInfo: PosInfoMapper.toEntity(dto: dto.posInfo),
+      isOpenToday: dto.isOpenToday,
     );
 
   }
 
-  static UserDTO toDTO(UserEntity entity) {
-    return UserDTO(
-      id: entity.id,
-      name: entity.name,
-      email: entity.email, 
-      role: entity.role.name,
-      lastUpdate: entity.lastUpdate,
-    );
-  }
 }
 
-Role roleFromString(String role) {
-  return Role.values.firstWhere(
-    (e) => e.toString().split('.').last == role.toUpperCase(),
-    orElse: () => Role.USER, 
-  );
-}

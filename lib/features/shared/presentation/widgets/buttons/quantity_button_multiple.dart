@@ -2,8 +2,8 @@ import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/product_entity.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuantityButtonMultiple extends ConsumerWidget {
@@ -27,17 +27,14 @@ class QuantityButtonMultiple extends ConsumerWidget {
           behavior: HitTestBehavior.translucent,
           onTap: (){
 
-            final int newQuantity = quantity - 1;
+            product.quantity = quantity - 1;
 
-            if(newQuantity == 0){
+            if(product.quantity == 0){
               ref.read(orderCartProvider.notifier).removeProduct(product: product);
               return;
             }
 
-            ref.read(orderCartProvider.notifier).updateProductQuantity(
-              product:product,
-              quantity: newQuantity
-            );
+            ref.read(orderCartProvider.notifier).updateProductQuantity(product:product);
 
           },
           child: AnimatedContainer(
@@ -87,12 +84,9 @@ class QuantityButtonMultiple extends ConsumerWidget {
           behavior: HitTestBehavior.translucent,
           onTap: () {
 
-            final int newQuantity = quantity + 1;
+            product.quantity = quantity + 1;
             
-            ref.read(orderCartProvider.notifier).updateProductQuantity(
-              product:product,
-              quantity: newQuantity
-            );
+            ref.read(orderCartProvider.notifier).updateProductQuantity(product:product);
 
           },
           child: AnimatedContainer(

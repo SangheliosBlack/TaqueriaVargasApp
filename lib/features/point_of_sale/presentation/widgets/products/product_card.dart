@@ -1,11 +1,9 @@
-import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/product_entity.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/product_quantity_provider.dart';
-import 'package:gap/gap.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/product_quantity_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/products/product_added_indicator.dart';
+import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../shared/presentation/widgets/widgets.dart';
@@ -25,15 +23,18 @@ class ProductCard extends ConsumerWidget {
     final int quantityProductCart = ref.watch(productQuantityProvider(product.id));
 
     return GestureDetector(
+      key: ValueKey('product_card_${product.id}'),
       onTap: (){
 
-        ref.read(orderCartProvider.notifier).updateProductQuantity(product: product, quantity: product.quantity++);
+        product.quantity = quantityProductCart + 1;
+
+        ref.read(orderCartProvider.notifier).updateProductQuantity(product: product);
 
       },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10)
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,80 +59,53 @@ class ProductCard extends ConsumerWidget {
                       ),
                     )
                   ),
+                  ProductAddedIndicator(productId: product.id),
                   Positioned(
-                    top: 0,
-                    right: 0,
-                    child: AnimatedOpacity(
-                      opacity: quantityProductCart > 0 ?  1: 0,
-                      duration: Duration(
-                        milliseconds: 100
+                    bottom: 15,
+                    left: 10,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10, 
                       ),
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primary,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: .1 ),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 5)
-                            )
-                          ]
-                        ),
-                        child: Icon(
-                          BootstrapIcons.basket,
-                          color: Colors.white,
-                          size: 15,
-                        ),
-                      ),
-                    )                )
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 10, 
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name,
-                    style: GoogleFonts.poppins(
-                      color: Colors.black.withValues(alpha: .8),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CurrencyText(
-                            price: product.pricePf,
-                            textStyle: GoogleFonts.poppins(
-                              color: Colors.black.withValues(alpha: .8),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600
+                          Text(
+                            product.name,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300
                             ),
-                            
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                children: [
+                                  CurrencyText(
+                                    price: product.pricePf,
+                                    textStyle: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600
+                                    ),
+                    
+                                  ),
+                                ],
+                              ),
+                              //QuantityButtonListProduct(product: product,)
+                            ],
                           ),
                         ],
                       ),
-                      QuantityButtonListProduct(product: product,)
-                    ],
+                    ),
                   ),
-                  Gap(10)
                 ],
               ),
-            )
+            ),
+            
           ],
         ),
       ),

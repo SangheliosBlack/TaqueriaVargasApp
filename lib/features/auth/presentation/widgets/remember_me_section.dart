@@ -11,7 +11,7 @@ class RememberMe extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Checkbox(
+              Checkbox.adaptive(
                 value: false,
                 checkColor: Colors.white,
                 fillColor: WidgetStateProperty.resolveWith((states) => Colors.white),
@@ -19,9 +19,12 @@ class RememberMe extends StatelessWidget {
 
                 }
               ),
-              Text("Recordarme",
-                style: GoogleFonts.quicksand(
-                  color: Colors.white.withValues(alpha: 1),
+              Text(
+                "Recordarme",
+                style: GoogleFonts.poppins(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300
                 )
               )
             ],
@@ -30,10 +33,10 @@ class RememberMe extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(right: 10),
           child: Text("Olvide mi contraseña?",
-            style: GoogleFonts.quicksand(
-              color: Colors.white.withValues(alpha: 1),
-              decoration: TextDecoration.underline,
-              decorationColor: Colors.white
+            style: GoogleFonts.poppins(
+              color: Colors.grey,
+              fontSize: 12,
+              fontWeight: FontWeight.w300
             )
           ),
         )

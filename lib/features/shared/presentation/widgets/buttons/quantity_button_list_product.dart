@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/point_of_sale/domain/entities/product_entity.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/product_quantity_provider.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/buttons/quantity_button_multiple.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/buttons/quantity_button_single.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/product_quantity_provider.dart';
+import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/buttons/quantity_button_multiple.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/buttons/quantity_button_single.dart';
 
 class QuantityButtonListProduct extends ConsumerWidget {
 

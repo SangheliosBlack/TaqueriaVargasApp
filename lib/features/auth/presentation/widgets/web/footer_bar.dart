@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/features/auth/presentation/widgets/web/footer_text.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/features/auth/presentation/widgets/web/footer_text.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Footer extends StatelessWidget {

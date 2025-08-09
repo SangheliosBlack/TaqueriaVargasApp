@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/data_table/data_table.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/data_table/data_table.dart';
 
 class BodyDataTable extends StatelessWidget {
 

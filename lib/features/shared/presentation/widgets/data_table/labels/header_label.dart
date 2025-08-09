@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class HeaderLabel extends StatelessWidget {
 
   final String title;
+  final List<Widget>? actionButtons;
 
   const HeaderLabel({
     super.key,
-    required this.title
+    required this.title,
+    this.actionButtons
     });
 
   @override
@@ -25,6 +27,7 @@ class HeaderLabel extends StatelessWidget {
         vertical: 20
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
@@ -33,7 +36,8 @@ class HeaderLabel extends StatelessWidget {
               fontSize: 20,
               fontWeight: FontWeight.w400
             ),
-          )
+          ),
+          if (actionButtons != null) ...actionButtons!,
         ],
       ),
     );

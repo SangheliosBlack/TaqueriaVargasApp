@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/constants/ui_constants.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:taqueria_vargas/core/constants/ui_constants.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PageNotFound extends StatelessWidget {

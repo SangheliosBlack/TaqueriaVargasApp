@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/resources/data_state.dart';
-import 'package:flutter_template/core/services/auth_service/authentication_service_provider.dart';
-import 'package:flutter_template/core/services/auth_service/authentication_service_state.dart';
-import 'package:flutter_template/core/services/navigation_service/navigation_service.dart';
-import 'package:flutter_template/features/auth/presentation/providers/auth_state.dart';
-import 'package:flutter_template/features/auth/domain/params/login_params.dart';
-import 'package:flutter_template/features/auth/presentation/screen/presentation_screen.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/screens/point_of_sale_screen.dart';
+import 'package:nullable_absent/nullable_absent.dart';
+import 'package:taqueria_vargas/core/core.dart';
+import 'package:taqueria_vargas/features/auth/application/application.dart';
+import 'package:taqueria_vargas/features/auth/presentation/providers/auth_state.dart';
+import 'package:taqueria_vargas/features/auth/domain/params/login_params.dart';
+import 'package:taqueria_vargas/features/auth/presentation/screen/login_web_screen.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/screens/point_of_sale_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'login_user_provider.dart';
@@ -41,11 +40,19 @@ class Auth extends _$Auth{
 
   }
 
+  DeviceIdService get deviceIdService => ref.read(deviceIdServideDi);
+  AuthUseCases get authUseCases => ref.read(useCasesAuth);
+
   Future<void> login() async{
 
     loadingState();
 
-    final params = LoginParams(email: state.email, password: state.password);
+    final params = LoginParams(
+      email: state.email, 
+      password: state.password,
+      //deviceId: state.deviceId
+      deviceId: "bd93d1e4-3866-4890-8c0c-cbc95671bc9d"
+    );
 
     final useCase = await ref.read(loginUseCaseProvider).execute(params: params);
 
@@ -57,8 +64,11 @@ class Auth extends _$Auth{
         authenticationStatus: AuthenticationStatus.authenticated
         
       );
+      
+      await getCurrentTurn();
 
       _authenticationNavigate();
+
 
     }else{
 
@@ -69,8 +79,29 @@ class Auth extends _$Auth{
 
     }
 
-
   }
+  
+  
+
+   Future<void> loadUser () async {
+
+    try {
+      
+      final response = await authUseCases.loadUser();
+
+      state = state.copyWith(
+        user: response.data,
+      );
+    
+      return;
+
+    } catch (e) {
+
+      logout();
+      
+    }
+
+  } 
 
   void loadingState() => state = state.copyWith(isLoading: true,errorMessage: "");
 
@@ -93,11 +124,27 @@ class Auth extends _$Auth{
 
     await Future.delayed(Duration(milliseconds: 300));
 
+    final deviceId = await deviceIdService.getDeviceId();
+
     final AuthenticationStatus isAuthenticated = await ref.read(authenticationServiceNotifierProvider.notifier).checkAuthenticationStatus();
 
+
     state = state.copyWith(
-      authenticationStatus : isAuthenticated
+      authenticationStatus : isAuthenticated,
+      deviceId: deviceId
     );
+
+    if(isAuthenticated == AuthenticationStatus.authenticated){
+
+      await getCurrentTurn();
+      
+    }
+    
+  }
+
+  void isOpenUpdate({required bool isOpenToday}) async {
+
+    state = state.copyWith(user: state.user!.copyWith(isOpenToday:isOpenToday ));
 
   }
 
@@ -127,7 +174,7 @@ class Auth extends _$Auth{
 
     } else if (state.authenticationStatus == AuthenticationStatus.notAuthenticated) {
 
-      navigate(PresentationScreen.path);
+      navigate(LoginScreen.path);
 
     }
 
@@ -135,5 +182,28 @@ class Auth extends _$Auth{
 
   }
 
+  void removeCurrentTurn() {
+    
+    state = state.copyWith(currentTurn: NullableAbsent(null));
+    
+  }
+
+    Future<void> getCurrentTurn() async {
+
+    final useCase = await authUseCases.getCurrentTurn();
+
+    if(useCase is DataSuccess){
+
+      if(useCase.data != null){
+
+        state = state.copyWith(
+          currentTurn: NullableAbsent(useCase.data)
+        );
+      
+      }
+
+
+    }
+  }
 
 }

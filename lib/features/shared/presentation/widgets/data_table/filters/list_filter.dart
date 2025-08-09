@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/chips/simple_chip.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/chips/simple_chip.dart';
 import 'package:gap/gap.dart';
 
 class ListFilter extends StatelessWidget {

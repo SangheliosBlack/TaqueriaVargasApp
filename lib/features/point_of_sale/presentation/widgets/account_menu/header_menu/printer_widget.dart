@@ -1,7 +1,11 @@
-import 'package:avatar_glow/avatar_glow.dart';
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/services/pos_printer/providers/pos_printer_provider.dart';  // Asegúrate de tener esto importado
+import 'package:google_fonts/google_fonts.dart';
+import 'package:taqueria_vargas/core/core.dart';
+import 'package:taqueria_vargas/core/services/pos_printer/providers/pos_printer_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/point_of_sale_drawer_key.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 
 class PrinterWidget extends ConsumerWidget {
   
@@ -12,37 +16,68 @@ class PrinterWidget extends ConsumerWidget {
     
     final isConnected = ref.watch(printerConnectionProvider);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      spacing: 5,
-      children: [
-        Container(
-          margin: EdgeInsets.only(right: 5),
-          child: AvatarGlow(
-            glowRadiusFactor: 1,
-            glowColor: isConnected ? Colors.green : Colors.red,
-            child: Material(
-              elevation: 8.0,
-              shape: CircleBorder(),
-              child: CircleAvatar(
-                radius: 5.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isConnected ? Colors.green : Colors.red, 
+    final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+
+    return GestureDetector(
+      onTap: (){
+
+        ref.read(scaffoldKeyProvider).currentState?.openEndDrawer();
+
+      },
+      behavior: HitTestBehavior.translucent,
+      child: AnimatedContainer(
+        height: 50,
+        margin: EdgeInsets.only(
+          left: 10,
+          right: 10,
+        ),
+        duration: Duration(milliseconds: 150),
+        padding: EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 8
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+        ),
+        child: !isMenuOpen 
+        ? Icon(
+          isConnected ? BootstrapIcons.printer_fill : BootstrapIcons.printer,
+          color: isConnected ?  AppTheme.primary : Colors.black.withValues(alpha: .6),
+          size: 20,
+        )
+        : Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 10,
+          children: [
+            Icon(
+              isConnected ? BootstrapIcons.printer_fill : BootstrapIcons.printer,
+              color: isConnected ?  AppTheme.primary : Colors.black.withValues(alpha: .6),
+              size: 20,
+            ),
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Impresora",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 11,
+                      color: isConnected ? AppTheme.primary : Colors.black.withValues(alpha: 1),
+                    ),
+                    ),
+                    Text(isConnected ? "Conectada" : "Desconectada",
+                    style: GoogleFonts.poppins(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: isConnected ? AppTheme.primary : AppTheme.primary,
+                    ),
+                                        ),
+                  ],
                 ),
-              ),
-             ),
-           ),
-          ),
+            ) 
+          ],
         ),
-        Image(
-          image: 
-          AssetImage("assets/images/printer.jpg"), 
-          width:  50, 
-          height: 50
-        ),
-      ],
+      ),
     );
   }
 }

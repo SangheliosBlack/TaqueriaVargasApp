@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/admin/presentation/widgets/admin_aside/admin_aside.dart';
+import 'package:taqueria_vargas/features/admin/presentation/widgets/admin_aside/admin_aside.dart';
 
 class AdminLayout extends StatelessWidget {
 

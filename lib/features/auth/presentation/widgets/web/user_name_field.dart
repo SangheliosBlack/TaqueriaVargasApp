@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,7 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
       autofillHints: const [AutofillHints.email],
       style: GoogleFonts.poppins(
         color: Colors.black, 
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.w300
       ),
       controller: widget.controller,
@@ -37,15 +39,25 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
       onFieldSubmitted: (v) {
         //FocusScope.of(context).requestFocus(widget.focus);
       },
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.phone,
       textInputAction: TextInputAction.next,
       validator: _validator,
-            onChanged: (text) {},
+      onChanged: (text) {},
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 15, horizontal: 17
+        
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        label: Text(
+          "Numero de telefono",
+          style: GoogleFonts.poppins(
+            color: Colors.black.withValues(alpha: .5),
+            fontSize: 14,
+            fontWeight: FontWeight.w300
+          )
         ),
-        hintText: UiConstants.examplePlaceholder,
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 13, horizontal: 17
+        ),
         suffixIcon: _textUser.isNotEmpty
             ? IconButton(
                 icon: const Icon(
@@ -63,6 +75,8 @@ class _UsernameFieldWidgetState extends State<UsernameFieldWidget> {
   }
 
   String? _validator(String? value) {
+
+    return null;
 
     if (value == null) return null;
 

@@ -1,9 +1,9 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/config/themes/main_theme.dart';
-import 'package:flutter_template/core/constants/ui_constants.dart';
-import 'package:flutter_template/features/auth/presentation/screen/auth_screen.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/core/constants/ui_constants.dart';
+import 'package:taqueria_vargas/features/auth/presentation/screen/auth_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 

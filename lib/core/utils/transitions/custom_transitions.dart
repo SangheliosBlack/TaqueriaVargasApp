@@ -68,8 +68,8 @@ class PageTransitions {
       key: state.pageKey,
       child: child,
       name: state.uri.toString(),
-      reverseTransitionDuration: Duration(milliseconds: duration ?? 200),
-      transitionDuration: Duration(milliseconds: duration ?? 200),
+      reverseTransitionDuration: Duration(milliseconds: duration ?? 50),
+      transitionDuration: Duration(milliseconds: duration ?? 50),
       transitionsBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation, Widget child) {
         const beginOffset = Offset(1.0, 0.0); 
@@ -87,6 +87,43 @@ class PageTransitions {
 
   }
 
+  static CustomTransitionPage buildPageWithTestTransition<T>({
+    required BuildContext context,
+    required GoRouterState state,
+    required Widget child,
+    int? duration,
+  }) {
+    return CustomTransitionPage<T>(
+      key: state.pageKey,
+      child: child,
+      name: state.uri.toString(),
+      reverseTransitionDuration: Duration(milliseconds: duration ?? 150),
+      transitionDuration: Duration(milliseconds: duration ?? 350),
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
+        final fade = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+        );
+        final slide = Tween<Offset>(
+          begin: const Offset(0.0, 0.05),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+        ));
+
+        return FadeTransition(
+          opacity: fade,
+          child: SlideTransition(
+            position: slide,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
   static CustomTransitionPage buildPageWithFadeInFromCenter<T>({
     required BuildContext context,
     required GoRouterState state,
@@ -99,8 +136,8 @@ class PageTransitions {
       key: state.pageKey,
       child: child,
       name: state.uri.toString(),
-      reverseTransitionDuration: Duration(milliseconds: duration ?? 200),
-      transitionDuration: Duration(milliseconds: duration ?? 200),
+      reverseTransitionDuration: Duration(milliseconds: duration ?? 100),
+      transitionDuration: Duration(milliseconds: duration ?? 100),
       transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
 
         final scaleTween = Tween<double>(begin: 0.8, end: 1.0);

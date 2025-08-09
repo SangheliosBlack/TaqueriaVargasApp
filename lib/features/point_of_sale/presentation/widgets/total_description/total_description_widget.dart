@@ -10,16 +10,34 @@ class TotalDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: 15
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: Offset(0, -10)
+          )
+        ],
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey.withValues(alpha: 0.1),
+            width: 1.0
+          ),
+        )
+      ),
+      padding: EdgeInsets.only(
+        left: 15,
+        right: 15,
+        top: 10,
       ),
       child: Column(
         spacing: 10,
         children: [
+          //SelectClientCard(),
           DeliveryLabel(),
-          SubTotalLabel(),
+          //SubTotalLabel(),
           //DiscountLabel(),
           //TaxesLabel(),
           DottedLine(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 
 class CoolDataTableError extends StatelessWidget {
 

@@ -1,7 +1,8 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/config/config.dart';
-import 'package:flutter_template/features/point_of_sale/presentation/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/core/config/config.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AvatarClientSelector extends ConsumerWidget {
 
@@ -19,22 +20,40 @@ class AvatarClientSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
 
-    final orderCartState= ref.watch(orderCartProvider);
+    //final orderCartState= ref.watch(orderCartProvider);
 
     return GestureDetector(
       onTap:  onTap,
       behavior: HitTestBehavior.translucent,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 200),
-        width: double.infinity,
-        padding: EdgeInsets.all(7),
         decoration: BoxDecoration(
-          color: orderCartState.deliveyAdded ? AppTheme.primary : Colors.grey.withAlpha(75),
-          borderRadius: BorderRadius.circular(25),
+          color: isActive ? AppTheme.primary : AppTheme.primary.withValues(alpha: .1),
+          borderRadius: BorderRadius.circular(100),
         ),
-        child: Icon(
-          icon,
-          color: !orderCartState.deliveyAdded ? Colors.grey.withAlpha(150) : Colors.white
+        padding: EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 5,
+        ),
+        child: Row(
+          spacing: 5,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            Text(
+              'Envio',
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.poppins(
+              color: !isActive ? AppTheme.primary : Colors.white,
+              fontSize: 11,
+              // No margin or padding here
+              ),
+            ),
+            Icon(
+              BootstrapIcons.truck,
+              color: !isActive ? AppTheme.primary : Colors.white,
+              size: 17,
+            ),
+          ],
         ),
       ),
     );

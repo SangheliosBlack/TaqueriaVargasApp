@@ -1,84 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/core/resources/mappable.dart';
-import 'package:flutter_template/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/data_table/data_table.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/data_table/row/row.dart';
-import 'package:flutter_template/features/shared/presentation/widgets/widgets.dart';
-import 'package:flutter_template/helpers/extensions.dart';
+import 'package:taqueria_vargas/core/resources/mappable.dart';
+import 'package:taqueria_vargas/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
+import 'package:taqueria_vargas/features/shared/presentation/widgets/widgets.dart';
+import 'package:taqueria_vargas/helpers/extensions.dart';
 
 class CoolDataTable<T extends Mappable> extends ConsumerWidget {
 
   final List<RowHeader> headers;
+  final bool? canEdit;
   final List<T> data;
   final bool isSelectable;
   final String? title;
-  final List<RowCell> Function(T item) buildRow;
+  final List<Widget> Function(T item) buildRow;
   final List<int>? cellsPerPage;
   final int? totalDocuments;
+  final VoidCallback? onRefresh;
+  final void Function(T item) onRowTap;
+  final bool isLoading;
+  final List<Widget>? actionButtons;
 
   const CoolDataTable({
     super.key,
     required this.data,
+    this.canEdit = false,
     required this.headers,
     required this.buildRow,
     this.isSelectable = false,
     this.title = "",
     this.cellsPerPage,
-    this.totalDocuments
+    this.totalDocuments,
+    this.onRefresh,
+    required this.onRowTap,
+    required  this.isLoading,
+    this.actionButtons
   });
 
   @override
-  Widget build(BuildContext context,ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    const List<int> defaultCellsPerPage = [10, 25, 30];
 
-    const List<int> defaultCellsPerPage = [10,25,30];
-  
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(coolDataTableProvider.notifier).updateShowQuantity(
-        quantity: cellsPerPage != null ? cellsPerPage![0] : defaultCellsPerPage[0],
-        firstTime: true
-      );
+            quantity: cellsPerPage != null ? cellsPerPage!.first : defaultCellsPerPage.first,
+            firstTime: true,
+          );
     });
 
-   final List<Widget> rows = data.map((item) {
 
-      final cells = buildRow(item); 
-
-      return RowCellCreation(
-        widgets: cells,
-      );
-
-    }).toList();
-
-    if (headers.isEmpty) {
+    if (headers.isEmpty && !isLoading) {
       return _buildError('Headers cannot be empty.');
     }
 
-    if (rows.isEmpty) {
-      return _buildError('Rows cannot be empty.');
-    }
-
+  
     return Container(
-      height: context.height - 70,
+      height: context.height - MediaQuery.of(context).padding.top,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10)
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          HeaderLabel(
-            title: title ?? "",
-          ),
-          //StatusFilter(),
-          //ListFilter(),
+          HeaderLabel(title: title ?? "",actionButtons: actionButtons,),
           _buildHeaders(headers),
-          _buildRows(rows),
+          _buildRows(data,context),
           PaginatorDataTable(
-            data: data, 
-            cellsPerPage: cellsPerPage ?? defaultCellsPerPage, 
+            data: data,
+            cellsPerPage: cellsPerPage ?? defaultCellsPerPage,
             totalDocuments: totalDocuments ?? 0,
-          )
+          ),
         ],
       ),
     );
@@ -86,82 +77,110 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
 
   Widget _buildHeaders(List<RowHeader> headers) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.only(
-        right: 117
+        right: canEdit == true ? 0 : 0,
       ),
       height: 50,
       decoration: BoxDecoration(
         border: Border.symmetric(
           horizontal: BorderSide(
-            color: Colors.grey.withValues(
-              alpha: .1
-            )
-          )
-        )
+            color: Colors.grey.withValues(alpha: .1),
+          ),
+        ),
       ),
       child: Padding(
         padding: EdgeInsets.only(left: isSelectable ? 40 : 0),
         child: Row(
-          children: headers
-              .map((header) => header)
-              .toList(),
+          children: headers,
         ),
       ),
     );
   }
-Widget _buildRows(List<Widget> rows) {
-  return Expanded(
-    child: RefreshIndicator(
-      onRefresh: () async { 
-    
-        return;
-    
-      },
-      child: ListView.separated(
-        shrinkWrap: true,
-        padding: const EdgeInsets.symmetric(vertical: 0),
-        itemCount: rows.length,
-        itemBuilder: (context, rowIndex) {
-          final cells = rows[rowIndex]; // Ahora 'cells' es un solo widget
-      
-          return Container(
-            decoration: BoxDecoration(
-              color: rowIndex % 2 == 0
-                  ? Colors.white
-                  : const Color.fromARGB(255, 252, 252, 252),
-            ),
-            child: Row(
-              children: [
-                if (isSelectable)
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    child: SimpleCheckButton(),
+
+  Widget _buildRows(List<T> items,BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            onRefresh?.call();
+          },
+          child: AnimatedSwitcher(
+            duration: Duration(milliseconds: 700),
+            reverseDuration: Duration(milliseconds: 700),
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              reverseDuration: Duration(milliseconds: 300),
+              child: isLoading ? Center(
+            child: SizedBox(
+              height: context.height - - MediaQuery.of(context).padding.top - 140,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    key:ValueKey("data-table-loader")
                   ),
-                Expanded(child: cells), 
-                EditRow()
-              ],
+                ],
+              ),
             ),
-          );
-        },
-        separatorBuilder: (_, __) => Divider(
-          color: Colors.grey.withValues(
-            alpha: .05,
+            ): Container(
+              height: context.height - - MediaQuery.of(context).padding.top - 140,
+              child: ListView.separated(
+              key: ValueKey("data-table-${items.length}"),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    
+                    final item = items[index];
+                    final cells = buildRow(item);
+                
+                    return GestureDetector(
+                      onTap: () => onRowTap.call(item),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: index % 2 == 0
+                              ? Colors.white
+                              : const Color.fromARGB(255, 252, 252, 252),
+                        ),
+                        child: Row(
+                          children: [
+                            if (isSelectable)
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                child: const SimpleCheckButton(),
+                              ),
+                            Expanded(child: RowCellCreation(widgets: cells)),
+                            Offstage(
+                              offstage: !(canEdit ?? false),
+                              child: const EditRow(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => Divider(
+                    color: Colors.grey.withValues(alpha: .05),
+                    height: 1,
+                  ),
+                ),
+            ),
+            ),
           ),
-          height: 1,
         ),
       ),
-    ),
-  );
-}
-
-
+    );
+  }
 
   Widget _buildError(String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error, color: Colors.red, size: 40),
+          const Icon(Icons.error, color: Colors.red, size: 40),
           const SizedBox(height: 10),
           Text(
             message,

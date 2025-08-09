@@ -1,7 +1,7 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
+import 'package:taqueria_vargas/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
 
 class NextButton extends ConsumerWidget {
 

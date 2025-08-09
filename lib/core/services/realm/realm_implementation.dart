@@ -1,5 +1,5 @@
 
-import 'package:flutter_template/core/services/realm/realm_service.dart';
+import 'package:taqueria_vargas/core/services/realm/realm_service.dart';
 
 class RealmServiceImplementation implements RealmService {
   @override

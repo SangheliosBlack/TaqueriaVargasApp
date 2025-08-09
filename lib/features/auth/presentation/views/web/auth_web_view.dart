@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/auth/presentation/widgets/web/footer_bar.dart';
+import 'package:taqueria_vargas/features/auth/presentation/widgets/web/footer_bar.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -44,7 +44,6 @@ class AuthWebView extends StatelessWidget {
                   controller: pageController,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    PresentationScreen(),
                     LoginScreen(
                     ),
                     /*
