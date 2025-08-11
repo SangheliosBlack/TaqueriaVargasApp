@@ -57,7 +57,6 @@ class AsideMenu extends ConsumerWidget {
                 }, 
                 label: 'Home', 
               ),
-              Gap(8),
               AsideButton(
                 active: route == OrdersScreen.path,
                 icon: BootstrapIcons.graph_up,
@@ -70,7 +69,6 @@ class AsideMenu extends ConsumerWidget {
                 },
                 label: 'Ordenes', 
               ),
-              Gap(8),
               AsideButton(
                 active: route == ClientsScreen.path,
                 icon: BootstrapIcons.people,
@@ -82,7 +80,6 @@ class AsideMenu extends ConsumerWidget {
                 },
                 label: 'Clientes', 
               ),
-              Gap(8),
               AsideButton(
                 active: route == EmployeesScreen.path,
                 icon: BootstrapIcons.person_vcard,
@@ -94,7 +91,6 @@ class AsideMenu extends ConsumerWidget {
                 },
                 label: 'Empleados', 
               ),
-              Gap(8),
               AsideButton(
                 active: route == ReportsScreen.path,
                 icon: BootstrapIcons.calendar2_date,
@@ -105,6 +101,17 @@ class AsideMenu extends ConsumerWidget {
         
                 },
                 label: 'Registros', 
+              ),
+              AsideButton(
+                active: route == ReportsScreen.path,
+                icon: BootstrapIcons.house_gear,
+                hasAccess: true,
+                onTap: (){
+        
+                  context.push(ReportsScreen.path);
+        
+                },
+                label: 'Mi espacio', 
               ),
               Spacer(),
               Divider(
