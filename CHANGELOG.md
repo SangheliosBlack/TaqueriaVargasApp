@@ -1,5 +1,8 @@
 ## Changelog
 
+### [00011] - [11/AGO/2025] - @JULIO VILLAGRANA
+- Scanner order feature added
+
 ### [00010] - [17/ABR/2025] - JULIO VILLAGRANA
 - Point of sale complete
 
