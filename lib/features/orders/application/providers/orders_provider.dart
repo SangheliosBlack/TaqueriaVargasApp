@@ -59,6 +59,20 @@ class Orders extends _$Orders{
     state = state.copyWith(isLoading: false);
 
   }
+  
+  Future<({OrderEntity? order, String error})> searchOrderById({required String id}) async {
+
+    final parsedId = int.tryParse(id);
+
+      if (parsedId == null) return (order: null, error: 'El código escaneado no es un número válido.');
+
+      final order = state.orderList[parsedId];
+
+      if (order != null) return (order: order, error: '');
+
+      return (order: null, error: 'No se encontró ninguna orden registrada con ese código.');
+
+  }
 
 
   Future<OrderEntity?> createOrder() async{
