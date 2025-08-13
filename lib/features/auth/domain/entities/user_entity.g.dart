@@ -24,8 +24,8 @@ class UserEntityAdapter extends TypeAdapter<UserEntity> {
       imgProfile: fields[4] as String?,
       roles: (fields[5] as List).cast<RoleEntity>(),
       company: fields[6] as CompanyEntity,
-      posInfo: fields[7] as PosInfoEntity,
-      isOpenToday: fields[8] as bool,
+      posInfo: fields[7] as PosInfoEntity?,
+      isOpenToday: fields[8] as bool?,
     );
   }
 

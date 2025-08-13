@@ -8,6 +8,7 @@ import 'package:taqueria_vargas/features/point_of_sale/application/providers/ent
 import 'package:taqueria_vargas/features/point_of_sale/application/providers/point_of_sale_use_cases.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/states/point_of_sale_state.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/views/dialogs/close_po_dialog.dart';
+import 'package:taqueria_vargas/features/reports/presentation/providers/reports_provider.dart';
 import 'package:taqueria_vargas/features/shared/presentation/utils/show_custom_dialog.dart';
 
 part 'point_of_sale_provider.g.dart';
@@ -118,37 +119,46 @@ class PointOfSale extends _$PointOfSale {
 
   }
 
-  Future<void> closeTurn({required BuildContext context}) async {
-
-    final turnId = ref.read(authProvider).currentTurn!.id;
+  Future<void> closeTurn({required BuildContext context,required int turnId}) async {
 
     final response = await useCases.closeTurn(turnId:turnId);
 
     await response.fold(
       (error) async {
 
-        final isOpenToday = ref.read(authProvider).user!.isOpenToday;
+        final isOpenToday = ref.read(authProvider).user!.isOpenToday ?? true;
 
         if(isOpenToday){
 
           if(error == "Para cerrar el turno es necesario cerrar todos los puntos de venta."){
 
-            //MessageServiceImpl().showBottom(context: context, title: error);
+            MessageServiceImpl().showBottom(
+              context: context,
+              title: "Error al cerrar el turno",
+              message: "Para cerrar el turno debes tener todos tus puntos de venta cerrados",
+              backgroundColor: AppTheme.delete
+            );
 
             return;
 
           }
 
-          final result = await CustomDialogService.showAlertDialog(
-                  // ignore: use_build_context_synchronously
-                  context: context, 
-                  content:  ClosePoDialog(
-                  )
-                );
-
+        
           return;
 
         }
+
+        MessageServiceImpl().showBottom(
+          context: context,
+          title: "Turno cerrado con exito",
+          message: "El turno actual se ha cerrado satisfactoriamente.",
+          backgroundColor: AppTheme.primary
+        );
+
+        ref.read(authProvider.notifier).isOpenUpdate(isOpenToday: false);
+
+        ref.read(reportsProvider.notifier).closeTurn();
+        
         
         //MessageServiceImpl().showBottom(context: context, title: error);
 

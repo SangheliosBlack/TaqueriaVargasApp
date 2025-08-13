@@ -1,5 +1,9 @@
 import 'package:taqueria_vargas/features/auth/domain/entities/entities.dart';
 import 'package:hive/hive.dart';
+import 'package:taqueria_vargas/features/orders/presentation/screens/orders_screen.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/screens/po_home_screen.dart';
+import 'package:taqueria_vargas/features/reports/presentation/screens/reports_screen.dart';
+import 'package:taqueria_vargas/features/table_management/presentation/screens/table_management_screen.dart';
 
 part 'user_entity.g.dart';
 
@@ -28,14 +32,55 @@ class UserEntity {
   final CompanyEntity company;
 
   @HiveField(7)
-  PosInfoEntity posInfo;
+  PosInfoEntity? posInfo;
 
   @HiveField(8)
-  final bool isOpenToday;
+  final bool? isOpenToday;
 
   bool get isCashier => roles.any((role) => role.code == 'POS');
   bool get isAdmin => roles.any((role) => role.code == 'ADMIN');
   bool get isWaiter => roles.any((role) => role.code == 'MES');
+
+  bool hasAcces({required String path}){
+
+    final role = roles.first.code;
+
+    if(role == "POS"){
+
+      if(path == OrdersScreen.path || path == ReportsScreen.path){
+
+        return true;
+
+      }
+
+      return false;
+
+
+    }
+
+    if(role == "MES"){
+
+       if(path == OrdersScreen.path || path == ReportsScreen.path || path == TableManagementScreen.path || path == PoHomeScreen.path ){
+
+        return true;
+
+      }
+
+      return false;     
+
+    }
+
+    if(role == "ADMIN") {
+
+       if(path == PoHomeScreen.path) return false;
+
+       return true;
+
+    }
+
+    return false;
+
+  }
 
   UserEntity({
     required this.id,

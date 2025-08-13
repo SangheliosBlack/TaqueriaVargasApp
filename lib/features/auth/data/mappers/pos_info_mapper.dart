@@ -4,7 +4,10 @@ import 'package:taqueria_vargas/features/auth/domain/entities/pos_info_entity.da
 
 class PosInfoMapper {
   
-  static PosInfoEntity toEntity({required PosInfoDto dto}) {
+  static PosInfoEntity? toEntity({required PosInfoDto? dto}) {
+
+    if(dto == null) return null;
+
     return PosInfoEntity(
       id: dto.id,
       code: dto.code,

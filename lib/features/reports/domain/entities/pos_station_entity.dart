@@ -8,7 +8,7 @@ class PosStationEntity extends Mappable {
 
   final int id; 
   final DateTime openingDate;
-  final bool active;
+  bool active;
   final DateTime? closedAt;
   final List<PostStationRegisterEntity> shiftStations;
   final PosStationUserEntity createdBy;
@@ -38,5 +38,26 @@ class PosStationEntity extends Mappable {
   Map<String, dynamic> toMap() {
     throw UnimplementedError();
   }
+
+  PosStationEntity copyWith({
+    int? id,
+    DateTime? openingDate,
+    bool? active,
+    DateTime? closedAt,
+    List<PostStationRegisterEntity>? shiftStations,
+    PosStationUserEntity? createdBy,
+    PosStationUserEntity? closedBy,
+  }) {
+    return PosStationEntity(
+      id: id ?? this.id,
+      openingDate: openingDate ?? this.openingDate,
+      active: active ?? this.active,
+      closedAt: closedAt ?? this.closedAt,
+      shiftStations: shiftStations ?? this.shiftStations,
+      createdBy: createdBy ?? this.createdBy,
+      closedBy: closedBy ?? this.closedBy,
+    );
+  }
+
 
 }

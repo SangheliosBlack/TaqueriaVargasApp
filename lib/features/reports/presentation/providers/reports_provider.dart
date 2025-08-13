@@ -39,8 +39,17 @@ class Reports extends _$Reports {
       }
     );
 
-    
-
   }
+
+  void closeTurn() {
+
+  final updatedList = [
+    for (final turn in state.list)
+      turn == state.list.first ? turn.copyWith(active: false) : turn
+  ];
+
+  state = state.copyWith(list: updatedList);
+  
+}
 
 }

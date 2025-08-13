@@ -34,10 +34,10 @@ class SelectClientAvatar extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AnimatedOpacity(
-                opacity: clientState.selectedSaleTypeId == 8 ? 1 : 0,
+                opacity: clientState.selectedSaleTypeId != 6 ? 1 : 0,
                 duration: Durations.medium1,
                   child: GestureDetector(
-                    onTap:  (){
+                    onTap: clientState.selectedSaleTypeId != 6 ? (){
                         
                       if (clientState.clientSelected == null) {
                         
@@ -49,7 +49,7 @@ class SelectClientAvatar extends ConsumerWidget {
                         
                       }
                         
-                    },
+                    } : null,
                     behavior: HitTestBehavior.translucent,
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 200),
