@@ -10,6 +10,7 @@ import 'package:taqueria_vargas/features/orders/presentation/screens/order_scann
 import 'package:taqueria_vargas/features/reports/presentation/screens/reports_screen.dart';
 import 'package:taqueria_vargas/features/shared/presentation/layouts/point_of_sale_layout.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taqueria_vargas/features/table_management/presentation/screens/table_management_screen.dart';
 
 final poNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'PoNavigator');
 
@@ -85,6 +86,18 @@ class PointOfSaleNavigator{
             state: state,
             context: context,
             child: const ReportsScreen()
+          );
+        },
+      ),
+      GoRoute(
+        path: TableManagementScreen.path,
+        name: TableManagementScreen.path,
+        builder: (_,__) => TableManagementScreen(),
+        pageBuilder: (context, state) {
+          return PageTransitions.buildPageWithTestTransition(
+            state: state,
+            context: context,
+            child: const TableManagementScreen()
           );
         },
       ),

@@ -6,7 +6,7 @@ part of 'point_of_sale_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pointOfSaleHash() => r'b334129b626bab2e2a3b27a2c6e1be77330f1db0';
+String _$pointOfSaleHash() => r'4b025e3aa103a2f39396a711ecdc7ebcbe108b45';
 
 /// See also [PointOfSale].
 @ProviderFor(PointOfSale)

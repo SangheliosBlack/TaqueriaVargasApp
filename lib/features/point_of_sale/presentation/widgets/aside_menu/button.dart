@@ -3,29 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 
 class AsideButton extends ConsumerWidget {
 
-  final bool hasAccess;
   final IconData icon;  
   final bool active;
   final Function()? onTap;
   final String label;
+  final String path;
 
   const AsideButton({
     super.key, 
     required this.icon,
     required this.active,
-    required this.hasAccess,
     this.onTap,
     required this.label,
+    required this.path
   });
 
   @override
   Widget build(BuildContext context,ref) {
 
     final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+
+    final hasAccess = ref.watch(authProvider).user!.hasAcces(path: path);
 
     return Offstage(
       offstage: !hasAccess,

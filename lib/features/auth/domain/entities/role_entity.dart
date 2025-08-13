@@ -38,4 +38,5 @@ class RoleEntity {
       saleTypes: saleTypes ?? this.saleTypes,
     );
   }
+  
 }

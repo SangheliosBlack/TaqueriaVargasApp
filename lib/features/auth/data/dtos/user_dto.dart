@@ -11,8 +11,8 @@ class UserDTO {
   final String? imgProfile;
   final List<RolesDto> roles;
   final CompanyDto company;
-  final PosInfoDto posInfo;
-  final bool isOpenToday;
+  final PosInfoDto? posInfo;
+  final bool? isOpenToday;
 
   UserDTO({
     required this.id,
@@ -36,7 +36,7 @@ class UserDTO {
       imgProfile : map['img_profile'], 
       roles: RolesDto.fromJsonList(map['roles']), 
       company: CompanyDto.fromJson(map['company']), 
-      posInfo: PosInfoDto.fromJson(map['pos']), 
+      posInfo: map['pos'] != null ? PosInfoDto.fromJson(map['pos']) : null, 
       isOpenToday: map['isOpenToday'] ?? false,
     );
   }

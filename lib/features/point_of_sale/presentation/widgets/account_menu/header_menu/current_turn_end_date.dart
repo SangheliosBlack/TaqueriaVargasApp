@@ -75,7 +75,7 @@ class CurrentTurnEndDate extends ConsumerWidget {
                 }
               }
 
-              ref.read(pointOfSaleProvider.notifier).closeTurn(context: context);
+              //ref.read(pointOfSaleProvider.notifier).closeTurn(context: context);
 
               ref.read(authProvider.notifier).removeCurrentTurn();
 

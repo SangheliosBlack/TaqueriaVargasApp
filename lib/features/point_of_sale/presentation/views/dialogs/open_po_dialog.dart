@@ -104,7 +104,7 @@ class OpenPoDialog extends ConsumerWidget {
                                         spacing: 5,
                                         children: [
                                           Text(
-                                            userData.user!.posInfo.name,
+                                            userData.user!.posInfo?.name ?? "",
                                             style: GoogleFonts.poppins(
                                               color: Colors.black.withValues(alpha: .8),
                                               fontSize: 13,
@@ -112,7 +112,7 @@ class OpenPoDialog extends ConsumerWidget {
                                             ),
                                                                 ),
                                           Text(
-                                            "(${userData.user!.posInfo.code})",
+                                            "(${userData.user!.posInfo?.code ?? ""})",
                                             style: GoogleFonts.poppins(
                                               color: Colors.grey,
                                               fontSize: 13,

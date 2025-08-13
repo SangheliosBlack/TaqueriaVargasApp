@@ -106,7 +106,7 @@ class ProfileCard extends ConsumerWidget {
                       spacing: 5,
                       children: [
                         Text(
-                          userData.user!.posInfo.name,
+                          userData.user!.posInfo?.name ?? ref.read(authProvider).user!.roles.first.description,
                           style: GoogleFonts.poppins(
                             color: Colors.black.withValues(alpha: .8),
                             fontSize: 11,
@@ -114,7 +114,7 @@ class ProfileCard extends ConsumerWidget {
                           ),
                                               ),
                         Text(
-                          "(${userData.user!.posInfo.code})",
+                          "(${userData.user!.posInfo?.code ?? ""})",
                           style: GoogleFonts.poppins(
                             color: Colors.grey,
                             fontSize: 11,

@@ -91,15 +91,23 @@ class QRScannerScreen extends ConsumerWidget {
                   Positioned(
                     top: 10,
                     right: 10,
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.black,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: (){
+
+                        context.pop();
+
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),

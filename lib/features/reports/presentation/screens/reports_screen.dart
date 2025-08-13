@@ -4,6 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:taqueria_vargas/core/core.dart';
+import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 import 'package:taqueria_vargas/features/reports/domain/entities/pos_station_entity.dart';
 import 'package:taqueria_vargas/features/reports/presentation/providers/reports_provider.dart';
 import 'package:taqueria_vargas/features/shared/shared.dart';
@@ -39,7 +41,12 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
     return Container(
       color: AppTheme.backgroundColor,
       child: CoolDataTable<PosStationEntity>(
-        title: "Reportes",
+        title: "Turnos",
+        onRefresh: () {
+          
+          ref.read(reportsProvider.notifier).fetchAllTurns();
+
+        },
         isSelectable: false,
         isLoading: reportsState.isLoading,
         data: reportsState.list,
@@ -137,13 +144,34 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                         ),
                       ),
                       Gap(10),
-                      Text(
-                        turn.posActive == turn.shiftStations.length  ? 'Cerrar' : 'Cerrar',
-                         style: GoogleFonts.poppins(
-                          color: turn.posActive == turn.shiftStations.length ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.w300
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+
+                          if(turn.posActive < turn.shiftStations.length){
+
+                            MessageServiceImpl().showBottom(
+                              context: context,
+                              title: "Error al cerrar el turno",
+                              message: "Para cerrar el turno debes tener todos tus puntos de venta cerrados",
+                              backgroundColor: AppTheme.delete
+                            );
+
+                            return;
+
+                          }
+
+                          ref.read(pointOfSaleProvider.notifier).closeTurn(context: context, turnId: turn.id);
+
+                        },
+                        child: Text(
+                          turn.posActive == turn.shiftStations.length  ? 'Cerrar' : 'Cerrar',
+                           style: GoogleFonts.poppins(
+                            color: turn.posActive == turn.shiftStations.length ? AppTheme.primary : Colors.black,
+                            fontWeight: FontWeight.w300
+                          ),
+                          textAlign: TextAlign.right,
                         ),
-                        textAlign: TextAlign.right,
                       ),
                       Icon(
                         Icons.chevron_right_sharp,

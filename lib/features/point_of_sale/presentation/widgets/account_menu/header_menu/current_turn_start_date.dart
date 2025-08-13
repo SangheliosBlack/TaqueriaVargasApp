@@ -21,13 +21,16 @@ class CurrentTurnStartDate extends ConsumerWidget {
 
     final currentTurn = ref.watch(authProvider).currentTurn;
 
-    final isOpen = ref.watch(authProvider).user!.isOpenToday;
+    final isOpen = ref.watch(authProvider).user!.isOpenToday ?? false;
 
     final isConnected = ref.watch(printerConnectionProvider);
 
     final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
 
-    return SizedBox(
+    final roleCode = ref.watch(authProvider).user!.roles.first.code;
+
+
+    return roleCode == "MES" || roleCode == "COR" ? SizedBox(
       height: 50,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -129,7 +132,7 @@ class CurrentTurnStartDate extends ConsumerWidget {
           )
         ),
       ),
-    );
+    ) : Container();
 
   }
 

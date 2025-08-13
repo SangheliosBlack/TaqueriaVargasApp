@@ -9,9 +9,9 @@ import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/acco
 import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/account_menu/header_menu/printer_widget.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/aside_menu/avatar_company.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/widgets.dart';
-import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:taqueria_vargas/features/reports/presentation/screens/reports_screen.dart';
+import 'package:taqueria_vargas/features/table_management/presentation/screens/table_management_screen.dart';
 
 class AsideMenu extends ConsumerWidget {
 
@@ -49,7 +49,7 @@ class AsideMenu extends ConsumerWidget {
               AsideButton(
                 active: route == PoHomeScreen.path,
                 icon: BootstrapIcons.house,
-                hasAccess: true,
+                path: PoHomeScreen.path,
                 onTap: (){
         
                   context.push(PoHomeScreen.path);
@@ -61,7 +61,7 @@ class AsideMenu extends ConsumerWidget {
                 active: route == OrdersScreen.path,
                 icon: BootstrapIcons.graph_up,
                 //hasAccess: user!.isCashier,
-                hasAccess: true,
+                path: OrdersScreen.path,
                 onTap: (){
         
                   context.push(OrdersScreen.path);
@@ -72,7 +72,7 @@ class AsideMenu extends ConsumerWidget {
               AsideButton(
                 active: route == ClientsScreen.path,
                 icon: BootstrapIcons.people,
-                hasAccess: true,
+                path: ClientsScreen.path,
                 onTap: (){
         
                   context.push(ClientsScreen.path);
@@ -83,7 +83,7 @@ class AsideMenu extends ConsumerWidget {
               AsideButton(
                 active: route == EmployeesScreen.path,
                 icon: BootstrapIcons.person_vcard,
-                hasAccess: true,
+                path: EmployeesScreen.path,
                 onTap: (){
         
                   context.push(EmployeesScreen.path);
@@ -94,21 +94,21 @@ class AsideMenu extends ConsumerWidget {
               AsideButton(
                 active: route == ReportsScreen.path,
                 icon: BootstrapIcons.calendar2_date,
-                hasAccess: true,
+                path: ReportsScreen.path,
                 onTap: (){
         
                   context.push(ReportsScreen.path);
         
                 },
-                label: 'Registros', 
+                label: 'Turnos', 
               ),
               AsideButton(
-                active: route == ReportsScreen.path,
+                active: route == TableManagementScreen.path,
                 icon: BootstrapIcons.house_gear,
-                hasAccess: true,
+                path: TableManagementScreen.path,
                 onTap: (){
         
-                  context.push(ReportsScreen.path);
+                  context.push(TableManagementScreen.path);
         
                 },
                 label: 'Mi espacio', 

@@ -82,7 +82,7 @@ class Orders extends _$Orders{
     await Future.delayed(const Duration(seconds: 1));
 
     final requestDto = CreateOrderRequestEntity(
-      posStationId: userState.user!.posInfo.id, 
+      posStationId: userState.user!.posInfo!.id, 
       typeSaleId: orderCartState.selectedSaleTypeId != 0 ? orderCartState.selectedSaleTypeId : userState.user!.roles.first.saleTypes.first.id, 
       products: orderCartState.productListToOrder, 
       customerId: orderCartState.clientSelected?.id,
