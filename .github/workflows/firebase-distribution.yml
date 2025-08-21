@@ -3,7 +3,7 @@ name: Build and Distribute
 on:
   push:
     branches:
-      - feature/refactor-template
+      - feature/main
 
 jobs:
   build:
