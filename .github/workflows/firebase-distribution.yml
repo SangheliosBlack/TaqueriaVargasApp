@@ -3,7 +3,7 @@ name: Build and Distribute
 on:
   push:
     branches:
-      - feature/main
+      - main
 
 jobs:
   build:
