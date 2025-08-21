@@ -61,9 +61,12 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+      
+      - name: Create env/prd.json from GitHub Secrets
+        run: echo '${{ secrets.PRD_ENV_JSON }}' > env/prd.json
 
       - name: Build APK
-        run: flutter build apk --flavor development --profile --dart-define-from-file=env/dev.json  
+        run: flutter build apk --flavor development --profile --dart-define-from-file=env/prd.json  
 
       - name: Upload to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
