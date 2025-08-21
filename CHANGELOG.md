@@ -3,6 +3,9 @@
 ### [00012] - [12/AGO/2025] - @JULIO VILLAGRANA
 - Add table management feature  v2
 
+### [00012] - [12/AGO/2025] - @JULIO VILLAGRANA
+- Add table management feature  v2
+
 ### [00011] - [11/AGO/2025] - @JULIO VILLAGRANA
 - Scanner order feature added
 
