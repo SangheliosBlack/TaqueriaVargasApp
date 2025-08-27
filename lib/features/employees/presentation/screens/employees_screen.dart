@@ -62,7 +62,7 @@ class EmployeesScreen extends ConsumerWidget {
               text:employee.phone
             ),
             RowCell(
-              text:employee.companyBranchId.toString()
+              text:employee.id.toString()
             )
           ];
         },

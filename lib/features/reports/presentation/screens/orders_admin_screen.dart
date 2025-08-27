@@ -1,35 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
-import 'package:taqueria_vargas/features/orders/application/providers/providers.dart';
+
+import 'package:taqueria_vargas/core/core.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
-import 'package:taqueria_vargas/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:taqueria_vargas/features/orders/presentation/widgets/buttons/scan_qr_button.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 import 'package:taqueria_vargas/features/reports/config/constants/order_status_enum.dart';
+import 'package:taqueria_vargas/features/reports/domain/entities/pos_station_entity.dart';
+import 'package:taqueria_vargas/features/reports/presentation/providers/reports_provider.dart';
+import 'package:taqueria_vargas/features/reports/presentation/widgets/content/order_reports_chart.dart';
+import 'package:taqueria_vargas/features/reports/presentation/widgets/content/total_reports_orders_chart.dart';
+import 'package:taqueria_vargas/features/reports/presentation/widgets/filter_select_order_status.dart';
+import 'package:taqueria_vargas/features/shared/shared.dart';
 
-import '../../../shared/presentation/widgets/data_table/cool_data_table.dart';
-import '../../../shared/presentation/widgets/data_table/row/row.dart';
+class OrdersAdminScreen extends ConsumerStatefulWidget {
 
-class OrdersScreen extends ConsumerStatefulWidget {
-  static const String path = "/point-of-sale/sales";
+  static const String path = "/point-of-sale/reports-orders";
 
-  const OrdersScreen({super.key});
+  const OrdersAdminScreen({super.key});
 
   @override
-  ConsumerState<OrdersScreen> createState() => _OrdersScreenState();
+  ConsumerState<OrdersAdminScreen> createState() => _OrdersAdminScreenState();
 }
 
-class _OrdersScreenState extends ConsumerState<OrdersScreen> {
-  @override
+class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
+
+    @override
   void initState() {
+
     super.initState();
 
-    Future.microtask(() {
-
-      ref.read(ordersProvider.notifier).fetchAllOrders();
-      
+     Future.microtask(() {
+      ref.read(reportsProvider.notifier).fetchAllOrders();
     });
 
   }
@@ -37,62 +41,65 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final ordersState = ref.watch(ordersProvider);
+    final reportsState = ref.watch(reportsProvider);
 
     return Container(
       color: AppTheme.backgroundColor,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-        ),
-        child: CoolDataTable<OrderEntity>(
-          title: "Ventas",
-          data: ordersState.orderList.values.toList(), 
-          onRefresh: () {
-            
-            ref.read(ordersProvider.notifier).refresFetchAllOrders();
-            
-          },
-          onRowTap: (OrderEntity item) {  
-            
-            context.push(OrderDetail.path,extra: item);
-            
-          },
-          cellsPerPage: [
-            20,30,50,100
-          ],
-          totalDocuments: 126,
-          actionButtons: [
-            ScanQrButton()
-          ],
-          headers: [
-            RowHeader(
-              title: 'Id',
-              alignment: Alignment.center,
-              width: 60
-            ),
-            RowHeader(title: 'Nombre', alignment: Alignment.centerLeft),
-            RowHeader(
-              title: 'POS', 
-              width: 150,
-              alignment: Alignment.centerLeft
-            ),
-            RowHeader(
-              title: 'Total',
-              alignment: Alignment.centerLeft,
-              width: 100,
-            ),
-            RowHeader(
-              title: 'Estatus',
-              alignment: Alignment.centerLeft,
-              width: 110,
-            ),
-            RowHeader(
-              title: 'Fecha',
-              width: 180,
-              alignment: Alignment.centerLeft,
-            ),
-          ], 
-          buildRow: (OrderEntity sale) {     
+      child: CoolDataTable<OrderEntity>(
+        title: "Mi negocio",
+        onRefresh: () {
+          
+          ref.read(reportsProvider.notifier).fetchAllOrders();
+
+        },
+        isSelectable: false,
+        isLoading: reportsState.isLoading,
+        data: reportsState.getFilteredOrders,
+        cellsPerPage: [
+          20, 30, 50, 100
+        ],
+        actionButtons: [
+          ScanQrButton(),
+        ],
+        filtersButtons: [
+          FilterSelectOrderStatus()
+        ],
+        onRowTap: (OrderEntity item) {},
+        totalDocuments: 126,
+        headers: [
+          RowHeader(
+            title: 'Id',
+            alignment: Alignment.center,
+            width: 60
+          ),
+          RowHeader(title: 'Nombre', alignment: Alignment.centerLeft),
+          RowHeader(
+            title: 'POS', 
+            width: 150,
+            alignment: Alignment.centerLeft
+          ),
+          RowHeader(
+            title: 'Total',
+            alignment: Alignment.centerLeft,
+            width: 100,
+          ),
+          RowHeader(
+            title: 'Estatus',
+            alignment: Alignment.centerLeft,
+            width: 110,
+          ),
+          RowHeader(
+            title: 'Fecha',
+            width: 180,
+            alignment: Alignment.centerLeft,
+          ),
+        ],
+        charts: [
+          OrderReportsChart(orders: reportsState.getFilteredOrders),
+          Gap(20),
+          OrderCountReportsChart(orders: reportsState.getFilteredOrders)
+        ],
+        buildRow: (OrderEntity sale) {     
             return [
               RowCell(
                 width: 60,
@@ -160,11 +167,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               )
             ];
           }, 
-          isLoading: ordersState.isLoading,
-        ),
       ),
     );
-
   }
-
 }

@@ -19,6 +19,8 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
   final void Function(T item) onRowTap;
   final bool isLoading;
   final List<Widget>? actionButtons;
+  final List<Widget>? filtersButtons;
+  final List<Widget>? charts;
 
   const CoolDataTable({
     super.key,
@@ -33,7 +35,9 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
     this.onRefresh,
     required this.onRowTap,
     required  this.isLoading,
-    this.actionButtons
+    this.actionButtons,
+    this.filtersButtons,
+    this.charts
   });
 
   @override
@@ -63,6 +67,24 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           HeaderLabel(title: title ?? "",actionButtons: actionButtons,),
+           Container(
+            margin: EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 10
+            ),
+            child: charts != null
+                ? Row(children: charts!)
+                : null,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(
+              vertical: 15,
+              horizontal: 10
+            ),
+            child: filtersButtons != null
+                ? SingleChildScrollView(child: Row(children: filtersButtons!))
+                : null,
+          ),
           _buildHeaders(headers),
           _buildRows(data,context),
           PaginatorDataTable(

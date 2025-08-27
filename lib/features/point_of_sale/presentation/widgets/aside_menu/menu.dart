@@ -10,6 +10,7 @@ import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/acco
 import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/aside_menu/avatar_company.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taqueria_vargas/features/reports/presentation/screens/orders_admin_screen.dart';
 import 'package:taqueria_vargas/features/reports/presentation/screens/reports_screen.dart';
 import 'package:taqueria_vargas/features/table_management/presentation/screens/table_management_screen.dart';
 
@@ -112,6 +113,17 @@ class AsideMenu extends ConsumerWidget {
         
                 },
                 label: 'Mi espacio', 
+              ),
+              AsideButton(
+                active: route == OrdersAdminScreen.path,
+                icon: BootstrapIcons.book,
+                path: TableManagementScreen.path,
+                onTap: (){
+        
+                  context.push(OrdersAdminScreen.path);
+        
+                },
+                label: 'Mi negocio', 
               ),
               Spacer(),
               Divider(

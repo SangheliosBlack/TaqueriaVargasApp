@@ -44,6 +44,7 @@ class LoginMobileView extends ConsumerWidget {
                   icon: BootstrapIcons.key
                 ),
                 RememberMe(),
+                
                 ConfirmButton(),
                 RegisterAccountButton()
               ]

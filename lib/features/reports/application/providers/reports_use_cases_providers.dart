@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqueria_vargas/features/reports/application/providers/reports_providers_di.dart';
+import 'package:taqueria_vargas/features/reports/application/use_cases/get_all_ordes_admin.dart';
 import 'package:taqueria_vargas/features/reports/application/use_cases/get_all_register_turns.dart';
 
 class ReportsUseCasesProviders {
@@ -10,6 +11,7 @@ class ReportsUseCasesProviders {
     
   GetAllRegisterTurns get getAllRegisterTurns => ref.read(getAllReportsTurnsDi);
 
+  GetAllOrdersAdmin get getAllOrder => ref.read(getAllOrdersAdminDi);
 
 }
 

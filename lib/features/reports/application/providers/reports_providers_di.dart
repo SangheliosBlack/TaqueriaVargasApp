@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqueria_vargas/core/services/http_client/http_client_provider.dart';
+import 'package:taqueria_vargas/features/reports/application/use_cases/get_all_ordes_admin.dart';
 import 'package:taqueria_vargas/features/reports/application/use_cases/get_all_register_turns.dart';
 import 'package:taqueria_vargas/features/reports/data/data_sources/remote/reports_remore_data_source.dart';
 import 'package:taqueria_vargas/features/reports/data/data_sources/remote/reports_remore_data_source_impl.dart';
@@ -30,6 +31,14 @@ final getAllReportsTurnsDi =  Provider<GetAllRegisterTurns>((ref) {
   final repository = ref.read(reportsRepostoryDi);
   
   return GetAllRegisterTurns(repository: repository);
+  
+});
+
+final getAllOrdersAdminDi =  Provider<GetAllOrdersAdmin>((ref) {
+  
+  final repository = ref.read(reportsRepostoryDi);
+  
+  return GetAllOrdersAdmin(repository: repository);
   
 });
 

@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:taqueria_vargas/features/orders/domain/entities/fetch_all_orders_response_entity.dart';
 import 'package:taqueria_vargas/features/reports/data/data_sources/remote/reports_remore_data_source.dart';
+import 'package:taqueria_vargas/features/reports/data/mappers/fetch_all_orders_mapper.dart';
 import 'package:taqueria_vargas/features/reports/data/mappers/get_all_turn_request_mapper.dart';
 import 'package:taqueria_vargas/features/reports/data/mappers/pos_station_mapper.dart';
 import 'package:taqueria_vargas/features/reports/domain/entities/get_all_register_turns_request_entity.dart';
@@ -23,6 +25,19 @@ class ReportRepositoryImpl implements ReportsRepository {
       (error) => Left(error),
       (turns) => Right(PosStationMapper.fromDtoList(turns)),
     );
+
+  }
+
+  @override
+  Future<Either<String, FetchAllOrdersResponseEntity>> getAllOrders() async {
+
+     final response = await remoteDataSource.getAllOrders();
+
+    return response.fold(
+      (error) => Left(error),
+      (orders) => Right(FetchAllOrdersMapper.toEntity(dto: orders)),
+    );
+
 
   }
 

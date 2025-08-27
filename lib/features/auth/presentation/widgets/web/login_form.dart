@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
 import 'package:taqueria_vargas/features/auth/presentation/widgets/widgets.dart';
 
@@ -41,6 +42,7 @@ class LoginForm extends ConsumerWidget {
                 focus: focusNode,
                 formKey: formKey,
               ),
+              Gap(10),
               RememberMe()
             ],
           )
