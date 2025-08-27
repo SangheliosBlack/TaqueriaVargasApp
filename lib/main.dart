@@ -10,10 +10,16 @@ import 'package:go_router/go_router.dart';
 import 'package:taqueria_vargas/core/core.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-void main() async {
+import 'package:flutter/services.dart';
 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
   await CacheServiceImpl().initService();
@@ -23,12 +29,8 @@ void main() async {
   runApp(ProviderScope(child: MainApp()));
 
   if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-
     BackgroundFetch.registerHeadlessTask(BackgroundFetchService.backgroundFetchHeadlessTask);
-    
   }
-
-  
 }
 class MainApp extends ConsumerWidget {
 

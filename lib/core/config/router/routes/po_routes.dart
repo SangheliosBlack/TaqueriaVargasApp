@@ -7,6 +7,7 @@ import 'package:taqueria_vargas/features/features_screens.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:taqueria_vargas/features/orders/presentation/screens/order_scanner_qr_screen.dart';
+import 'package:taqueria_vargas/features/reports/presentation/screens/orders_admin_screen.dart';
 import 'package:taqueria_vargas/features/reports/presentation/screens/reports_screen.dart';
 import 'package:taqueria_vargas/features/shared/presentation/layouts/point_of_sale_layout.dart';
 import 'package:go_router/go_router.dart';
@@ -110,6 +111,18 @@ class PointOfSaleNavigator{
             state: state,
             context: context,
             child: const QRScannerScreen()
+          );
+        },
+      ),
+      GoRoute(
+        path: OrdersAdminScreen.path,
+        name: OrdersAdminScreen.path,
+        builder: (_,__) => OrdersAdminScreen(),
+        pageBuilder: (context, state) {
+          return PageTransitions.buildPageWithTestTransition(
+            state: state,
+            context: context,
+            child: const OrdersAdminScreen()
           );
         },
       ),

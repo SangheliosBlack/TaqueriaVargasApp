@@ -41,15 +41,59 @@ class Reports extends _$Reports {
 
   }
 
+  void toggleValueInList({required int value}) {
+
+
+    final currentSet = Set<int>.from(state.orderFiltersSelected);
+    
+    if (currentSet.contains(value)) {
+
+      if(state.orderFiltersSelected.length == 1) return;
+
+      currentSet.remove(value);
+
+    } else {
+
+      currentSet.add(value);
+
+    }
+
+    state = state.copyWith(orderFiltersSelected: currentSet.toList());
+
+  }
+
   void closeTurn() {
 
-  final updatedList = [
-    for (final turn in state.list)
-      turn == state.list.first ? turn.copyWith(active: false) : turn
-  ];
+    final updatedList = [
+      for (final turn in state.list)
+        turn == state.list.first ? turn.copyWith(active: false) : turn
+    ];
 
-  state = state.copyWith(list: updatedList);
+    state = state.copyWith(list: updatedList);
   
-}
+  }
+
+  Future<void> fetchAllOrders() async {
+
+
+    final result = await useCases.getAllOrder();
+
+    result.fold(
+      (error){
+
+        state = state.copyWith(isLoading: false);
+
+      }, 
+      (data){
+
+        state = state.copyWith(
+          isLoading: false,
+          orders: data.orders
+        );
+
+      }
+    );
+
+  }
 
 }

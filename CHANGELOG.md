@@ -1,5 +1,8 @@
 ## Changelog
 
+### [00013] - [26/AGO/2025] - @JULIO VILLAGRANA
+- Mi business feature added
+
 ### [00012] - [12/AGO/2025] - @JULIO VILLAGRANA
 - Add table management feature  v2
 

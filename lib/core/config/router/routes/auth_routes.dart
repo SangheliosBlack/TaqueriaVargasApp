@@ -26,7 +26,7 @@ class AuthNavigator{
         name: LoginScreen.path,
         builder: (_,__) => LoginScreen(),
         pageBuilder: (context, state) {
-          return PageTransitions.buildPageWithFadeInFromCenter(
+          return PageTransitions.buildPageWithTestTransition(
             state: state,
             context: context,
             child: LoginScreen()
