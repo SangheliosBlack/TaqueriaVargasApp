@@ -32,6 +32,7 @@ class SearchClientWidget extends ConsumerWidget {
                 ref.read(customersProvider.notifier).getClientByPhone(phone: value.replaceAll(" ", "").trim());
 
               },
+              keyboardType: TextInputType.phone,
               style: GoogleFonts.poppins(
                 color: Colors.black,
                 fontSize: 13.0,
@@ -52,6 +53,7 @@ class SearchClientWidget extends ConsumerWidget {
                 }
                 ,
               ) : null,
+                
                 hintText: "Nombre, Telefono, Direccion",
                 filled: true,
                   contentPadding: EdgeInsets.symmetric(vertical: 15,horizontal: 20),

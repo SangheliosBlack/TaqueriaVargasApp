@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:taqueria_vargas/core/core.dart';
-import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 import 'package:taqueria_vargas/features/reports/domain/entities/pos_station_entity.dart';
 import 'package:taqueria_vargas/features/reports/presentation/providers/reports_provider.dart';

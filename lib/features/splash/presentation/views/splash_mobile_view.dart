@@ -10,16 +10,10 @@ class SplashMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: AppTheme.primary,
+      backgroundColor: Colors.white,
       body: Center(
-        child: SvgPicture.asset(
-          width: 80,
-          height: 80,
-          colorFilter: ColorFilter.mode(
-            Colors.white, 
-            BlendMode.srcIn
-            ),
-          'assets/svg/flutter.svg',
+        child: Image.asset(
+          'assets/images/logo_taqueria copia.png',
         ),
       ),
     );
