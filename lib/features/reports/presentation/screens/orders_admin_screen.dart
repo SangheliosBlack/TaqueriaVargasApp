@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:taqueria_vargas/core/core.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
+import 'package:taqueria_vargas/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:taqueria_vargas/features/orders/presentation/widgets/buttons/scan_qr_button.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 import 'package:taqueria_vargas/features/reports/config/constants/order_status_enum.dart';
@@ -52,6 +54,11 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
           ref.read(reportsProvider.notifier).fetchAllOrders();
 
         },
+        onRowTap: (OrderEntity item) {  
+            
+          context.push(OrderDetail.path,extra: item);
+            
+        },
         isSelectable: false,
         isLoading: reportsState.isLoading,
         data: reportsState.getFilteredOrders,
@@ -64,7 +71,6 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
         filtersButtons: [
           FilterSelectOrderStatus()
         ],
-        onRowTap: (OrderEntity item) {},
         totalDocuments: 126,
         headers: [
           RowHeader(
@@ -92,6 +98,11 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
             title: 'Fecha',
             width: 180,
             alignment: Alignment.centerLeft,
+          ),
+          RowHeader(
+            title: 'Nota',
+            width: 60,
+            alignment: Alignment.center,
           ),
         ],
         charts: [
@@ -130,9 +141,9 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                     margin: EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: status!.color.withOpacity(0.05),
+                      color: status!.color.withOpacity(0.03),
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: status.color, width: 1
+                      border: Border.all(color: status.color.withValues(alpha: .2), width: 1
                     ),
                     ),
                     child: Row(
@@ -164,6 +175,16 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                 width: 180,
                 alignment: Alignment.centerLeft,
                 text:sale.date.toLocal().toString()
+              ),
+              SizedBox(
+                width: 60,
+                child: Center(
+                  child: Icon(
+                    Icons.check_box_outlined,
+                    color: sale.note.isNotEmpty ? AppTheme.primary : Colors.white,
+                    size: 18,
+                  ),
+                ),
               )
             ];
           }, 

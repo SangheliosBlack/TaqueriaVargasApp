@@ -13,7 +13,7 @@ class ProfileCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
 
-    final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+    final showMenuContent = ref.watch(pointOfSaleProvider.select((state) => state.showMenuContent));
 
     final userData = ref.watch(authProvider);
 
@@ -33,7 +33,7 @@ class ProfileCard extends ConsumerWidget {
         horizontal: 10,
         vertical: 10
       ),
-      child: !isMenuOpen
+      child: !showMenuContent
       ? Container(
           height: 32,
           width:  32,
@@ -44,7 +44,6 @@ class ProfileCard extends ConsumerWidget {
           decoration: BoxDecoration(
             color: AppTheme.primary,
             shape: BoxShape.circle
-
           ),
           child: Image(
             image: AssetImage(
@@ -53,11 +52,10 @@ class ProfileCard extends ConsumerWidget {
             fit: BoxFit.fitHeight,
           ),
         )
-      : Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            spacing: 10,
+      : AnimatedOpacity(
+          opacity: showMenuContent ? 1.0 : 0.0,
+          duration: Duration(milliseconds: 300),
+          child: Row(
             children: [
               Container(
                 height: 32,
@@ -69,7 +67,6 @@ class ProfileCard extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: AppTheme.primary,
                   shape: BoxShape.circle
-                  
                 ),
                 child: Image(
                   image: AssetImage(
@@ -78,69 +75,46 @@ class ProfileCard extends ConsumerWidget {
                   fit: BoxFit.fitHeight,
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Hola, ",
-                         style: GoogleFonts.poppins(
-                          color: Colors.black.withValues(alpha: .8),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600
-                        ),
+              SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Hola, ${userData.user!.fullName.split(' ').first}",
+                      style: GoogleFonts.poppins(
+                        color: Colors.black.withValues(alpha: .8),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600
                       ),
-                      Text(
-                        userData.user!.fullName,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.poppins(
-                          color: Colors.black.withValues(alpha: .8),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600
-                        ),
-                      ),
-                    ],
-                  ),
-                    Row(
-                      spacing: 5,
-                      children: [
-                        Text(
-                          userData.user!.posInfo?.name ?? ref.read(authProvider).user!.roles.first.description,
-                          style: GoogleFonts.poppins(
-                            color: Colors.black.withValues(alpha: .8),
-                            fontSize: 11,
-                            fontWeight: FontWeight.w300
-                          ),
-                                              ),
-                        Text(
-                          "(${userData.user!.posInfo?.code ?? ""})",
-                          style: GoogleFonts.poppins(
-                            color: Colors.grey,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w300
-                          ),
-                                              ),
-                      ],
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    
-                ],
+                    Text(
+                      userData.user!.posInfo?.name ?? ref.read(authProvider).user!.roles.first.description,
+                      style: GoogleFonts.poppins(
+                        color: Colors.black.withValues(alpha: .8),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w300
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-              
+              SizedBox(width: 4),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: (){
+                  ref.read(authProvider.notifier).logout();
+                },
+                child: Icon(
+                  BootstrapIcons.box_arrow_left,
+                  size: 16,
+                ),
+              )
             ],
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: (){
-              ref.read(authProvider.notifier).logout();
-            },
-            child: Icon(
-              BootstrapIcons.box_arrow_left,
-              size: 18,
-            ),
-          )
-        ],
-      ),
+        ),
     );
 
   }

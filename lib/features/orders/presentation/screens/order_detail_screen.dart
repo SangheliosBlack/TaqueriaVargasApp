@@ -34,7 +34,7 @@ class OrderDetail extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 OrderDetailInfo(order: order),
-                OrderCreateNewTicketButton()
+                OrderCreateNewTicketButton(order: order,)
               ],
             ),
             Row(

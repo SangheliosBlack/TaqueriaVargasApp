@@ -26,7 +26,7 @@ class AsideButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
 
-    final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+    final showMenuContent = ref.watch(pointOfSaleProvider.select((state) => state.showMenuContent));
 
     final hasAccess = ref.watch(authProvider).user!.hasAcces(path: path);
 
@@ -43,62 +43,38 @@ class AsideButton extends ConsumerWidget {
           padding: EdgeInsets.symmetric(
             horizontal: 12
           ),
-          child: !isMenuOpen
+          child: !showMenuContent
           ? Icon(
               icon,
               color: active ? AppTheme.primary : Colors.grey,
               size: 20,
             )
-          : SlideInLeft(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Row(
-                    spacing: 15,
-                    children: [
-                      Icon(
-                        icon,
-                        color: active ? AppTheme.primary : Colors.grey,
-                        size: 20,
-                      ),
-                      Expanded(
-                        child: Text(
-                          label,
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            color: Colors.black.withValues(alpha: 1),
-                            fontWeight: FontWeight.w300
-                          ),
-                          overflow: TextOverflow.fade,
-                          softWrap: false,
+          : showMenuContent
+            ? SlideInLeft(
+                duration: Duration(milliseconds: 300),
+                child: Row(
+                  children: [
+                    Icon(
+                      icon,
+                      color: active ? AppTheme.primary : Colors.grey,
+                      size: 20,
+                    ),
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: Text(
+                        label,
+                        style: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.black.withValues(alpha: 1),
+                          fontWeight: FontWeight.w300
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                AnimatedOpacity(
-                  opacity: 0,
-                  duration: Duration(milliseconds: 150),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '3', // Cambia el número según la notificación
-                      style: GoogleFonts.quicksand(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              )
+            : SizedBox.shrink(),
           
         )
       ),

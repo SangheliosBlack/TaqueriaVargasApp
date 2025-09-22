@@ -12,7 +12,8 @@ class OrderDto {
   OrderUserDto orderUser;
   OrderPosStationDto posStation;
   List<ProductDetailOrderDto> detailProducts;
-  
+  String note;
+  int shiftConsecutive;
 
   OrderDto({
     required this.id,
@@ -25,7 +26,8 @@ class OrderDto {
     required this.orderUser,
     required this.posStation,
     required this.detailProducts,
-
+    required this.note,
+    required this.shiftConsecutive
   });
 
   factory OrderDto.fromJson(Map<String, dynamic> json) => OrderDto(
@@ -38,7 +40,9 @@ class OrderDto {
     status: OrderStatusDto.fromJson(json["status"]),
     detailProducts: ProductDetailOrderDto.fromJsonList(json["saleDetails"]), 
     orderUser: OrderUserDto.fromJson(json["user"]), 
-    posStation: OrderPosStationDto.fromJson(json["posStation"]),
+    posStation: OrderPosStationDto.fromJson(json["posStation"]), 
+    note: json["comment"] ?? "",
+    shiftConsecutive: json["shift_consecutive"],
   );
     
 }
