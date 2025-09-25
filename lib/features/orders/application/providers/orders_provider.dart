@@ -85,7 +85,8 @@ class Orders extends _$Orders{
       posStationId: userState.user!.posInfo!.id, 
       typeSaleId: orderCartState.selectedSaleTypeId != 0 ? orderCartState.selectedSaleTypeId : userState.user!.roles.first.saleTypes.first.id, 
       products: orderCartState.productListToOrder, 
-      customerId: orderCartState.clientSelected?.id,
+      customerId: orderCartState.clientSelected?.id, 
+      note: orderCartState.note
     );
 
     final response = await useCases.createOrder(request: requestDto);

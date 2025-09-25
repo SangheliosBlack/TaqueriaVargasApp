@@ -1,5 +1,7 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taqueria_vargas/core/core.dart';
 
 class HeaderLabelCart extends StatelessWidget {
   const HeaderLabelCart({super.key});

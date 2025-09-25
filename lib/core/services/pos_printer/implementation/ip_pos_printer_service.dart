@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqueria_vargas/core/services/pos_printer/interface/pos_printer_service.dart';
 import 'package:taqueria_vargas/core/services/pos_printer/layouts/layout_1.dart';
 import 'package:taqueria_vargas/core/services/pos_printer/providers/pos_printer_provider.dart';
+import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 
 class PosPrinterServideImpl implements PosPrinterService {
 
@@ -40,7 +41,7 @@ class PosPrinterServideImpl implements PosPrinterService {
   }
   
   @override
-  Future<void> printReceipt({required String orderId}) async { 
+  Future<void> printReceipt({required OrderEntity order}) async { 
 
     final profile = await CapabilityProfile.load();
 
@@ -50,7 +51,8 @@ class PosPrinterServideImpl implements PosPrinterService {
 
     if (res == PosPrintResult.success) {
 
-      await EscPosPrinterLayout1.createTicket(printer: printer, ref: ref, orderId: orderId);
+      await EscPosPrinterLayout1.createTicket(printer: printer, ref: ref, order: order);
+      
 
     } else {
       throw Exception('Error al conectar con la impresora: ${res.msg}');

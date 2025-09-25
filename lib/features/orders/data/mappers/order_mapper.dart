@@ -17,6 +17,8 @@ class OrderMapper {
       orderDetail:  OrderDetailMapper.toEntityList( dtos:dto.detailProducts), 
       orderUser: OrderUserMapper.toEntity(dto: dto.orderUser), 
       posStation: OrderPosStationMapper.toEntity(dto: dto.posStation),
+      note: dto.note,
+      shiftConsecutive: dto.shiftConsecutive
     );
   }
 

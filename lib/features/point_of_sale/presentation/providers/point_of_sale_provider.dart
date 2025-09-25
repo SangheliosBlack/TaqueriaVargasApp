@@ -114,8 +114,24 @@ class PointOfSale extends _$PointOfSale {
   }
 
   void toggleMenu() async {
-
-    state = state.copyWith(isMenuOpen: !state.isMenuOpen);
+    
+    if (!state.isMenuOpen) {
+      // AL ABRIR: Primero expandir el menú, luego mostrar contenido
+      state = state.copyWith(isMenuOpen: true);
+      
+      // Delay para que el contenedor se expanda primero
+      await Future.delayed(Duration(milliseconds: 150));
+      
+      state = state.copyWith(showMenuContent: true);
+    } else {
+      // AL CERRAR: Primero ocultar contenido, luego contraer menú
+      state = state.copyWith(showMenuContent: false);
+      
+      // Delay para que el contenido desaparezca primero
+      await Future.delayed(Duration(milliseconds: 80));
+      
+      state = state.copyWith(isMenuOpen: false);
+    }
 
   }
 

@@ -57,7 +57,7 @@ class CartProductItem extends ConsumerWidget {
             ),
             borderRadius: BorderRadius.circular(15),
           ),
-            height: product.hasParciality ? product.parciality > 0 ? 145 : product.quantity > 1 ? 145 : 121 : product.quantity > 1 ? 91 : 67,
+            height: product.quantity > 1 ? 91 : 67,
             child: Column(
               children: [
                 Expanded(
@@ -115,6 +115,7 @@ class CartProductItem extends ConsumerWidget {
                     ],
                   ),
                 ),
+                /*
                 if(product.hasParciality)...{
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +170,7 @@ class CartProductItem extends ConsumerWidget {
                       ),
                     ],
                   )
-                },
+                },*/
                 if(product.quantity > 1 || product.parciality > 0)...{
                   Column(
                     children: [

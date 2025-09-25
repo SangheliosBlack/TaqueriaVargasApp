@@ -64,13 +64,13 @@ class CheckoutOrderDialog extends ConsumerWidget {
 
                       if(value == "O"){
 
-                        final OrderEntity? orderId = await ref.read(ordersProvider.notifier).createOrder();
+                        final OrderEntity? order = await ref.read(ordersProvider.notifier).createOrder();
 
                         final isConnected = ref.watch(printerConnectionProvider);
 
                         if(isConnected) {
 
-                          await ref.read(printerServiceProvider).printReceipt(orderId: orderId!.id.toString());
+                          await ref.read(printerServiceProvider).printReceipt(order: order!);
 
                         }
 

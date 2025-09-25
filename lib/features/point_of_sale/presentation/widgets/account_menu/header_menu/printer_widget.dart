@@ -62,7 +62,7 @@ class PrinterWidget extends ConsumerWidget {
                     Text("Impresora",
                     style: GoogleFonts.quicksand(
                       fontSize: 11,
-                      color: isConnected ? AppTheme.primary : Colors.black.withValues(alpha: 1),
+                      color: Colors.black.withValues(alpha: 1),
                     ),
                     ),
                     Text(isConnected ? "Conectada" : "Desconectada",

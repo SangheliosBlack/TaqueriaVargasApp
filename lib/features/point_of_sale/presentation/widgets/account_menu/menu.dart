@@ -1,4 +1,5 @@
 
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
@@ -15,16 +16,45 @@ import 'package:taqueria_vargas/features/shared/shared.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class AccountMenu extends ConsumerWidget {
+class AccountMenu extends ConsumerStatefulWidget {
 
   const AccountMenu({super.key});
 
   @override
-  Widget build(BuildContext context,ref) {
+  ConsumerState<AccountMenu> createState() => _AccountMenuState();
+}
+
+class _AccountMenuState extends ConsumerState<AccountMenu> {
+  late TextEditingController _notesController;
+
+  @override
+  void initState() {
+    super.initState();
+    _notesController = TextEditingController();
+    // Initialize controller with current state value
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentNote = ref.read(orderCartProvider).note;
+      _notesController.text = currentNote;
+    });
+  }
+
+  @override
+  void dispose() {
+    _notesController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     final orderCartState = ref.watch(orderCartProvider);
 
     final isLoading = ref.watch(ordersProvider.select((state) => state.isLoading));
+
+    // Sync controller with state changes (e.g., when cart is cleaned)
+    if (_notesController.text != orderCartState.note) {
+      _notesController.text = orderCartState.note;
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -47,6 +77,97 @@ class AccountMenu extends ConsumerWidget {
                 Expanded(
                   child: Column(
                     children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 10,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Notas",
+                               style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300
+                                )
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      BootstrapIcons.arrow_down_circle,
+                                      color: Colors.black,
+                                      size: 12,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 10,
+                                bottom: 10
+                              ),
+                              child: TextField(
+                                controller: _notesController,
+                                onChanged: (value) {
+                                  ref.read(orderCartProvider.notifier).setNote(note: value);
+                                },
+                                decoration: InputDecoration(
+                                  hintText: "Agrega notas adicionales...",
+                                  suffixIcon: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          _notesController.clear();
+                                          ref.read(orderCartProvider.notifier).setNote(note: '');
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.black54,
+                                          size: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  hintStyle: GoogleFonts.poppins(
+                                  color: Colors.black.withValues(alpha: .5),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300
+                                ),
+                                  filled: true,
+                                  fillColor: Colors.grey.withValues(alpha: .05),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: BorderSide.none, 
+                                  ),
+                                ),
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300
+                                ),
+                                
+                              )
+                            ),
+                          ],
+                        )
+                      ),
+                      Divider(
+                        color: Colors.grey.withValues(alpha: .2),
+                        height: 1,
+                        thickness: 1,
+                      ),
                       Expanded(child: Stack(
                         children: [
                           CartProductList(),
@@ -90,17 +211,17 @@ class AccountMenu extends ConsumerWidget {
 
                 if(orderCartState.productList.isEmpty) return;
 
-                final OrderEntity? orderId = await ref.read(ordersProvider.notifier).createOrder();
+                final OrderEntity? order = await ref.read(ordersProvider.notifier).createOrder();
 
-                final isConnected = ref.watch(printerConnectionProvider);
+                if(order != null) {
 
-                if(isConnected) {
+                  final isConnected = ref.watch(printerConnectionProvider);
 
-                  await ref.read(printerServiceProvider).printReceipt(orderId: orderId!.id.toString());
+                  if(isConnected) {
 
-                }
+                    await ref.read(printerServiceProvider).printReceipt(order: order);
 
-                if(orderId != null) {
+                  }
 
                   ref.read(orderCartProvider.notifier).cleanOrder();
 
@@ -115,9 +236,9 @@ class AccountMenu extends ConsumerWidget {
                 // ignore: use_build_context_synchronously
                 MessageServiceImpl().showBottom(
                   context: context, 
-                  title: orderId != null ? "Orden creada con exito!": 
-                  errorMessage, message: orderId != null ? "Registro de ventas actulizado" :  "Verifica el estado de tu punto de venta" , 
-                  backgroundColor: orderId != null ? AppTheme.primary : AppTheme.error
+                  title: order != null ? "Orden creada con exito!": 
+                  errorMessage, message: order != null ? "Registro de ventas actulizado" :  "Verifica el estado de tu punto de venta" , 
+                  backgroundColor: order != null ? AppTheme.primary : AppTheme.error
                 );
 
                 /*

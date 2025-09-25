@@ -7,11 +7,13 @@ class OrderCartState {
   final Map<int, ProductEntity> productList;
   final CustomerEntity? clientSelected;
   final int selectedSaleTypeId;
+  final String note;
 
   OrderCartState({
     this.productList = const {},
     this.selectedSaleTypeId = 0,
-    this.clientSelected 
+    this.clientSelected,
+    this.note = ''
   });
 
   bool get deliveryAdded => selectedSaleTypeId == 7;
@@ -61,12 +63,14 @@ class OrderCartState {
   OrderCartState copyWith({
     Map<int, ProductEntity>? productList,
     NullableAbsent<CustomerEntity> clientSelected = const NullableAbsent.absent(),
-    int? selectedSaleTypeId
+    int? selectedSaleTypeId,
+    String? note
   }) {
     return OrderCartState(
       productList: productList ?? this.productList,
       clientSelected: NullableAbsent(this.clientSelected).apply(clientSelected),
       selectedSaleTypeId: selectedSaleTypeId ?? this.selectedSaleTypeId,
+      note: note ?? this.note
     );
   } 
 

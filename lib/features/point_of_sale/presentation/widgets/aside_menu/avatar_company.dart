@@ -11,13 +11,13 @@ class AvatarCompany extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
 
-    final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+    final showMenuContent = ref.watch(pointOfSaleProvider.select((state) => state.showMenuContent));
 
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: 12,
       ),
-      child: !isMenuOpen 
+      child: !showMenuContent 
       ? Stack(
             children: [
             Container(
@@ -58,7 +58,6 @@ class AvatarCompany extends ConsumerWidget {
             ],
           )
       : Row(
-        spacing: 10,
         children: [
           Stack(
             children: [
@@ -99,32 +98,34 @@ class AvatarCompany extends ConsumerWidget {
             ),
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Sucursal 1",
-                style: GoogleFonts.poppins(
-                  fontSize: 11,
-                  color: Colors.black.withValues(alpha: .5),
+          SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Sucursal 1",
+                  style: GoogleFonts.poppins(
+                    fontSize: 10,
+                    color: Colors.black.withValues(alpha: .5),
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.visible,
-              ),
-              Text(
-                "Taqueria Vargas",
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  color: Colors.black.withValues(alpha: 1),
-                  fontWeight: FontWeight.w300
+                Text(
+                  "Taqueria Vargas",
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    color: Colors.black.withValues(alpha: 1),
+                    fontWeight: FontWeight.w300
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.visible,
-              ),
-            ],
+              ],
+            ),
           ),
-              
-            ],
-          ),
+        ],
+      ),
     );
   }
   

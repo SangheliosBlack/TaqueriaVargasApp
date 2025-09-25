@@ -91,6 +91,11 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               width: 180,
               alignment: Alignment.centerLeft,
             ),
+            RowHeader(
+              title: 'Nota',
+              width: 60,
+              alignment: Alignment.center,
+            ),
           ], 
           buildRow: (OrderEntity sale) {     
             return [
@@ -123,9 +128,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                     margin: EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: status!.color.withOpacity(0.05),
+                      color: status!.color.withOpacity(0.03),
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: status.color, width: 1
+                      border: Border.all(color: status.color.withValues(alpha: .2), width: 1
                     ),
                     ),
                     child: Row(
@@ -157,6 +162,16 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                 width: 180,
                 alignment: Alignment.centerLeft,
                 text:sale.date.toLocal().toString()
+              ),
+              SizedBox(
+                width: 60,
+                child: Center(
+                  child: Icon(
+                    Icons.check_box_outlined,
+                    color: sale.note.isNotEmpty ? AppTheme.primary : Colors.white,
+                    size: 18,
+                  ),
+                ),
               )
             ];
           }, 

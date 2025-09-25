@@ -57,10 +57,25 @@ class OrderCart extends _$OrderCart {
     
   }
 
+  void updateNote({required String value}) {
+
+    state = state.copyWith(note: value);
+
+  }
+
   void cleanOrder(){
 
     state = state.copyWith(
-      productList: {}
+      productList: {},
+      note: '',
+    );
+
+  }
+
+  void setNote({required String note}) {
+
+    state = state.copyWith(
+      note: note
     );
 
   }

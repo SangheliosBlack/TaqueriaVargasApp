@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/point_of_sale/application/providers/enter_amount/enter_amount_provider.dart';
 import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +13,7 @@ import 'package:image/image.dart';
 
 class EscPosPrinterLayout1{
 
-  static Future<void> createTicket({required NetworkPrinter printer,required Ref ref,required String orderId}) async{
+  static Future<void> createTicket({required NetworkPrinter printer,required Ref ref,required OrderEntity order}) async{
 
     final orderCartState = ref.read(orderCartProvider);
     final amount = ref.read(enterAmountProvider);
@@ -128,7 +129,7 @@ class EscPosPrinterLayout1{
     printer.hr(ch: ' ', linesAfter: 1);
 
     printer.row([
-        PosColumn(text: "$orderId                    ", width: 5,styles: PosStyles(align: PosAlign.left,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
+        PosColumn(text: "$order                    ", width: 5,styles: PosStyles(align: PosAlign.left,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
         PosColumn(text: clientState.clientSelected != null ? "${clientState.clientSelected!.fullName.split(" ")[0]}                                 " :"                                      ", width: 7, styles: PosStyles(align: PosAlign.right,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
     ]);
     
@@ -182,7 +183,7 @@ class EscPosPrinterLayout1{
     printer.hr(ch: ' ', linesAfter: 0);
 
     printer.qrcode(
-      orderId,
+      order.shiftConsecutive.toString(),
       size: QRSize.Size8
     );
 

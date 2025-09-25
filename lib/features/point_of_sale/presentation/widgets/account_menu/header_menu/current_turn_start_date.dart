@@ -25,7 +25,7 @@ class CurrentTurnStartDate extends ConsumerWidget {
 
     final isConnected = ref.watch(printerConnectionProvider);
 
-    final isMenuOpen = ref.watch(pointOfSaleProvider.select((state) => state.isMenuOpen));
+    final showMenuContent = ref.watch(pointOfSaleProvider.select((state) => state.showMenuContent));
 
     final roleCode = ref.watch(authProvider).user!.roles.first.code;
 
@@ -52,79 +52,76 @@ class CurrentTurnStartDate extends ConsumerWidget {
             borderRadius: BorderRadius.circular(10),
             color: isOpen ? AppTheme.primary.withValues(alpha: .1) : Colors.blueGrey.withValues(alpha: .1),
           ),
-          child: !isMenuOpen 
+          child: !showMenuContent 
           ?  Icon(
               Icons.storefront,
               size: 20,
               color: isOpen ?  AppTheme.primary : Colors.blueGrey,
             )
           : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                spacing: 10,
-                children: [
-                  Icon(
-                    Icons.storefront,
-                    size: 20,
-                    color: isOpen ?  AppTheme.primary : Colors.blueGrey,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Punto de venta",
-                      style: GoogleFonts.quicksand(
-                        fontSize: 11,
-                        color: isConnected ? AppTheme.primary : Colors.black.withValues(alpha: 1),
-                      ),
-                      ),
-                      Text(isOpen ? "Iniciado" : "Cerrado",
-                      style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: isConnected ? AppTheme.primary : AppTheme.primary,
-                      ),
-                                          ),
-                    ],
-                  ),
-                ],
+              Icon(
+                Icons.storefront,
+                size: 20,
+                color: isOpen ?  AppTheme.primary : Colors.blueGrey,
               ),
-              SizedBox(
-                width: 40, 
-                height: 30,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Switch(
-                    value: isOpen,
-                    onChanged: (value) async {
+              SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Punto de venta",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 10,
+                      color:  Colors.black.withValues(alpha: 1),
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(isOpen ? "Iniciado" : "Pendiente",
+                    style: GoogleFonts.poppins(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: isOpen ? AppTheme.primary : Colors.grey,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 4),
+              Transform.scale(
+                scale: 0.7,
+                child: Switch(
+                  value: isOpen,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onChanged: (value) async {
 
-                      if (value && !isOpen) {
+                    if (value && !isOpen) {
 
 
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          barrierColor: Colors.black.withAlpha(200),
-                          builder: (_) => AlertDialog(
-                            contentPadding: EdgeInsets.zero,
-                            content: Builder(
-                              builder: (innerContext) => OpenPoDialog(context:innerContext),
-                            ),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        barrierColor: Colors.black.withAlpha(200),
+                        builder: (_) => AlertDialog(
+                          contentPadding: EdgeInsets.zero,
+                          content: Builder(
+                            builder: (innerContext) => OpenPoDialog(context:innerContext),
                           ),
-                        );
+                        ),
+                      );
 
-                      }else{
+                    }else{
 
-                         await CustomDialogService.showAlertDialog(context: context,content: ClosePoDialog());
+                       await CustomDialogService.showAlertDialog(context: context,content: ClosePoDialog());
 
-                      }
+                    }
 
-                    },
-                    activeTrackColor: AppTheme.primary.withOpacity(0.3),
-                    inactiveTrackColor: Colors.blueGrey.withOpacity(0.1),
-                    activeColor: AppTheme.primary,
-                    inactiveThumbColor: Colors.blueGrey,
-                  ),
+                  },
+                  activeTrackColor: AppTheme.primary.withOpacity(0.3),
+                  inactiveTrackColor: Colors.blueGrey.withOpacity(0.1),
+                  activeColor: AppTheme.primary,
+                  inactiveThumbColor: Colors.blueGrey,
                 ),
               )
       

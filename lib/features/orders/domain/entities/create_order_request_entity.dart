@@ -7,12 +7,14 @@ class CreateOrderRequestEntity {
     int typeSaleId;
     int? customerId;
     List<ProductOrderEntity> products;
+    String note;
 
     CreateOrderRequestEntity({
         required this.posStationId,
         required this.typeSaleId,
         required this.customerId,
         required this.products,
+        required this.note
     });
     
     Map<String, dynamic> toJson() => {
@@ -20,5 +22,6 @@ class CreateOrderRequestEntity {
         "type_sale_id": typeSaleId,
         "customer_id": customerId,
         "products": products.map((x) => x.toJson()).toList(),
+        "comment": note
     };
 }

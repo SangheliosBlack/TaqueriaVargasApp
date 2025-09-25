@@ -13,6 +13,8 @@ class OrderEntity extends Mappable {
   List<ProductDetailOrderEntity> orderDetail;
   OrderPosStationEntity posStation;
   OrderUserEntity orderUser;
+  String note;
+  int shiftConsecutive;
   
 
   OrderEntity({
@@ -26,6 +28,8 @@ class OrderEntity extends Mappable {
     required this.orderUser,
     required this.posStation,
     required this.orderDetail,
+    required this.note,
+    required this.shiftConsecutive
   });
 
   @override
