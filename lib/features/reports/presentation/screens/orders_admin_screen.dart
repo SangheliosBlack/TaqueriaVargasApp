@@ -80,6 +80,11 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
           ),
           RowHeader(title: 'Nombre', alignment: Alignment.centerLeft),
           RowHeader(
+              width: 130,
+              alignment: Alignment.centerLeft,
+              title: "Cliente",
+            ),
+          RowHeader(
             title: 'POS', 
             width: 150,
             alignment: Alignment.centerLeft
@@ -96,7 +101,7 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
           ),
           RowHeader(
             title: 'Fecha',
-            width: 180,
+            width: 130,
             alignment: Alignment.centerLeft,
           ),
           RowHeader(
@@ -119,6 +124,11 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
               ),
               RowCell(
                 text: sale.orderUser.fullName,
+              ),
+              RowCell(
+                width: 130,
+                alignment: Alignment.centerLeft,
+                text: sale.customerOrder?.fullName ?? "",
               ),
               RowCell(
                 width: 150,
@@ -172,9 +182,9 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
                 ),
               ),
               RowCell(
-                width: 180,
+                width: 130,
                 alignment: Alignment.centerLeft,
-                text:sale.date.toLocal().toString()
+                text: DatesFormat(sale.date).formatoFechaHora
               ),
               SizedBox(
                 width: 60,

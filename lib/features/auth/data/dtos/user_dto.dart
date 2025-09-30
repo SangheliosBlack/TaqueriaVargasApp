@@ -13,6 +13,7 @@ class UserDTO {
   final CompanyDto company;
   final PosInfoDto? posInfo;
   final bool? isOpenToday;
+  final bool? isOpenPosStation;
 
   UserDTO({
     required this.id,
@@ -23,7 +24,8 @@ class UserDTO {
     required this.roles,
     required this.company,
     required this.posInfo,
-    required this.isOpenToday
+    required this.isOpenToday,
+    required this.isOpenPosStation
   });
 
   factory UserDTO.fromJson(Map<String, dynamic> map) {
@@ -37,7 +39,8 @@ class UserDTO {
       roles: RolesDto.fromJsonList(map['roles']), 
       company: CompanyDto.fromJson(map['company']), 
       posInfo: map['pos'] != null ? PosInfoDto.fromJson(map['pos']) : null, 
-      isOpenToday: map['isOpenToday'] ?? false,
+      isOpenToday: map['isOpenToday'] ?? false, 
+      isOpenPosStation: map['isOpenPosStation'] ?? false,
     );
   }
 

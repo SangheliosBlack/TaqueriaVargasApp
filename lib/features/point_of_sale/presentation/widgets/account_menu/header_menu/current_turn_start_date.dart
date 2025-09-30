@@ -21,7 +21,7 @@ class CurrentTurnStartDate extends ConsumerWidget {
 
     final currentTurn = ref.watch(authProvider).currentTurn;
 
-    final isOpen = ref.watch(authProvider).user!.isOpenToday ?? false;
+    final isOpen = ref.watch(authProvider).isOpenPosStation ;
 
     final isConnected = ref.watch(printerConnectionProvider);
 

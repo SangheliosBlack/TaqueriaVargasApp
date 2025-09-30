@@ -1,5 +1,5 @@
 import 'package:taqueria_vargas/core/resources/data_state.dart';
-import 'package:taqueria_vargas/features/auth/domain/entities/user_entity.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/login_user_response_entiti.dart';
 import 'package:taqueria_vargas/features/auth/domain/repository/auth_repository.dart';
 
 class LoadUserCase {
@@ -8,7 +8,7 @@ class LoadUserCase {
 
   LoadUserCase(this._authRepository);
   
-  Future<DataState<UserEntity>> call() async {
+  Future<DataState<AuthUserEntity>> call() async {
     
     return  _authRepository.loadUser();
     

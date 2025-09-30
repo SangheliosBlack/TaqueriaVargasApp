@@ -12,6 +12,7 @@ class AuthState {
   final String password;
   final String errorMessage;
   final AuthenticationStatus authenticationStatus;
+  final bool isOpenPosStation;
 
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
@@ -32,6 +33,7 @@ class AuthState {
     this.authenticationStatus = AuthenticationStatus.checking,
     this.deviceId = "",
     this.currentTurn,
+    this.isOpenPosStation = false
   });
 
   AuthState copyWith({
@@ -45,6 +47,7 @@ class AuthState {
     AuthenticationStatus? authenticationStatus,
     String? deviceId,
     NullableAbsent<CurrentTurnEntity> currentTurn = const NullableAbsent.absent(),
+    bool? isOpenPosStation
   }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
@@ -57,6 +60,7 @@ class AuthState {
       authenticationStatus: authenticationStatus ?? this.authenticationStatus,
       deviceId: deviceId ?? this.deviceId,
       currentTurn: NullableAbsent(this.currentTurn).apply(currentTurn),
+      isOpenPosStation : isOpenPosStation ?? this.isOpenPosStation
     );
   }
 

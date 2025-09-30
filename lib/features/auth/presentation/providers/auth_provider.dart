@@ -51,7 +51,7 @@ class Auth extends _$Auth{
       email: state.email, 
       password: state.password,
       deviceId: state.deviceId
-      //deviceId: "bd93d1e4-3866-4890-8c0c-cbc95671bc9d"
+      //deviceId: "93d30483-de50-4dee-b817-c73ed0e44915"
     );
 
     final useCase = await ref.read(loginUseCaseProvider).execute(params: params);
@@ -59,10 +59,10 @@ class Auth extends _$Auth{
     if(useCase is DataSuccess){
 
       state = state.copyWith(
-        user: useCase.data,
+        user: useCase.data!.user,
         isLoading: false,
-        authenticationStatus: AuthenticationStatus.authenticated
-        
+        authenticationStatus: AuthenticationStatus.authenticated,
+        isOpenPosStation:useCase.data!.isOpenPosStation
       );
       
       await getCurrentTurn();
@@ -90,7 +90,8 @@ class Auth extends _$Auth{
       final response = await authUseCases.loadUser();
 
       state = state.copyWith(
-        user: response.data,
+        user: response.data!.user,
+        isOpenPosStation: response.data!.isOpenPosStation,
       );
     
       return;

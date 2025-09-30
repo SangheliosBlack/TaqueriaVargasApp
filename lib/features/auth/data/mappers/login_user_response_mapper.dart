@@ -3,20 +3,24 @@ import 'package:taqueria_vargas/features/auth/data/mappers/user_mapper_response.
 import 'package:taqueria_vargas/features/auth/domain/entities/login_user_response_entiti.dart';
 import 'package:taqueria_vargas/features/auth/domain/entities/user_entity.dart';
 
-class LoginUserResponseMapper {
+class AuthResponseMapper {
 
   final UserEntity user;
-  final String accessToken;
+  final String? accessToken;
+  final bool isOpenPOS;
 
-  LoginUserResponseMapper({
+
+  AuthResponseMapper({
     required this.user,
-    required this.accessToken,
+    this.accessToken,
+    required this.isOpenPOS
   });
 
-  static LoginUserEntity toLoginUserEntity(UserLoginResponseDTO dto) {
-    return LoginUserEntity(
+  static AuthUserEntity toLoginUserEntity(UserLoginResponseDTO dto) {
+    return AuthUserEntity(
       user: UserMapper.toEntity(dto.user),
-      accessToken: dto.accessToken,
+      accessToken: dto.accessToken, 
+      isOpenPosStation: dto.isOpenPOS,
     );
   }
 
