@@ -50,7 +50,7 @@ class Auth extends _$Auth{
     final params = LoginParams(
       email: state.email, 
       password: state.password,
-      deviceId: "93d30483-de50-4dee-b817-c73ed0e44915"
+      deviceId: state.deviceId
       //deviceId: "93d30483-de50-4dee-b817-c73ed0e44915"
     );
 
