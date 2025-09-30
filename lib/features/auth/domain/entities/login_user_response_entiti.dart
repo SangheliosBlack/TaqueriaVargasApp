@@ -1,14 +1,16 @@
 
 import 'package:taqueria_vargas/features/auth/domain/entities/user_entity.dart';
 
-class LoginUserEntity {
+class AuthUserEntity {
 
     UserEntity user;
-    String accessToken;
+    String? accessToken;
+    bool isOpenPosStation;
 
-    LoginUserEntity({
+    AuthUserEntity({
         required this.user,
-        required this.accessToken,
+        this.accessToken,
+        required this.isOpenPosStation
     });
 
 }

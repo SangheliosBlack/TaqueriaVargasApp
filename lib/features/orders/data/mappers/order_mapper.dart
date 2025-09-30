@@ -1,4 +1,5 @@
 import 'package:taqueria_vargas/features/orders/data/dtos/order_dto.dart';
+import 'package:taqueria_vargas/features/orders/data/mappers/customer_order_mapper.dart';
 import 'package:taqueria_vargas/features/orders/data/mappers/mappers.dart';
 import 'package:taqueria_vargas/features/orders/domain/domain.dart';
 
@@ -18,7 +19,8 @@ class OrderMapper {
       orderUser: OrderUserMapper.toEntity(dto: dto.orderUser), 
       posStation: OrderPosStationMapper.toEntity(dto: dto.posStation),
       note: dto.note,
-      shiftConsecutive: dto.shiftConsecutive
+      shiftConsecutive: dto.shiftConsecutive, 
+      customerOrder: CustomerOrderMapper.fromDto(dto: dto.customerOrder)
     );
   }
 

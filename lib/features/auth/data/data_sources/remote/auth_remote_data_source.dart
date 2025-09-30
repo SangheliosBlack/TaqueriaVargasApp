@@ -6,6 +6,6 @@ abstract interface class AuthRemoteDataSource {
 
   Future<DataState<UserLoginResponseDTO>> login({required LoginParams params});
   Future<DataState<CurrentTurnDto?>> getCurrentTurn();
-  Future<DataState<UserDTO>> userMe();
+  Future<DataState<UserLoginResponseDTO>> userMe();
   
 }

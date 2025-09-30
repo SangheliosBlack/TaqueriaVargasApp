@@ -2,6 +2,7 @@ import 'package:taqueria_vargas/core/core.dart';
 import 'package:taqueria_vargas/features/auth/data/data_sources/data_sources.dart';
 import 'package:taqueria_vargas/features/auth/data/mappers/mappers.dart';
 import 'package:taqueria_vargas/features/auth/domain/domain.dart';
+import 'package:taqueria_vargas/features/auth/domain/entities/login_user_response_entiti.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
 
@@ -14,19 +15,22 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<DataState<UserEntity>> login({required LoginParams params}) async {
+  Future<DataState<AuthUserEntity>> login({required LoginParams params}) async {
 
     final remoteResponse = await remoteDataSource.login(params: params);
 
     if(remoteResponse is DataSuccess){
 
-      final responseToEntity = LoginUserResponseMapper.toLoginUserEntity(remoteResponse.data!);
+      final responseToEntity = AuthResponseMapper.toLoginUserEntity(remoteResponse.data!);
 
-      await localDataSource.saveToken(token: responseToEntity.accessToken);
+      // Solo guardar el token si no es null
+      if (responseToEntity.accessToken != null) {
+        await localDataSource.saveToken(token: responseToEntity.accessToken!);
+      }
 
       await localDataSource.saveUser(responseToEntity.user);
 
-      return DataSuccess(responseToEntity.user);
+      return DataSuccess(responseToEntity);
 
     }
     
@@ -35,33 +39,25 @@ class AuthRepositoryImpl implements AuthRepository {
   }
   
   @override
-  Future<DataState<UserEntity>> loadUser() async {
+  Future<DataState<AuthUserEntity>> loadUser() async {
 
     final remoteResponse = await remoteDataSource.userMe();
 
-      final userEntity = UserMapper.toEntity(remoteResponse.data!);
+     if(remoteResponse is DataSuccess){
 
-      await localDataSource.saveUser(userEntity);
+      final responseToEntity = AuthResponseMapper.toLoginUserEntity(remoteResponse.data!);
 
-      return DataSuccess(userEntity);
+      if (responseToEntity.accessToken != null) {
+        await localDataSource.saveToken(token: responseToEntity.accessToken!);
+      }
 
-    final localResponse = await localDataSource.getCachedUser();
+      await localDataSource.saveUser(responseToEntity.user);
 
-    if(localResponse is DataSuccess){
-
-      return DataSuccess(localResponse!.data!);
-
-    }else{
-
-      final remoteResponse = await remoteDataSource.userMe();
-
-      final userEntity = UserMapper.toEntity(remoteResponse.data!);
-
-      await localDataSource.saveUser(userEntity);
-
-      return DataSuccess(userEntity);
+      return DataSuccess(responseToEntity);
 
     }
+
+    return DataFailed(remoteResponse.error!);
     
   }
   

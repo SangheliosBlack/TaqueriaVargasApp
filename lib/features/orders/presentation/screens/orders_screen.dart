@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
+import 'package:taqueria_vargas/core/utils/dates/dates_format.dart';
 import 'package:taqueria_vargas/features/orders/application/providers/providers.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/orders/presentation/screens/order_detail_screen.dart';
@@ -72,6 +73,11 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             ),
             RowHeader(title: 'Nombre', alignment: Alignment.centerLeft),
             RowHeader(
+              width: 130,
+              alignment: Alignment.centerLeft,
+              title: "Cliente",
+            ),
+            RowHeader(
               title: 'POS', 
               width: 150,
               alignment: Alignment.centerLeft
@@ -88,7 +94,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
             ),
             RowHeader(
               title: 'Fecha',
-              width: 180,
+              width: 130,
               alignment: Alignment.centerLeft,
             ),
             RowHeader(
@@ -106,6 +112,11 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
               ),
               RowCell(
                 text: sale.orderUser.fullName,
+              ),
+              RowCell(
+                width: 130,
+                alignment: Alignment.centerLeft,
+                text: sale.customerOrder?.fullName ?? "",
               ),
               RowCell(
                 width: 150,
@@ -159,9 +170,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen> {
                 ),
               ),
               RowCell(
-                width: 180,
+                width: 130,
                 alignment: Alignment.centerLeft,
-                text:sale.date.toLocal().toString()
+                text: DatesFormat(sale.date).formatoFechaHora
               ),
               SizedBox(
                 width: 60,

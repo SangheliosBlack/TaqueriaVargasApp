@@ -103,6 +103,7 @@ class AsideMenu extends ConsumerWidget {
                 },
                 label: 'Turnos', 
               ),
+              /*
               AsideButton(
                 active: route == TableManagementScreen.path,
                 icon: BootstrapIcons.house_gear,
@@ -114,10 +115,11 @@ class AsideMenu extends ConsumerWidget {
                 },
                 label: 'Mi espacio', 
               ),
+              */
               AsideButton(
                 active: route == OrdersAdminScreen.path,
                 icon: BootstrapIcons.book,
-                path: TableManagementScreen.path,
+                path: OrdersAdminScreen.path,
                 onTap: (){
         
                   context.push(OrdersAdminScreen.path);

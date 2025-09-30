@@ -56,7 +56,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<DataState<UserDTO>> userMe() async {
+  Future<DataState<UserLoginResponseDTO>> userMe() async {
   
     try {
 
@@ -66,12 +66,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
           final apiResponse = ApiResponse<Map<String, dynamic>>.fromJson(response.data);
 
-          apiResponse.data!["user"]["isOpenToday"] = apiResponse.data!["isOpenToday"] ;
-          final newData = apiResponse.data!["user"];
+          final userLoginResponseDTO = UserLoginResponseDTO.fromJson(apiResponse.data!);
 
-          final userLoginResponseDTO = UserDTO.fromJson(newData);
+          final userLoginResponseEntity = userLoginResponseDTO;
 
-          return DataSuccess(userLoginResponseDTO);
+          return DataSuccess(userLoginResponseEntity);
 
         }else{
 

@@ -37,13 +37,15 @@ class OrderDetail extends ConsumerWidget {
                 OrderCreateNewTicketButton(order: order,)
               ],
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 16,
-              children: [
-                DetailOrderInfo(order: order),
-                DetailOrderProducts(order: order)
-              ],
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 16,
+                children: [
+                  DetailOrderInfo(order: order),
+                  DetailOrderProducts(order: order)
+                ],
+              ),
             )
           ],
         ),

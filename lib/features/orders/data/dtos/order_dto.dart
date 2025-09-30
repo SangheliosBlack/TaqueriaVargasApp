@@ -1,3 +1,4 @@
+import 'package:taqueria_vargas/features/orders/data/dtos/customer_order_dto.dart';
 import 'package:taqueria_vargas/features/orders/data/dtos/dtos.dart';
 
 class OrderDto {
@@ -14,6 +15,7 @@ class OrderDto {
   List<ProductDetailOrderDto> detailProducts;
   String note;
   int shiftConsecutive;
+  CustomerOrderDto? customerOrder;
 
   OrderDto({
     required this.id,
@@ -27,7 +29,8 @@ class OrderDto {
     required this.posStation,
     required this.detailProducts,
     required this.note,
-    required this.shiftConsecutive
+    required this.shiftConsecutive,
+    this.customerOrder
   });
 
   factory OrderDto.fromJson(Map<String, dynamic> json) => OrderDto(
@@ -43,6 +46,7 @@ class OrderDto {
     posStation: OrderPosStationDto.fromJson(json["posStation"]), 
     note: json["comment"] ?? "",
     shiftConsecutive: json["shift_consecutive"],
+    customerOrder: json["customer"] != null ? CustomerOrderDto.fromJson(json["customer"]) : null
   );
     
 }

@@ -1,5 +1,12 @@
 ## Changelog
 
+
+
+### [00015] - [30/SEP/2025] - @JULIO VILLAGRANA
+- Fix null access token handling in login response
+- Add null safety validation in auth repository
+- Prevent app crashes when API returns null access token
+
 ### [00014] - [29/SEP/2025] - @JULIO VILLAGRANA
 - Device ID add to clipboard
 

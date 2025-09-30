@@ -20,7 +20,7 @@ class RowCell extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Expanded(
-       flex: width != null ? 0 : 1,
+      flex: width != null ? 0 : 1,
       child: Container(
          constraints: BoxConstraints(
           maxWidth: width ?? double.infinity,
@@ -39,6 +39,7 @@ class RowCell extends StatelessWidget {
         alignment: alignment,
         child: Text(
           text,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 12,
