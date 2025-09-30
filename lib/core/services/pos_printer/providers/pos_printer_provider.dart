@@ -6,8 +6,9 @@ import 'package:taqueria_vargas/core/services/pos_printer/providers/pos_printer_
 final printerServiceProvider = Provider<PosPrinterServideImpl>((ref) {
 
   return PosPrinterServideImpl(
-    //printerIp: '192.168.100.48', 
-    printerIp: '192.168.1.8', 
+    printerIp: '192.168.100.48', 
+    //MIA
+    //printerIp: '192.168.1.8', 
     ref: ref
   );
 
