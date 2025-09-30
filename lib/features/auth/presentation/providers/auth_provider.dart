@@ -50,8 +50,8 @@ class Auth extends _$Auth{
     final params = LoginParams(
       email: state.email, 
       password: state.password,
-      //deviceId: state.deviceId
-      deviceId: "bd93d1e4-3866-4890-8c0c-cbc95671bc9d"
+      deviceId: state.deviceId
+      //deviceId: "bd93d1e4-3866-4890-8c0c-cbc95671bc9d"
     );
 
     final useCase = await ref.read(loginUseCaseProvider).execute(params: params);
