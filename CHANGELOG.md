@@ -1,5 +1,8 @@
 ## Changelog
 
+### [00014] - [29/SEP/2025] - @JULIO VILLAGRANA
+- Device ID add to clipboard
+
 ### [00013] - [26/AGO/2025] - @JULIO VILLAGRANA
 - Mi business feature added
 
