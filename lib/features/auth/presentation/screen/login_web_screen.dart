@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
 import 'package:taqueria_vargas/core/constants/constants.dart';
+import 'package:taqueria_vargas/core/services/messages/message_service_impl.dart';
 import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
 import 'package:taqueria_vargas/features/auth/presentation/widgets/widgets.dart';
 import 'package:taqueria_vargas/features/features_screens.dart';
@@ -90,59 +93,94 @@ class LoginScreen extends ConsumerWidget {
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 0,
             right: 20,
-            child: RichText(
-              text: TextSpan(
-                style: GoogleFonts.quicksand(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                TextSpan(
-                  text: "Versión ",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.grey,
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.quicksand(
+                      fontSize: 14,
+                      color: Colors.black.withValues(alpha: .5),
+                    ),
+                  children: [
+                    TextSpan(
+                      text: "Versión ",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
+                    TextSpan(
+                      text: "1",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
+                    TextSpan(
+                      text: ".",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
+                    TextSpan(
+                      text: "2",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
+                    TextSpan(
+                      text: ".",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
+                    TextSpan(
+                      text: "1",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
+                  ],
                   ),
                 ),
-                TextSpan(
-                  text: "1",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.grey,
+                GestureDetector(
+                  onLongPress: () async {
+
+                    await Clipboard.setData(ClipboardData(text: authData.deviceId));
+
+                    if (context.mounted) {
+                      MessageServiceImpl().showBottom(
+                      context: context, 
+                      message: "ID copiado al portapapeles",
+                      title: "ID copiado", 
+                      backgroundColor:  AppTheme.primary, 
+                    );
+
+                    }
+
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      authData.deviceId,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 14,
+                        color: Colors.black.withValues(alpha: .5),
+                      ),
+                    ),
                   ),
-                ),
-                TextSpan(
-                  text: ".",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                TextSpan(
-                  text: "2",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                TextSpan(
-                  text: ".",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                TextSpan(
-                  text: "1",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
+                )
               ],
-              ),
             ),
           ),
         ],
