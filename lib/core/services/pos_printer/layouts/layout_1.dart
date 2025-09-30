@@ -101,6 +101,12 @@ class EscPosPrinterLayout1{
 
     printer.hr(ch: '=', linesAfter: 1);
 
+    if(order.note.isNotEmpty){
+      printer.text('Comentarios:', styles: PosStyles(bold: true));
+      printer.text(order.note, styles: PosStyles(align: PosAlign.left));
+      printer.hr(ch: '-', linesAfter: 1);
+    }
+
     if(amount != 0){
 
       printer.row([
