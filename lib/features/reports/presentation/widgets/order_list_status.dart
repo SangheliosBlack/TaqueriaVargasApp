@@ -51,7 +51,7 @@ class _OrdersListState extends ConsumerState<OrdersList> {
 
     return Expanded(
   child: SizedBox(
-    height: 46,
+    height: 35,
     child: ListView.separated(
       scrollDirection: Axis.horizontal,
       itemCount: ReportsUtils.filtersAdded(

@@ -87,9 +87,23 @@ GoRouter appRouter(Ref ref) {
 
         if(location == "/" || location ==  LoginScreen.path){
 
-          return PoHomeScreen.path;
-
-          //return AdminHomeScreen.path;
+          // Obtener el usuario actual para verificar su rol
+          final currentUser = appRouterNotifier.currentUser;
+          
+          // Solo redirigir si el usuario está completamente cargado
+          if (currentUser != null) {
+            // Si es mesero, redirigir a OrdersScreen
+            if (currentUser.isCashier || currentUser.isAdmin) {
+              return OrdersScreen.path;
+            }
+            // Si es cajero o admin, redirigir a PoHomeScreen
+            else {
+              return PoHomeScreen.path;
+            }
+          } else {
+            // Si no hay usuario aún, no redirigir (esperar a que se cargue)
+            return null;
+          }
 
         }
 

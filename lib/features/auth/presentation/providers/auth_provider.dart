@@ -6,6 +6,7 @@ import 'package:taqueria_vargas/features/auth/presentation/providers/auth_state.
 import 'package:taqueria_vargas/features/auth/domain/params/login_params.dart';
 import 'package:taqueria_vargas/features/auth/presentation/screen/login_web_screen.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/screens/point_of_sale_screen.dart';
+import 'package:taqueria_vargas/features/orders/presentation/screens/orders_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'login_user_provider.dart';
@@ -50,8 +51,8 @@ class Auth extends _$Auth{
     final params = LoginParams(
       email: state.email, 
       password: state.password,
-      deviceId: state.deviceId
-      //deviceId: "93d30483-de50-4dee-b817-c73ed0e44915"
+      //deviceId: state.deviceId
+      deviceId: "6bc1a2c9-cd3c-4653-92f5-ba3717606862"
     );
 
     final useCase = await ref.read(loginUseCaseProvider).execute(params: params);
@@ -67,7 +68,8 @@ class Auth extends _$Auth{
       
       await getCurrentTurn();
 
-      _authenticationNavigate();
+      // Remover navegación manual - dejar que GoRouter maneje la navegación basada en roles
+      // _authenticationNavigate();
 
 
     }else{
@@ -129,23 +131,25 @@ class Auth extends _$Auth{
 
     final AuthenticationStatus isAuthenticated = await ref.read(authenticationServiceNotifierProvider.notifier).checkAuthenticationStatus();
 
+    if(isAuthenticated == AuthenticationStatus.authenticated){
 
+      // Cargar datos del usuario antes de establecer como autenticado
+      await loadUser();
+      await getCurrentTurn();
+      
+    }
+
+    // Actualizar estado después de cargar usuario
     state = state.copyWith(
       authenticationStatus : isAuthenticated,
       deviceId: deviceId
     );
-
-    if(isAuthenticated == AuthenticationStatus.authenticated){
-
-      await getCurrentTurn();
-      
-    }
     
   }
 
   void isOpenUpdate({required bool isOpenToday}) async {
 
-    state = state.copyWith(user: state.user!.copyWith(isOpenToday:isOpenToday ));
+    state = state.copyWith(isOpenPosStation:isOpenToday,user: state.user!.copyWith( ));
 
   }
 
@@ -171,7 +175,12 @@ class Auth extends _$Auth{
 
     if (state.authenticationStatus == AuthenticationStatus.authenticated) {
 
-      navigate(PointOfSaleScreen.path);
+      // Verificar rol del usuario para navegación apropiada
+      if (state.user != null && state.user!.isWaiter) {
+        navigate(OrdersScreen.path); // OrdersScreen para meseros
+      } else {
+        navigate(PointOfSaleScreen.path); // PoHomeScreen para cajeros/admin
+      }
 
     } else if (state.authenticationStatus == AuthenticationStatus.notAuthenticated) {
 

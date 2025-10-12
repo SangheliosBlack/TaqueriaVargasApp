@@ -85,13 +85,11 @@ class _OrderReportsChartState extends State<OrderReportsChart> {
                   fontSize: 25,
                 ),
               ),
-              Container(
-                width: 191,
-                child: AspectRatio(
-                  aspectRatio: 1.70,
-                  child: LineChart(
-                    showAvg ? avgData() : mainData(),
-                  ),
+              SizedBox(
+                height: 80,
+                width: 180,
+                child: LineChart(
+                  showAvg ? avgData() : mainData(),
                 ),
               ),
             ],

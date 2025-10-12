@@ -107,9 +107,13 @@ class ProfileCard extends ConsumerWidget {
                 onTap: (){
                   ref.read(authProvider.notifier).logout();
                 },
-                child: Icon(
-                  BootstrapIcons.box_arrow_left,
-                  size: 16,
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  child: Icon(
+                    BootstrapIcons.box_arrow_left,
+                    size: 16,
+                  ),
                 ),
               )
             ],

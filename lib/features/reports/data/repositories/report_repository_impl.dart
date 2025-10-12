@@ -4,6 +4,7 @@ import 'package:taqueria_vargas/features/reports/data/data_sources/remote/report
 import 'package:taqueria_vargas/features/reports/data/mappers/fetch_all_orders_mapper.dart';
 import 'package:taqueria_vargas/features/reports/data/mappers/get_all_turn_request_mapper.dart';
 import 'package:taqueria_vargas/features/reports/data/mappers/pos_station_mapper.dart';
+import 'package:taqueria_vargas/features/reports/domain/entities/get_all_orders_admin_request.dart';
 import 'package:taqueria_vargas/features/reports/domain/entities/get_all_register_turns_request_entity.dart';
 import 'package:taqueria_vargas/features/reports/domain/entities/pos_station_entity.dart';
 import 'package:taqueria_vargas/features/reports/domain/repositories/report_repository.dart';
@@ -29,9 +30,9 @@ class ReportRepositoryImpl implements ReportsRepository {
   }
 
   @override
-  Future<Either<String, FetchAllOrdersResponseEntity>> getAllOrders() async {
+  Future<Either<String, FetchAllOrdersResponseEntity>> getAllOrders({required GetAllOrdersAdminRequest request}) async {
 
-     final response = await remoteDataSource.getAllOrders();
+     final response = await remoteDataSource.getAllOrders(request: request);
 
     return response.fold(
       (error) => Left(error),

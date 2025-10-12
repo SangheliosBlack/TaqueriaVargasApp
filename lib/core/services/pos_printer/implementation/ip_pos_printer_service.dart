@@ -51,7 +51,7 @@ class PosPrinterServideImpl implements PosPrinterService {
 
     if (res == PosPrintResult.success) {
 
-      await EscPosPrinterLayout1.createTicket(printer: printer, ref: ref, order: order);
+      await EscPosPrinterLayout1.createMultipleTickets(printer: printer, ref: ref, order: order);
       
 
     } else {

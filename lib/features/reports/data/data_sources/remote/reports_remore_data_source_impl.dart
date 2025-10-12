@@ -4,6 +4,7 @@ import 'package:taqueria_vargas/features/orders/data/dtos/fetch_all_orders_dto.d
 import 'package:taqueria_vargas/features/reports/data/data_sources/remote/reports_remore_data_source.dart';
 import 'package:taqueria_vargas/features/reports/data/dtos/get_all_register_turns_request_dto.dart';
 import 'package:taqueria_vargas/features/reports/data/dtos/pos_station_dto.dart';
+import 'package:taqueria_vargas/features/reports/domain/entities/get_all_orders_admin_request.dart';
 
 class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
 
@@ -41,11 +42,11 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
   }
 
   @override
-  Future<Either<String, FetchAllOrdersResponseDto>> getAllOrders() async {
+  Future<Either<String, FetchAllOrdersResponseDto>> getAllOrders({required GetAllOrdersAdminRequest request}) async {
 
     try {
 
-      final response = await httpClientService.get(path: '/sale/currents');
+      final response = await httpClientService.post(path: '/sale/historic', data: request.toJson());
 
       if (response.statusCode == 200) {
 
