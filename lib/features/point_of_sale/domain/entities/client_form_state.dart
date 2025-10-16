@@ -30,7 +30,7 @@ class ClientFormState {
 
     final phoneSanitized = phone.replaceAll(" ", "");
     
-    return name.isNotEmpty && phone.isNotEmpty && phoneSanitized.length >= 10 && address.isNotEmpty;
+    return name.isNotEmpty && phone.isNotEmpty && phoneSanitized.length >= 10;
     
   }
 

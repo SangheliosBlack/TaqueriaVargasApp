@@ -8,13 +8,12 @@ import 'package:taqueria_vargas/core/core.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/orders/presentation/screens/order_detail_screen.dart';
 import 'package:taqueria_vargas/features/orders/presentation/widgets/buttons/scan_qr_button.dart';
-import 'package:taqueria_vargas/features/point_of_sale/presentation/providers/point_of_sale_provider.dart';
 import 'package:taqueria_vargas/features/reports/config/constants/order_status_enum.dart';
-import 'package:taqueria_vargas/features/reports/domain/entities/pos_station_entity.dart';
 import 'package:taqueria_vargas/features/reports/presentation/providers/reports_provider.dart';
 import 'package:taqueria_vargas/features/reports/presentation/widgets/content/order_reports_chart.dart';
 import 'package:taqueria_vargas/features/reports/presentation/widgets/content/total_reports_orders_chart.dart';
 import 'package:taqueria_vargas/features/reports/presentation/widgets/filter_select_order_status.dart';
+import 'package:taqueria_vargas/features/reports/presentation/widgets/filter_select_date_range.dart';
 import 'package:taqueria_vargas/features/shared/shared.dart';
 
 class OrdersAdminScreen extends ConsumerStatefulWidget {
@@ -69,7 +68,8 @@ class _OrdersAdminScreenState extends ConsumerState<OrdersAdminScreen> {
           ScanQrButton(),
         ],
         filtersButtons: [
-          FilterSelectOrderStatus()
+          FilterSelectDateRange(),
+          FilterSelectOrderStatus(),
         ],
         totalDocuments: 126,
         headers: [

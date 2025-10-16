@@ -1,6 +1,7 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/config/config.dart';
@@ -22,7 +23,7 @@ class SelectClientAvatar extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 210,
+          width: 240,
           child: Container(
             margin: EdgeInsets.only(
               bottom: 10,
@@ -51,42 +52,129 @@ class SelectClientAvatar extends ConsumerWidget {
                         
                     } : null,
                     behavior: HitTestBehavior.translucent,
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      decoration: BoxDecoration(
-                        color:  AppTheme.secondary,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Row(
-                        spacing: 5,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: clientState.clientSelected == null ?  AppTheme.primary.withValues(alpha: .1) : const Color.fromARGB(255, 255, 220, 217),
-                              borderRadius: BorderRadius.circular(100),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: clientState.clientSelected == null 
+                                  ? AppTheme.primary.withValues(alpha: 0.2) 
+                                  : AppTheme.primary.withValues(alpha: 0.3),
+                              width: 1,
                             ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical:   7,
-                            ),
-                            child: Icon(
-                              clientState.clientSelected != null ? BootstrapIcons.dash_circle :  BootstrapIcons.plus_circle,
-                              color: clientState.clientSelected == null ?  AppTheme.primary: const Color.fromARGB(255, 255, 77, 65),
-                              size: 15,
-                            ),
+                           
                           ),
-                            Expanded(
-                              child: Text(
-                                clientState.clientSelected?.fullName ?? "Cliente no seleccionado",
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.primary,
-                                  fontSize: 11,
+                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                          child: Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: clientState.clientSelected == null 
+                                      ? AppTheme.primary.withValues(alpha: .1) 
+                                      : Colors.green.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.all(6),
+                                child: Icon(
+                                  clientState.clientSelected != null 
+                                      ? BootstrapIcons.person_check 
+                                      : BootstrapIcons.person_plus,
+                                  color: clientState.clientSelected == null 
+                                      ? AppTheme.primary 
+                                      : Colors.green.shade700,
+                                  size: 16,
                                 ),
                               ),
-                            )
-                        ],
-                      ),
+                              Gap(10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      clientState.clientSelected?.fullName ?? "Seleccionar cliente",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.poppins(
+                                        color: AppTheme.primary,
+                                        fontSize: clientState.clientSelected != null ? 13 : 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    if (clientState.clientSelected != null) ...
+                                    [
+                                      SizedBox(height: 2),
+                                      Row(
+                                      children: [
+                                        Icon(
+                                        BootstrapIcons.telephone,
+                                        color: AppTheme.primary.withValues(alpha: 0.7),
+                                        size: 12,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                        clientState.clientSelected!.phone,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.black.withValues(alpha: .6),
+                                          fontSize: 10,
+                                        ),
+                                        ),
+                                      ],
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              // Indicador de navegación para cliente sin seleccionar
+                              if (clientState.clientSelected == null)
+                                Icon(
+                                  BootstrapIcons.chevron_right,
+                                  color: AppTheme.primary.withValues(alpha: 0.5),
+                                  size: 14,
+                                ),
+                            ],
+                          ),
+                        ),
+                        // Badge de eliminar cliente en la esquina superior derecha
+                        if (clientState.clientSelected != null)
+                          Positioned(
+                            top: -10,
+                            right: -10,
+                            child: GestureDetector(
+                              onTap: () {
+                                ref.read(customersProvider.notifier).getClientByPhone(phone: "");
+                              },
+                              child: Container(
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade500,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2.5,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.red.withValues(alpha: 0.4),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  BootstrapIcons.x,
+                                  color: Colors.white,
+                                  size: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),

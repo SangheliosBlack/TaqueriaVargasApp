@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/resources/mappable.dart';
 import 'package:taqueria_vargas/features/shared/presentation/providers/cool_data_table.dart/cool_data_table_provider.dart';
 import 'package:taqueria_vargas/features/shared/presentation/widgets/widgets.dart';
@@ -69,7 +70,7 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
           HeaderLabel(title: title ?? "",actionButtons: actionButtons,),
            Container(
             margin: EdgeInsets.symmetric(
-              vertical: 5,
+              vertical: 0,
               horizontal: 10
             ),
             child: charts != null
@@ -78,7 +79,7 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
           ),
           Container(
             margin: EdgeInsets.symmetric(
-              vertical: 15,
+              vertical: 5,
               horizontal: 10
             ),
             child: filtersButtons != null
@@ -134,7 +135,38 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
             child: AnimatedSwitcher(
               duration: Duration(milliseconds: 300),
               reverseDuration: Duration(milliseconds: 300),
-              child: isLoading ? Center(
+              child: !isLoading && data.isEmpty 
+            ? Center(
+              key:ValueKey("data-table-empty"),
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  height: context.height - MediaQuery.of(context).padding.top - 420,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 180,
+                        child: Image(
+                        
+                          image: AssetImage("assets/images/empty_data.webp")
+                        ),
+                      ),
+                      Text(
+                        "Sin resultados", 
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          color: Colors.grey
+                        )
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
+          :
+           isLoading ? Center(
+            key:ValueKey("data-table-loader"),
             child: SizedBox(
               height: context.height - - MediaQuery.of(context).padding.top - 140,
               child: Column(
@@ -142,15 +174,15 @@ class CoolDataTable<T extends Mappable> extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircularProgressIndicator(
-                    key:ValueKey("data-table-loader")
+                    
                   ),
                 ],
               ),
             ),
-            ): Container(
+            ): SizedBox(
+              key: ValueKey("data-table-${items.length}"),
               height: context.height - - MediaQuery.of(context).padding.top - 140,
               child: ListView.separated(
-              key: ValueKey("data-table-${items.length}"),
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(vertical: 0),
                   itemCount: items.length,

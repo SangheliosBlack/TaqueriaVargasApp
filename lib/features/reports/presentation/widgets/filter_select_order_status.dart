@@ -78,7 +78,7 @@ class _FilterSelectOrderStatusState extends ConsumerState<FilterSelectOrderStatu
             behavior: HitTestBehavior.translucent,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 5),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,

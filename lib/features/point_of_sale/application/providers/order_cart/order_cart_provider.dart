@@ -1,5 +1,6 @@
 
 import 'package:taqueria_vargas/features/customers/domain/entities/customer_entity.dart';
+import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_state.dart';
 import 'package:taqueria_vargas/features/products/domain/entities/product_entity.dart';
 import 'package:nullable_absent/nullable_absent.dart';
@@ -12,24 +13,22 @@ part 'order_cart_provider.g.dart';
 class OrderCart extends _$OrderCart {
 
   @override
-  OrderCartState build(){
+  OrderCartState build() => OrderCartState();
 
-    return OrderCartState();
+  void setClient({required CustomerEntity client}) {
+
+    state = state.copyWith(clientSelected: NullableAbsent(client));
 
   }
 
-    void setClient({required CustomerEntity client}) {
+  void removeClient() {
 
-      state = state.copyWith(clientSelected: NullableAbsent(client));
+    state = state.copyWith(clientSelected: NullableAbsent(null));
 
-
-    }
-
-    void removeClient() {
-
-      state = state.copyWith(clientSelected: NullableAbsent(null));
-
-    }
+  }
+  void setEditOrder({OrderEntity? order}) {
+    state = state.copyWith(editOrder: NullableAbsent(order));
+  }
 
   void addProduct({required ProductEntity product}) {
 

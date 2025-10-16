@@ -81,12 +81,10 @@ class _OrderCountReportsChartState extends State<OrderCountReportsChart> {
                   fontSize: 25,
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 191,
-                child: AspectRatio(
-                  aspectRatio: 1.70,
-                  child: LineChart(mainData()),
-                ),
+                height: 80,
+                child: LineChart(mainData()),
               ),
             ],
           ),

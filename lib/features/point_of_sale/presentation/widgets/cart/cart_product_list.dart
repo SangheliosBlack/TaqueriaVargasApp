@@ -13,6 +13,8 @@ class CartProductList extends ConsumerWidget {
 
     final productsList = ref.watch(orderCartProvider).productList;
 
+    final clientState = ref.watch(orderCartProvider);
+
     return AnimatedSwitcher(
       duration: Duration(milliseconds: 200),
       child: productsList.isEmpty 
@@ -22,8 +24,9 @@ class CartProductList extends ConsumerWidget {
         child: ListView.separated(
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
-          padding: EdgeInsets.symmetric(
-            vertical: 15
+          padding: EdgeInsets.only(
+            top: 15,
+            bottom:  clientState.selectedSaleTypeId != 6 ?  80 : 15,
           ),
           itemBuilder: (_, index) { 
     

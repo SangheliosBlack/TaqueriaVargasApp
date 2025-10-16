@@ -105,6 +105,8 @@ CustomerEntity? getClientById({required String id}) {
 
       state = state.copyWith(customerList: updatedMap);
 
+      ref.read(clientFormProvider.notifier).resetForm();
+
     }
 
   }

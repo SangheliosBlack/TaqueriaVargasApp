@@ -10,10 +10,11 @@ import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:flutter/services.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:image/image.dart';
+import 'kitchen_layout.dart';
 
 class EscPosPrinterLayout1{
 
-  static Future<void> createTicket({required NetworkPrinter printer,required Ref ref,required OrderEntity order}) async{
+  static Future<void> createTicket({required NetworkPrinter printer,required Ref ref,required OrderEntity order, String ticketType = ""}) async{
 
     final orderCartState = ref.read(orderCartProvider);
     final amount = ref.read(enterAmountProvider);
@@ -203,8 +204,21 @@ class EscPosPrinterLayout1{
     //printer.feed(2);
     printer.beep(n: 1,duration: PosBeepDuration.beep100ms);
     printer.cut();
-    printer.disconnect();
 
+  }
+
+  static Future<void> createMultipleTickets({required NetworkPrinter printer, required Ref ref, required OrderEntity order}) async {
+    
+    await createTicket(printer: printer, ref: ref, order: order, ticketType: "COPIA CLIENTE");
+    
+    await Future.delayed(Duration(milliseconds: 500));
+    
+    await createTicket(printer: printer, ref: ref, order: order, ticketType: "COPIA ADMIN");
+    
+    await Future.delayed(Duration(milliseconds: 500));
+    
+    await EscPosPrinterKitchenLayout.createKitchenTicket(printer: printer, ref: ref, order: order);
+    
   }
 
 }

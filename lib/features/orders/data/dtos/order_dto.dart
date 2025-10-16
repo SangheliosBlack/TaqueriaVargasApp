@@ -45,7 +45,7 @@ class OrderDto {
     orderUser: OrderUserDto.fromJson(json["user"]), 
     posStation: OrderPosStationDto.fromJson(json["posStation"]), 
     note: json["comment"] ?? "",
-    shiftConsecutive: json["shift_consecutive"],
+    shiftConsecutive: json["shift_consecutive"] ?? 0,
     customerOrder: json["customer"] != null ? CustomerOrderDto.fromJson(json["customer"]) : null
   );
     

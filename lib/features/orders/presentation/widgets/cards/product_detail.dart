@@ -22,16 +22,23 @@ class ProductDetail extends StatelessWidget {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Container(
-                    width:  60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.grey.withValues(alpha: .2)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      width:  50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey.withValues(alpha: .2)
+                        ),
+                        color: Colors.grey.withValues(alpha: .1),
                       ),
-                      color: Colors.grey.withValues(alpha: .1),
-                      borderRadius: BorderRadius.circular(10)
+                      child: Image(
+                        image: NetworkImage(
+                          "https://images.mrcook.app/recipe-image/01913f05-baf1-7c44-87e5-8c6525a24caa?cacheKey=U3VuLCAxMSBBdWcgMjAyNCAwMToyMDozMCBHTVQ%3D"
+                        )
+                      ),
                     ),
                   )      ,
                   Positioned(
@@ -66,7 +73,7 @@ class ProductDetail extends StatelessWidget {
                       product.description,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: FontWeight.w300,
                         color: Colors.black,
                       )
@@ -74,7 +81,7 @@ class ProductDetail extends StatelessWidget {
                     Text(
                       "Producto",
                       style: GoogleFonts.poppins(
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.w300,
                         color: Colors.black.withValues(alpha: .6),
                       )
