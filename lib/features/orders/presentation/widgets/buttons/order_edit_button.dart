@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/core.dart';
-import 'package:taqueria_vargas/core/services/pos_printer/providers/pos_printer_provider.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
+import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
+import 'package:taqueria_vargas/features/point_of_sale/presentation/screens/po_home_screen.dart';
 
-class OrderCreateNewTicketButton extends ConsumerWidget {
+class OrderEditButton extends ConsumerWidget {
 
   final OrderEntity order;
 
-  const OrderCreateNewTicketButton({super.key,required this.order});
+  const OrderEditButton({super.key,required this.order});
 
   @override
   Widget build(BuildContext context,ref) {
 
     return GestureDetector(
       onTap: () async {
+
+        ref.read(orderCartProvider.notifier).setEditOrder(order: order);
+
+        context.push(PoHomeScreen.path);
         
-        await ref.read(printerServiceProvider).printReceipt(order: order);
 
       },
       child: Container(
@@ -33,11 +38,11 @@ class OrderCreateNewTicketButton extends ConsumerWidget {
           spacing: 10,
           children: [
             Icon(
-              Icons.print,
+              Icons.edit,
               color: AppTheme.primary,
             ),
             Text(
-                "Reimprimir ticket",
+              "Editar",
               style: GoogleFonts.poppins(
                 color: Colors.black.withValues(alpha: .8),
                 fontWeight: FontWeight.w300,

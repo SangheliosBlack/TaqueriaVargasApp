@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:taqueria_vargas/features/admin/domain/domain.dart';
 import 'package:taqueria_vargas/features/admin/presentation/widgets/admin_aside/admin_aside.dart';
+import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hovering/hovering.dart';
 
-class AdminAsideOption extends StatefulWidget {
+class AdminAsideOption extends ConsumerStatefulWidget {
 
   final MenuOptionEntity menuOption;
 
   const AdminAsideOption({super.key, required this.menuOption});
 
   @override
-  State<AdminAsideOption> createState() => _AdminAsideOptionState();
+  ConsumerState<AdminAsideOption> createState() => _AdminAsideOptionState();
 
 }
 
-class _AdminAsideOptionState extends State<AdminAsideOption> with TickerProviderStateMixin {
+class _AdminAsideOptionState extends ConsumerState<AdminAsideOption> with TickerProviderStateMixin {
 
   bool _isPLay = false;
   late AnimationController animationController;
@@ -47,9 +49,15 @@ class _AdminAsideOptionState extends State<AdminAsideOption> with TickerProvider
     return Column(
       children: [
         GestureDetector(
-          onTap: widget.menuOption.titulo == "Cerrar sesion" ?(){
-           
-          } :  widget.menuOption.subMenu.isEmpty
+          onTap: widget.menuOption.titulo == "Cerrar sesion" ? () async {
+            // Cerrar cualquier overlay abierto antes del logout
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            
+            // Pequeño delay para asegurar que se cierren los overlays
+            await Future.delayed(Duration(milliseconds: 50));
+            
+            ref.read(authProvider.notifier).logout();
+          } : widget.menuOption.subMenu.isEmpty
               ? () {
 
                 //Pendiente

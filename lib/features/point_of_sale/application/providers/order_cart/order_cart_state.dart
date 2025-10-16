@@ -1,4 +1,5 @@
 import 'package:taqueria_vargas/features/customers/domain/entities/customer_entity.dart';
+import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/products/domain/entities/entities.dart';
 import 'package:nullable_absent/nullable_absent.dart';
 
@@ -8,12 +9,14 @@ class OrderCartState {
   final CustomerEntity? clientSelected;
   final int selectedSaleTypeId;
   final String note;
+  final OrderEntity? editOrder;
 
   OrderCartState({
     this.productList = const {},
     this.selectedSaleTypeId = 0,
     this.clientSelected,
-    this.note = ''
+    this.note = '',
+    this.editOrder
   });
 
   bool get deliveryAdded => selectedSaleTypeId == 7;
@@ -63,6 +66,7 @@ class OrderCartState {
   OrderCartState copyWith({
     Map<int, ProductEntity>? productList,
     NullableAbsent<CustomerEntity> clientSelected = const NullableAbsent.absent(),
+    NullableAbsent<OrderEntity> editOrder = const NullableAbsent.absent(),
     int? selectedSaleTypeId,
     String? note
   }) {
@@ -70,7 +74,8 @@ class OrderCartState {
       productList: productList ?? this.productList,
       clientSelected: NullableAbsent(this.clientSelected).apply(clientSelected),
       selectedSaleTypeId: selectedSaleTypeId ?? this.selectedSaleTypeId,
-      note: note ?? this.note
+      note: note ?? this.note,
+      editOrder : NullableAbsent(this.editOrder).apply(editOrder)
     );
   } 
 

@@ -72,7 +72,7 @@ class DetailOrderInfo extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 20),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
+                        color: Colors.grey.withValues(alpha: .1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: Colors.grey.shade200,
@@ -87,7 +87,7 @@ class DetailOrderInfo extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.amber.shade50,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Icon(
@@ -102,7 +102,7 @@ class DetailOrderInfo extends StatelessWidget {
                                 style: GoogleFonts.poppins(
                                   color: Colors.black.withValues(alpha: 0.8),
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ],
@@ -123,7 +123,7 @@ class DetailOrderInfo extends StatelessWidget {
                               order.note,
                               style: GoogleFonts.poppins(
                                 color: Colors.black.withValues(alpha: 0.8),
-                                fontSize: 14,
+                                fontSize: 13,
                                 fontWeight: FontWeight.w400,
                                 height: 1.5,
                               ),

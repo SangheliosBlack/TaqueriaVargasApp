@@ -55,6 +55,7 @@ class ProfileCard extends ConsumerWidget {
       : AnimatedOpacity(
           opacity: showMenuContent ? 1.0 : 0.0,
           duration: Duration(milliseconds: 300),
+          alwaysIncludeSemantics: true,
           child: Row(
             children: [
               Container(
@@ -104,10 +105,14 @@ class ProfileCard extends ConsumerWidget {
               SizedBox(width: 4),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: (){
+                onTap: () async {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  
+                  await Future.delayed(Duration(milliseconds: 50));
+                  
                   ref.read(authProvider.notifier).logout();
                 },
-                child: Container(
+                child: SizedBox(
                   width: 30,
                   height: 30,
                   child: Icon(

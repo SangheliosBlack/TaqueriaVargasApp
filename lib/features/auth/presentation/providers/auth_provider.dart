@@ -49,8 +49,8 @@ class Auth extends _$Auth{
     loadingState();
 
     final params = LoginParams(
-      email: state.email, 
-      password: state.password,
+      email: state.email.trim(), 
+      password: state.password.trim(),
       //deviceId: state.deviceId
       deviceId: "6bc1a2c9-cd3c-4653-92f5-ba3717606862"
     );
@@ -165,6 +165,9 @@ class Auth extends _$Auth{
       authenticationStatus: AuthenticationStatus.notAuthenticated
     );
 
+    // Pequeño delay para permitir que se cierren los overlays
+    await Future.delayed(Duration(milliseconds: 100));
+    
     _authenticationNavigate();
 
   }

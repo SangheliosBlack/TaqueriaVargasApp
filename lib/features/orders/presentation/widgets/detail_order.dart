@@ -22,7 +22,7 @@ class DetailOrder extends StatelessWidget {
           style: GoogleFonts.poppins(
             color: Colors.black.withValues(alpha: .5),
             fontWeight: FontWeight.w300,
-            fontSize: 14
+            fontSize: 13
           ),
         ),
         Expanded(
@@ -43,7 +43,7 @@ class DetailOrder extends StatelessWidget {
             style: GoogleFonts.poppins(
               color: Colors.black,
               fontWeight: FontWeight.w300,
-              fontSize: 14
+              fontSize: 13
             ),
         ),
       ],
