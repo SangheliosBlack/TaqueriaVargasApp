@@ -27,7 +27,15 @@ class OrderCart extends _$OrderCart {
 
   }
   void setEditOrder({OrderEntity? order}) {
+    
+    if(state.productList.isNotEmpty) return;
+
     state = state.copyWith(editOrder: NullableAbsent(order));
+
+  }
+
+  void removeEditOrder() {
+    state = state.copyWith(editOrder: NullableAbsent(null));
   }
 
   void addProduct({required ProductEntity product}) {

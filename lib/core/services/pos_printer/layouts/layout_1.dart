@@ -137,7 +137,7 @@ class EscPosPrinterLayout1{
 
     printer.row([
         PosColumn(text: "$order                    ", width: 5,styles: PosStyles(align: PosAlign.left,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
-        PosColumn(text: clientState.clientSelected != null ? "${clientState.clientSelected!.fullName.split(" ")[0]}                                 " :"                                      ", width: 7, styles: PosStyles(align: PosAlign.right,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
+        PosColumn(text: clientState.clientSelected != null ? "${clientState.clientSelected!.fullName?.split(" ")[0]}                                 " :"                                      ", width: 7, styles: PosStyles(align: PosAlign.right,reverse: true, height: PosTextSize.size3,width: PosTextSize.size3)),
     ]);
     
 
@@ -153,7 +153,7 @@ class EscPosPrinterLayout1{
           styles: PosStyles(align: PosAlign.left),
         ),
         PosColumn(
-          text: clientState.clientSelected!.address,
+          text: clientState.clientSelected!.address ?? '',
           width: 9,
           styles: PosStyles(align: PosAlign.left),
         ),
@@ -166,7 +166,7 @@ class EscPosPrinterLayout1{
           styles: PosStyles(align: PosAlign.left),
         ),
         PosColumn(
-          text: clientState.clientSelected!.references,
+          text: clientState.clientSelected!.references ?? '',
           width: 9,
           styles: PosStyles(align: PosAlign.left),
         ),
@@ -179,7 +179,7 @@ class EscPosPrinterLayout1{
           styles: PosStyles(align: PosAlign.left),
         ),
         PosColumn(
-          text: clientState.clientSelected!.phone,
+          text: clientState.clientSelected!.phone ?? '',
           width: 9,
           styles: PosStyles(align: PosAlign.left),
         ),

@@ -64,13 +64,13 @@ class ClientsScreen extends ConsumerWidget {
               text: client.formattedPhone
             ),
             RowCell(
-              text: client.fullName,
+              text: client.fullName ?? "",
             ),
             RowCell(
-              text:client.address
+              text:client.address ?? ""
             ),
             RowCell(
-              text:client.references
+              text:client.references ?? ""
             ),
              RowCell(
               width: 100,

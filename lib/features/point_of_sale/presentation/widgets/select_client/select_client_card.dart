@@ -35,7 +35,7 @@ class SelectClientCard extends ConsumerWidget {
                   child: Row(
                     children: [
                       Text(
-                        clientSelected != null ? clientSelected.fullName : 'Cliente',
+                        clientSelected != null ? clientSelected.fullName ?? "" : 'Cliente',
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
                           color: Colors.grey,
@@ -45,9 +45,16 @@ class SelectClientCard extends ConsumerWidget {
                       Container(
             child: clientSelected != null 
               ? Text(
-                  clientSelected.fullName.contains(' ') 
-                  ? clientSelected.fullName.split(' ').map((e) => e[0].toUpperCase()).take(2).join() 
-                  : clientSelected.fullName.substring(0, 2).toUpperCase(),
+                (() {
+                  final name = (clientSelected.fullName ?? '').trim();
+                  if (name.isEmpty) return '';
+                  final parts = name.split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
+                  if (parts.length >= 2) {
+                    return parts.take(2).map((p) => p[0].toUpperCase()).join();
+                  }
+                  final p = parts.first;
+                  return p.length >= 2 ? p.substring(0, 2).toUpperCase() : p.toUpperCase();
+                })(),
                 style: GoogleFonts.quicksand(
                   color: Colors.black,
                   fontSize: 12,

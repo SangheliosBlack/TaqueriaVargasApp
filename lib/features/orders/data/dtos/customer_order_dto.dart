@@ -5,6 +5,7 @@ class CustomerOrderDto {
   final String? phone;
   final String? address;
   final String? references;
+  final DateTime? createdAt;
 
   CustomerOrderDto({
     this.id,
@@ -12,6 +13,7 @@ class CustomerOrderDto {
     this.phone,
     this.address,
     this.references,
+    this.createdAt,
   });
 
   factory CustomerOrderDto.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class CustomerOrderDto {
       phone: json['phone'],
       address: json['address'],
       references: json['references'],
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
     );
   }
 

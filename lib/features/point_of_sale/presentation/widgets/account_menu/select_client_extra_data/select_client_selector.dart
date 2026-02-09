@@ -116,7 +116,7 @@ class SelectClientAvatar extends ConsumerWidget {
                                         ),
                                         SizedBox(width: 4),
                                         Text(
-                                        clientState.clientSelected!.phone,
+                                        clientState.clientSelected!.phone ?? "",
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.poppins(
                                           color: Colors.black.withValues(alpha: .6),

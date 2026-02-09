@@ -36,7 +36,7 @@ class _ClientDialogAddressFieldState extends ConsumerState<ClientDialogAddressFi
         if (next == null) {
           _controller.clear(); // Cliente eliminado
         } else {
-          _controller.text = next.address; // Asumiendo que `address` es la propiedad del cliente
+          _controller.text = next.address ?? ""; // Asumiendo que `address` es la propiedad del cliente
         }
       },
     );

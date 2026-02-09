@@ -36,7 +36,7 @@ class _ClientDialogPhoneFieldState extends ConsumerState<ClientDialogPhoneField>
         if (next == null) {
           _controller.clear();
         } else {
-          _controller.text = formatPhoneNumber(next.phone );
+          _controller.text = formatPhoneNumber(next.phone ?? "" );
         }
       },
     );

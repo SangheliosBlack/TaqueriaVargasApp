@@ -39,7 +39,7 @@ class _ClientDialogNameFieldState extends ConsumerState<ClientDialogNameField> {
         if (next == null) {
           _controller.clear(); // Cliente eliminado
         } else {
-          _controller.text = next.fullName; // Asumiendo que `name` es la propiedad del cliente
+          _controller.text = next.fullName ?? ""; // Asumiendo que `name` es la propiedad del cliente
         }
       },
     );

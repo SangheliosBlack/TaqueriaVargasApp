@@ -1,6 +1,6 @@
 import 'package:taqueria_vargas/core/resources/mappable.dart';
+import 'package:taqueria_vargas/features/customers/domain/entities/customer_entity.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/entities.dart';
-import 'package:taqueria_vargas/features/orders/domain/entities/order/customer_order_entity.dart';
 
 class OrderEntity extends Mappable {
 
@@ -16,7 +16,7 @@ class OrderEntity extends Mappable {
   OrderUserEntity orderUser;
   String note;
   int shiftConsecutive;
-  CustomerOrderEntity? customerOrder;
+  CustomerEntity? customerOrder;
 
   OrderEntity({
     required this.id,

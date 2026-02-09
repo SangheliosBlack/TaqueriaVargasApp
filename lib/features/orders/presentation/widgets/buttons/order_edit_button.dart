@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/core.dart';
+import 'package:taqueria_vargas/features/auth/presentation/providers/auth_provider.dart';
 import 'package:taqueria_vargas/features/orders/domain/entities/order/order_entity.dart';
 import 'package:taqueria_vargas/features/point_of_sale/application/providers/order_cart/order_cart_provider.dart';
 import 'package:taqueria_vargas/features/point_of_sale/presentation/screens/po_home_screen.dart';
@@ -16,9 +17,22 @@ class OrderEditButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context,ref) {
 
+    final userState = ref.watch(authProvider);
+
+    if(userState.user != null && userState.user!.isAdmin){
+      return SizedBox.shrink();
+    }
+
     return GestureDetector(
       onTap: () async {
 
+        MessageServiceImpl().showBottom(
+          context: context, 
+          title: order != null ? "Orden creada con exito!": 
+          errorMessage, message: order != null ? "Registro de ventas actulizado" :  "Verifica el estado de tu punto de venta" , 
+          backgroundColor: order != null ? AppTheme.primary : AppTheme.error
+        );
+ 
         ref.read(orderCartProvider.notifier).setEditOrder(order: order);
 
         context.push(PoHomeScreen.path);

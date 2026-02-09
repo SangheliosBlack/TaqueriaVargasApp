@@ -38,7 +38,7 @@ class _ClientDialogReferenceFieldState extends ConsumerState<ClientDialogReferen
         if (next == null) {
           _controller.clear();
         } else {
-          _controller.text = next.references; // Asegúrate de que `reference` exista en el modelo
+          _controller.text = next.references ?? ""; // Asegúrate de que `reference` exista en el modelo
         }
       },
     );

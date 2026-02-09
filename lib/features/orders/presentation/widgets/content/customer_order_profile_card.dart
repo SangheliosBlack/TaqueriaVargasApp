@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:taqueria_vargas/core/config/themes/main_theme.dart';
-import 'package:taqueria_vargas/features/orders/domain/entities/order/customer_order_entity.dart';
+import 'package:taqueria_vargas/features/customers/domain/entities/customer_entity.dart';
 
 
 class CustomerOrderProfileCard extends StatelessWidget {
 
-  final CustomerOrderEntity user;
+  final CustomerEntity user;
 
   const CustomerOrderProfileCard({super.key, required this.user});
 

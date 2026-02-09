@@ -39,7 +39,7 @@ class Customers extends _$Customers {
 CustomerEntity? getClientByPhone({required String phone}) {
 
   final CustomerEntity? client = state.customerList.values.firstWhereOrNull(
-    (client) => client.phone.replaceAll(" ", "").trim() == phone,
+    (client) => client.phone?.replaceAll(" ", "").trim() == phone,
   );
 
   if(client != null) {
